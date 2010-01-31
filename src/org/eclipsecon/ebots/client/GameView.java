@@ -1,4 +1,4 @@
-package org.eclipsecon.irobotcontest;
+package org.eclipsecon.ebots.client;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,14 +11,14 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-public class TelemetryView {
+public class GameView {
 
 	@Inject
-	public TelemetryView(final Composite parent) throws IOException {
+	public GameView(final Composite parent) throws IOException {
 		parent.setLayout(new FillLayout());
 		final Text text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 		final URL url = new URL(
-				"http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml?query=CYOW");
+				"http://ebots.s3.amazonaws.com/game.xml");
 		Thread t = new Thread() {
 			@Override
 			public void run() {

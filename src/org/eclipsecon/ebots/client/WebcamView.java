@@ -1,4 +1,4 @@
-package org.eclipsecon.irobotcontest;
+package org.eclipsecon.ebots.client;
 
 import java.io.IOException;
 import java.io.InputStream;

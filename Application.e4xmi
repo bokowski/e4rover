@@ -4,18 +4,18 @@
     <children xsi:type="application:PartSashContainer" xmi:id="_AXU5Uu8IEd6FC9cDb6iV7g" id="_AXU5Uu8IEd6FC9cDb6iV7g" horizontal="true">
       <children xsi:type="application:PartSashContainer" xmi:id="_i2CQsA06Ed-dvbNEK73RoQ" id="_i2CQsA06Ed-dvbNEK73RoQ">
         <children xsi:type="application:PartStack" xmi:id="_k3qxQA06Ed-dvbNEK73RoQ" id="_k3qxQA06Ed-dvbNEK73RoQ">
-          <children xsi:type="application:Part" xmi:id="_ngWqwA06Ed-dvbNEK73RoQ" id="_ngWqwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.irobotcontest/org.eclipsecon.irobotcontest.WebcamView" label="Webcam"/>
+          <children xsi:type="application:Part" xmi:id="_ngWqwA06Ed-dvbNEK73RoQ" id="_ngWqwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.WebcamView" label="Webcam"/>
         </children>
         <children xsi:type="application:PartStack" xmi:id="_lYm7IA06Ed-dvbNEK73RoQ" id="_lYm7IA06Ed-dvbNEK73RoQ">
-          <children xsi:type="application:Part" xmi:id="_q8vSEA06Ed-dvbNEK73RoQ" id="_q8vSEA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.irobotcontest/org.eclipsecon.irobotcontest.GameView" label="Game"/>
+          <children xsi:type="application:Part" xmi:id="_q8vSEA06Ed-dvbNEK73RoQ" id="_q8vSEA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.GameView" label="Game"/>
         </children>
       </children>
       <children xsi:type="application:PartSashContainer" xmi:id="_j1zroA06Ed-dvbNEK73RoQ" id="_j1zroA06Ed-dvbNEK73RoQ">
         <children xsi:type="application:PartStack" xmi:id="_l22WUA06Ed-dvbNEK73RoQ" id="_l22WUA06Ed-dvbNEK73RoQ">
-          <children xsi:type="application:Part" xmi:id="_uKYSwA06Ed-dvbNEK73RoQ" id="_uKYSwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.irobotcontest/org.eclipsecon.irobotcontest.TelemetryView" label="Telemetry"/>
+          <children xsi:type="application:Part" xmi:id="_uKYSwA06Ed-dvbNEK73RoQ" id="_uKYSwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.TelemetryView" label="Telemetry"/>
         </children>
         <children xsi:type="application:PartStack" xmi:id="_mf-y4A06Ed-dvbNEK73RoQ" id="_mf-y4A06Ed-dvbNEK73RoQ">
-          <children xsi:type="application:Part" xmi:id="_w9CnoA06Ed-dvbNEK73RoQ" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.irobotcontest/org.eclipsecon.irobotcontest.ControlView" label="Control"/>
+          <children xsi:type="application:Part" xmi:id="_w9CnoA06Ed-dvbNEK73RoQ" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.ControlView" label="Control"/>
         </children>
       </children>
     </children>
