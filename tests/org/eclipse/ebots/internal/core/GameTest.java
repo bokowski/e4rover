@@ -14,6 +14,7 @@ public class GameTest {
 	public void testXStreaming() {
 		Game game = Game.getInstance();
 		Assert.assertEquals(game.toXML(), Game.fromXML(game.toXML()).toXML());
+		System.out.println(game.toXML());
 	}
 	
 

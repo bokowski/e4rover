@@ -17,7 +17,7 @@ import java.util.List;
  * to both participate, or just to "watch" a game being played by others.
  */
 public interface IGame {
-	
+
 	/**
 	 * Returns an image captured from the game's arena camera.
 	 * @return The bytes of a JPEG image
@@ -62,5 +62,18 @@ public interface IGame {
 	 * @param comment The comment to send to the game.
 	 */
 	public void setComment(String comment);
+
+	/**
+	 * Returns the next shot that needs to be performed by the active game player in
+	 * order to score.
+	 * @return the next shot in the game
+	 */
+	public IShot getNextShot();
+
+	/**
+	 * Returns the last shot that was successfully performed in the game, or <code>null</code>
+	 * if no shot has ever been taken.
+	 */
+	public IShot getLastShot();
 
 }

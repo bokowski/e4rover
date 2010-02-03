@@ -7,9 +7,6 @@ import org.eclipsecon.ebots.core.*;
 
 public class Game implements IGame{
 
-	public enum GOAL {R, G, B}
-	public enum PUCK {W, X, Y, Z}
-	
 	public static final int GAME_LENGTH_SECONDS = 180;
 	public static final int FIRST_REWARD = 1;
 	public static final int REWARD_STEP = 1;
@@ -63,11 +60,11 @@ public class Game implements IGame{
 		return countdownSeconds;
 	}
 
-	public Shot getLastShot() {
+	public IShot getLastShot() {
 		return lastShot;
 	}
 
-	public Shot getNextShot() {
+	public IShot getNextShot() {
 		return nextShot;
 	}
 
@@ -84,7 +81,7 @@ public class Game implements IGame{
 		return xstream.toXML(this);
 	}
 
-	public static class Shot {
+	public static class Shot implements IShot{
 		public final GOAL goal;
 		public final PUCK puck;
 
@@ -103,6 +100,14 @@ public class Game implements IGame{
 		@Override
 		public boolean equals(Object obj) {
 			return (obj instanceof Shot) && (((Shot)obj).goal == goal) && (((Shot)obj).puck == puck);
+		}
+
+		public GOAL getGoal() {
+			return goal;
+		}
+
+		public PUCK getPuck() {
+			return puck;
 		}
 
 	}

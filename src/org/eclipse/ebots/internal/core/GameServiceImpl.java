@@ -10,13 +10,6 @@
  *******************************************************************************/
 package org.eclipse.ebots.internal.core;
 
-import java.io.IOException;
-
-import java.io.ByteArrayOutputStream;
-
-import java.io.*;
-import org.eclipse.core.runtime.IProgressMonitor;
-
 import java.io.*;
 import java.net.URI;
 import org.eclipse.core.runtime.URIUtil;
@@ -30,7 +23,7 @@ public class GameServiceImpl implements IGameService {
 
 	public IGame createGame(URI server) throws IOException {
 		URI gameURI = URIUtil.append(server, "game");
-		Game game = Game.fromXML(uriToString(gameURI));
+		IGame game = Game.fromXML(uriToString(gameURI));
 		return null;
 	}
 
