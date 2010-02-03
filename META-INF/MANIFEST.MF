@@ -3,10 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: RobotArena
 Bundle-SymbolicName: org.eclipsecon.ebots
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.core.runtime,
- org.junit4,
- com.thoughtworks.xstream;bundle-version="1.2.2"
+Require-Bundle: org.junit4,
+ com.thoughtworks.xstream;bundle-version="1.2.2",
+ org.eclipse.equinox.common;bundle-version="3.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.ebots
+Export-Package: org.eclipse.ebots.internal.core
 Eclipse-RegisterBuddy: com.thoughtworks.xstream
