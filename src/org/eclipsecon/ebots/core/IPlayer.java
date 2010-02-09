@@ -14,11 +14,7 @@ package org.eclipsecon.ebots.core;
  * Represents a player participating in a robot challenge {@link IGame}.
  */
 public interface IPlayer {
-	/**
-	 * Returns the game that this player is participating in.
-	 */
-	public IGame getGame();
-	
+
 	/**
 	 * The highest score this player has achieved in the current game.
 	 * @return The player's high score.
@@ -43,7 +39,8 @@ public interface IPlayer {
 	 * is not currently in the queue.
 	 * @return The wait time in milliseconds, or -1 if this player is not waiting
 	 */
-	public long getTimeToWait();
+	// TBD: Not sure how whether we'll represent this here.
+//	public long getTimeToWait();
 	
 
 }

@@ -15,8 +15,12 @@ public class Players extends HashMap<String, Player> {
 		xstream.alias("players", List.class);
 		xstream.alias("player", Player.class);	
 	}
-	
-	private Players() {/*empty*/}
+
+	/**
+	 * Only the server gets to use this constructor. Clients use the fromXML()
+	 * method, below.
+	 */
+	Players() {/*empty*/}
 	
 	static Players fromXML(String xml) {
 		return (Players) xstream.fromXML(xml);

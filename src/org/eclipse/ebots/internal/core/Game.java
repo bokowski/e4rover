@@ -30,9 +30,11 @@ public class Game implements IGame{
 	
 	GameServiceImpl gameService;
 
-	Game() {
-		/*empty*/
-	}
+	/**
+	 * Only the server gets to use this constructor. The client uses fromXML(),
+	 * below.
+	 */
+	Game() {/*empty*/}
 	
 	/* server never calls this */
 	public synchronized static Game getInstance() {

@@ -13,8 +13,8 @@ public class PlayersTest {
 	public void testXStreaming() {
 		Players players = Players.instance;
 		Player jeff = new Player("Jeff");
-		jeff.incrementTimesPlayed();
-		jeff.setBestScore(9999);
+		jeff.incrementPlayCount();
+		jeff.setHighScore(9999);
 		players.put(jeff.getName(), jeff);
 		players.put("Khawaja", new Player("Khawaja"));
 		
