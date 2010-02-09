@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.ebots.internal.core;
+package org.eclipsecon.ebots.internal.core;
 
 import java.io.*;
 import java.net.URI;

@@ -1,4 +1,4 @@
-package org.eclipse.ebots.internal.core;
+package org.eclipsecon.ebots.internal.core;
 
 import com.thoughtworks.xstream.XStream;
 import java.util.List;

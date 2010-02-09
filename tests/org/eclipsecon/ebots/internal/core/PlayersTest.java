@@ -1,7 +1,7 @@
-package org.eclipse.ebots.internal.core;
+package org.eclipsecon.ebots.internal.core;
 
-import org.eclipse.ebots.internal.core.Player;
-import org.eclipse.ebots.internal.core.Players;
+import org.eclipsecon.ebots.internal.core.Player;
+import org.eclipsecon.ebots.internal.core.Players;
 
 import junit.framework.Assert;
 

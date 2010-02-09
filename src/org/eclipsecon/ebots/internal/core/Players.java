@@ -1,4 +1,4 @@
-package org.eclipse.ebots.internal.core;
+package org.eclipsecon.ebots.internal.core;
 
 import java.util.HashMap;
 import java.util.List;

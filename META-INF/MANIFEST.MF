@@ -8,5 +8,5 @@ Require-Bundle: org.junit4,
  org.eclipse.equinox.common;bundle-version="3.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.ebots.internal.core
+Export-Package: org.eclipsecon.ebots.internal.core
 Eclipse-RegisterBuddy: com.thoughtworks.xstream
