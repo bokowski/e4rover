@@ -20,17 +20,6 @@ package org.eclipsecon.ebots.core;
  */
 public interface IRobot {
 	
-	/**
-	 * Drives the robot according to the provided parameters. Returns whether
-	 * the caller actually has permission to drive the robot. A return value of
-	 * <code>false</code> indicates that the caller did not have permission because
-	 * their player is not currently the active game player.  Calling this method with
-	 * 0,0 will stop the robot.
-	 * @param left velocity for the left wheel, from -100 to 100
-	 * @param right velocity for the right wheel, from -100 to 100
-	 * @return <code>true</code> if the caller was allowed to drive the robot,
-	 * and <code>false</code> otherwise
-	 */
 	public boolean commandWheelPower(int left, int right);
 	
 	public int getBatteryLevel();

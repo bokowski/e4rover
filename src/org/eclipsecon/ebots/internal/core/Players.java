@@ -13,9 +13,6 @@ import org.eclipsecon.ebots.core.IPlayers;
 
 public class Players extends ServerObject implements IPlayers {
 
-	public static final String PLAYERS_FILE_NAME = "players.xml";
-	public static final URI PLAYERS_FILE_URI = URIUtil.append(ContestPlatform.EROVER_SERVER_URI, PLAYERS_FILE_NAME);
-	
 	Map<String, Player> playerMap = new HashMap<String, Player>();
 	List<String> playerQueue = new LinkedList<String>();
 	
@@ -31,11 +28,6 @@ public class Players extends ServerObject implements IPlayers {
 	 */
 	public List<String> getPlayerQueue() {
 		return Collections.unmodifiableList(playerQueue);
-	}
-
-	@Override
-	protected URI getURI() {
-		return PLAYERS_FILE_URI;
 	}
 	
 }

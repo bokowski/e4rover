@@ -1,13 +1,6 @@
 package org.eclipsecon.ebots.internal.core;
 
-import java.net.URI;
-import java.util.List;
-
-import org.eclipse.core.runtime.URIUtil;
-import org.eclipsecon.ebots.core.ContestPlatform;
 import org.eclipsecon.ebots.core.IGame;
-import org.eclipsecon.ebots.core.IPlayer;
-import org.eclipsecon.ebots.core.IRobot;
 import org.eclipsecon.ebots.core.IShot;
 
 public class Game extends ServerObject implements IGame{
@@ -23,9 +16,6 @@ public class Game extends ServerObject implements IGame{
 	Shot nextShot = null;
 	int nextReward;
 	
-	public static final String GAME_FILE_NAME = "game.xml";
-	public static final URI GAME_FILE_URI = URIUtil.append(ContestPlatform.EROVER_SERVER_URI, GAME_FILE_NAME);
-
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -56,11 +46,6 @@ public class Game extends ServerObject implements IGame{
 
 	public byte[] getCameraImage() {
 		return null;
-	}
-
-	@Override
-	protected URI getURI() {
-		return GAME_FILE_URI;
 	}
 
 }

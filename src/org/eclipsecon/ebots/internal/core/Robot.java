@@ -2,15 +2,10 @@ package org.eclipsecon.ebots.internal.core;
 
 import java.net.URI;
 
-import org.eclipse.core.runtime.URIUtil;
-import org.eclipsecon.ebots.core.ContestPlatform;
 import org.eclipsecon.ebots.core.IRobot;
 
 public class Robot extends ServerObject implements IRobot {
 
-	public static final String ROBOT_FILE_NAME = "robot.xml";
-	public static final URI ROBOT_FILE_URI = URIUtil.append(ContestPlatform.EROVER_SERVER_URI, ROBOT_FILE_NAME);
-	
 	int batteryLevel;
 	int leftPower;
 	int rightPower;
@@ -60,9 +55,4 @@ public class Robot extends ServerObject implements IRobot {
 		return rightOdom;
 	}
 
-	@Override
-	protected URI getURI() {
-		return ROBOT_FILE_URI;
-	}
-	
 }

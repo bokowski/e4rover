@@ -21,6 +21,7 @@ public interface IShot {
 	 * perimeter. The goals are at 0, 120, and 240 degrees around the arena perimeter
 	 */
 	public enum GOAL {G1, G2,G3}
+	
 	/**
 	 * The pucks represent RFID tags around the perimeter of the robot itself. The
 	 * pucks are located at 45, 135, 225, and 315 degrees around the robot. Points

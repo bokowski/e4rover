@@ -12,8 +12,7 @@ package org.eclipsecon.ebots.core;
 
 
 /**
- * Represents a running robot challenge game. Clients can interact with the game
- * to both participate, or just to "watch" a game being played by others.
+ * Represents a running robot challenge game.
  */
 public interface IGame {
 
