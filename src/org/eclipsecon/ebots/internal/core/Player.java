@@ -1,8 +1,6 @@
 package org.eclipsecon.ebots.internal.core;
 
-import org.eclipsecon.ebots.core.IGame;
 import org.eclipsecon.ebots.core.IPlayer;
-
 
 public class Player implements Comparable<Player>, IPlayer {
 

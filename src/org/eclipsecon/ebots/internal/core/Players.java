@@ -1,38 +1,41 @@
 package org.eclipsecon.ebots.internal.core;
 
+import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import com.thoughtworks.xstream.XStream;
+import org.eclipse.core.runtime.URIUtil;
+import org.eclipsecon.ebots.core.ContestPlatform;
+import org.eclipsecon.ebots.core.IPlayers;
 
-public class Players extends HashMap<String, Player> {
-	private static XStream xstream;
+public class Players extends ServerObject implements IPlayers {
+
+	public static final String PLAYERS_FILE_NAME = "players.xml";
+	public static final URI PLAYERS_FILE_URI = URIUtil.append(ContestPlatform.EROVER_SERVER_URI, PLAYERS_FILE_NAME);
 	
-	public static final Players instance = new Players();
+	Map<String, Player> playerMap = new HashMap<String, Player>();
+	List<String> playerQueue = new LinkedList<String>();
 	
-	static {
-		xstream = new XStream();
-		xstream.alias("players", List.class);
-		xstream.alias("player", Player.class);	
-	}
-
-	/**
-	 * Only the server gets to use this constructor. Clients use the fromXML()
-	 * method, below.
+	/* (non-Javadoc)
+	 * @see org.eclipsecon.ebots.internal.core.IPlayers#getPlayerMap()
 	 */
-	Players() {/*empty*/}
-	
-	static Players fromXML(String xml) {
-		return (Players) xstream.fromXML(xml);
+	public Map<String, Player> getPlayerMap() {
+		return Collections.unmodifiableMap(playerMap);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipsecon.ebots.internal.core.IPlayers#getPlayerQueue()
+	 */
+	public List<String> getPlayerQueue() {
+		return Collections.unmodifiableList(playerQueue);
+	}
+
 	@Override
-	public String toString() {
-		return xstream.toXML(this);
-	}
-	
-	public String toXML() {
-		return this.toString();
+	protected URI getURI() {
+		return PLAYERS_FILE_URI;
 	}
 	
 }

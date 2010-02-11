@@ -35,11 +35,11 @@ public interface IRobot {
 	
 	public int getBatteryLevel();
 
-	public int getLeftWheelPower();
+	public int getLeftPower();
 
-	public int getRightWheelPower();
+	public int getRightPower();
 
-	public int getLeftTachoCount();
+	public int getLeftOdom();
 
-	public int getRightTachoCount();
+	public int getRightOdom();
 }

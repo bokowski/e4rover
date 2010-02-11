@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipsecon.ebots.core;
 
-import java.util.List;
 
 /**
  * Represents a running robot challenge game. Clients can interact with the game
@@ -18,51 +17,45 @@ import java.util.List;
  */
 public interface IGame {
 
+	public static final int GAME_LENGTH_SECONDS = 180;
+	public static final int COUNTDOWN_SECONDS = 3;
+
 	/**
-	 * Returns an image captured from the game's arena camera.
-	 * @return The bytes of a JPEG image
+	 * Returns the name of the current player
+	 * @return the current player's name
 	 */
-	public byte[] getCameraImage();
-	
+	public String getPlayerName();
+
 	/**
 	 * Returns the score of the current player, or -1 if nobody is currently playing
 	 * the game.
 	 * @return The current game score
 	 */
-	public int getCurrentScore();
-	
-	/**
-	 * Returns all players who have participated in this game.
-	 * @return The game's players
-	 */
-	public List<IPlayer> getPlayers();
-	
-	/**
-	 * Returns the ordered list of players who are currently waiting to play this game.
-	 * @return The queue of waiting players
-	 */
-	public List<IPlayer> getQueue();
-	
-	/**
-	 * Returns the game robot.
-	 * @return the game robot
-	 */
-	public IRobot getRobot();
-	
-	/**
-	 * Returns the remaining time, in milliseconds, for the current player to complete
-	 * their goals.
-	 * @return The remaining time for the current player, in milliseconds
-	 */
-	public long getTimeRemaining();
-	
-	/**
-	 * Send a short comment to the game. The comment may be displayed on the game's 
-	 * score board or similar display. Comments must be less than 140 characters in length.
-	 * @param comment The comment to send to the game.
-	 */
-	public void setComment(String comment);
+	public int getScore();
 
+	/**
+	 * There is a brief pause of {@link #COUNTDOWN_SECONDS} seconds between
+	 * games. This returns the number of seconds until the next game starts. It
+	 * is 0 if a game is currently in progress.
+	 * 
+	 * @return the number of seconds until the next game starts
+	 */
+	public int getCountdownSeconds();
+
+	/**
+	 * Games last {@link #GAME_LENGTH_SECONDS} seconds. This method returns the
+	 * remaining time for the current player to complete their goals.
+	 * 
+	 * @return The remaining time for the current player
+	 */
+	public int getRemainingSeconds();
+	
+	/**
+	 * Returns the last shot that was successfully performed in the game, or <code>null</code>
+	 * if no shot has ever been taken.
+	 */
+	public IShot getLastShot();
+	
 	/**
 	 * Returns the next shot that needs to be performed by the active game player in
 	 * order to score.
@@ -71,9 +64,18 @@ public interface IGame {
 	public IShot getNextShot();
 
 	/**
-	 * Returns the last shot that was successfully performed in the game, or <code>null</code>
-	 * if no shot has ever been taken.
+	 * Returns how many points the player will receive if he/she successfully
+	 * completes the next shot. This is reset to 1 if the player fails to do so.
+	 * 
+	 * @return the number of points rewarded for the next shot, if successful.
 	 */
-	public IShot getLastShot();
-
+	public int getNextReward();
+	
+	/**
+	 * Returns an image captured from the game's arena camera.
+	 * @return The bytes of a JPEG image
+	 */
+	public byte[] getCameraImage();
+	
 }
+
