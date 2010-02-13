@@ -15,7 +15,7 @@ package org.eclipsecon.ebots.core;
  * involves connecting a puck held by the robot with a goal attached to the perimeter
  * of the arena.
  */
-public interface IShot {
+public interface IShot extends IServerObject {
 	/**
 	 * The goal enumeration lists the target RFID readers available on the arena
 	 * perimeter. The goals are at 0, 120, and 240 degrees around the arena perimeter

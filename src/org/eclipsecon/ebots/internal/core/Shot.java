@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.eclipsecon.ebots.core.IShot;
 
-public class Shot implements IShot {
+public class Shot extends ServerObject implements IShot {
 
 	public final GOAL goal;
 	public final PUCK puck;

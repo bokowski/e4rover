@@ -2,8 +2,9 @@ package org.eclipsecon.ebots.internal.core;
 
 import org.eclipsecon.ebots.core.IGame;
 import org.eclipsecon.ebots.core.IShot;
+import org.eclipsecon.ebots.internal.servers.AbstractServer;
 
-public class Game extends ServerObject implements IGame{
+public class Game extends ServerObject implements IGame {
 
 	public static final int FIRST_REWARD = 1;
 	public static final int REWARD_STEP = 1;
@@ -42,10 +43,6 @@ public class Game extends ServerObject implements IGame{
 
 	public int getNextReward() {
 		return nextReward;
-	}
-
-	public byte[] getCameraImage() {
-		return null;
 	}
 
 }

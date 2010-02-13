@@ -25,6 +25,23 @@ public interface IUpdateListener extends EventListener {
 	 * Called when the ContestPlatform has retrieved an updated copy of the Players object.  
 	 * @param players the newly updated copy of the players object
 	 */
-
 	public void playersUpdated(IPlayers players);
+
+	/**
+	 * Called when the ContestPlatform has retrieved an updated copy of the PlayerQueue object.  
+	 * @param players the newly updated copy of the players object
+	 */
+	public void playerQueueUpdated(IPlayerQueue queue);
+
+	/**
+	 * Called when the ContestPlatform has retrieved an updated view from the ArenaCam.
+	 * @param img the updated view
+	 */
+	public void arenaCamViewUpdated(IArenaCamImage img);
+
+	/**
+	 * Called when the ContestPlatform has retrieved an updated telemetry data.
+	 * @param tm the updated telemetry data
+	 */
+	public void telemetryUpdated(ITelemetry tm);
 }

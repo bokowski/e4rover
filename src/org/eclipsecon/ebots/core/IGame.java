@@ -14,7 +14,7 @@ package org.eclipsecon.ebots.core;
 /**
  * Represents a running robot challenge game.
  */
-public interface IGame {
+public interface IGame extends IServerObject {
 
 	public static final int GAME_LENGTH_SECONDS = 180;
 	public static final int COUNTDOWN_SECONDS = 3;
@@ -69,12 +69,6 @@ public interface IGame {
 	 * @return the number of points rewarded for the next shot, if successful.
 	 */
 	public int getNextReward();
-	
-	/**
-	 * Returns an image captured from the game's arena camera.
-	 * @return The bytes of a JPEG image
-	 */
-	public byte[] getCameraImage();
 	
 }
 

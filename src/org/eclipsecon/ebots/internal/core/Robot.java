@@ -1,8 +1,7 @@
 package org.eclipsecon.ebots.internal.core;
 
-import java.net.URI;
-
 import org.eclipsecon.ebots.core.IRobot;
+import org.eclipsecon.ebots.internal.servers.AbstractServer;
 
 public class Robot extends ServerObject implements IRobot {
 
@@ -54,5 +53,4 @@ public class Robot extends ServerObject implements IRobot {
 	public int getRightOdom() {
 		return rightOdom;
 	}
-
 }

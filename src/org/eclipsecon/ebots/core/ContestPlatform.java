@@ -3,7 +3,8 @@ package org.eclipsecon.ebots.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipsecon.ebots.internal.core.ServerObject;
+import org.eclipsecon.ebots.internal.servers.AbstractServer;
+import org.eclipsecon.ebots.internal.servers.TestServer;
 
 
 /**
@@ -19,42 +20,73 @@ import org.eclipsecon.ebots.internal.core.ServerObject;
  * on this class.
  */
 public class ContestPlatform {
+	private static ContestPlatform singleton;
+	
+	static {
+		singleton = new ContestPlatform();
+		singleton.startUpdateThread();
+	}
+	
+	public static ContestPlatform getDefault() {
+		return singleton;
+	}
 
-	private static IGame game;
-	private static IRobot robot;
-	private static IPlayers players;
-	private static Thread updateThread;
-	private static List<IUpdateListener> updateListeners = new ArrayList<IUpdateListener>();
+	private AbstractServer server = new TestServer();		// HACK for testing
+	private IGame game;
+	private IRobot robot;
+	private IPlayers players;
+	private IPlayerQueue queue;
+	private IArenaCamImage cameraImage;
+	private ITelemetry telemetry;
+	
+	private Thread updateThread;
+	private List<IUpdateListener> updateListeners = new ArrayList<IUpdateListener>();
+
+	/**
+	 * Number of exceptions that occurred in the event loop; 
+	 * intended for debugging purposes.
+	 */
+	public int exceptionsCount = 0;
 
 	/**
 	 * @return the latest copy of the Game object that has been retrieved from
 	 *         the server, or null if none has been retrieved yet
 	 */
-	public static IGame getGame() {
-		synchronized (IGame.class) {
-			return game;			
-		}
+	public synchronized IGame getGame() {
+		return game;			
 	}
 
 	/**
 	 * @return the latest copy of the Robot object that has been retrieved from
 	 *         the server, or null if none has been retrieved yet
 	 */
-	public static IRobot getRobot() {
-		synchronized(IRobot.class) {
-			return robot;
-		}
+	public synchronized IRobot getRobot() {
+		return robot;
 	}
 
 	/**
 	 * @return the latest copy of the Players object that has been retrieved
 	 *         from the server, or null if none has been retrieved yet
 	 */
-	public static IPlayers getPlayers() {
-		synchronized (IPlayers.class) {
-			return players;
-		}
+	public synchronized IPlayers getPlayers() {
+		return players;
 	}
+
+	/**
+	 * @return the latest copy of the PlayerQueue object that has been retrieved from
+	 *         the server, or null if none has been retrieved yet
+	 */
+	public synchronized IPlayerQueue getPlayerQueue() {
+		return queue;
+	}
+
+	/**
+	 * Returns an image captured from the game's arena camera.
+	 */
+	public synchronized IArenaCamImage getCameraImage() {
+		return cameraImage;
+	}
+
 
 	/**
 	 * Requests that the provided listener be notified whenever any of the
@@ -62,7 +94,7 @@ public class ContestPlatform {
 	 * 
 	 * @param updateListener the listener to register
 	 */
-	public static void addUpdateListener(IUpdateListener updateListener) {
+	public void addUpdateListener(IUpdateListener updateListener) {
 		updateListeners.add(updateListener);
 	}
 
@@ -72,15 +104,19 @@ public class ContestPlatform {
 	 * 
 	 * @param updateListener the listener to unregister
 	 */
-	public static void removeUpdateListener(IUpdateListener updateListener) {
+	public void removeUpdateListener(IUpdateListener updateListener) {
 		updateListeners.remove(updateListener);
 	}
 
+	public boolean isRunning() {
+		return updateThread != null && updateThread.isAlive() && !updateThread.isInterrupted();
+	}
+	
 	/**
 	 * Starts a thread that periodically updates the contest singleton objects
 	 * from the data stored on the server. Please do not edit this method!
 	 */
-	public static void startUpdateThread() {
+	public void startUpdateThread() {
 		if (updateThread != null)
 			return;
 		updateThread = new Thread("Client Update Thread") {
@@ -93,51 +129,99 @@ public class ContestPlatform {
 							for (int i = 0; i < 4; i++) {
 								Thread.sleep(250);
 								// Every quarter of a second
-								synchronized(IRobot.class) {
-									robot = (IRobot) ServerObject.getLatest(IRobot.class);
+								synchronized(this) {
+									robot = server.getLatest(IRobot.class);
+								}
+								synchronized(this) {
+									telemetry = server.getLatest(ITelemetry.class);
 								}
 								fireRobotUpdated(robot);
+								fireTelemetryUpdated(telemetry);
 							}
 							// Every second
-							synchronized(IGame.class) {
-								game = (IGame) ServerObject.getLatest(IGame.class);
+							synchronized(this) {
+								game = server.getLatest(IGame.class);
+							}
+							synchronized(this) {
+								queue = server.getLatest(IPlayerQueue.class);
 							}
 							fireGameUpdated(game);
-
+							firePlayerQueueUpdated(queue);
 						}
 						// Every 10 seconds
-						synchronized (IPlayers.class) {
-							players = (IPlayers) ServerObject.getLatest(IPlayers.class);
+						synchronized (this) {
+							players = server.getLatest(IPlayers.class);
+						}
+						synchronized (this) {
+							cameraImage = server.getLatest(IArenaCamImage.class);
 						}
 						firePlayersUpdated(players);
+						fireArenaCamViewUpdated(cameraImage);
+					} catch(InterruptedException e) {
+						break;
 					} catch (Exception e) {
+						exceptionsCount++;
 						e.printStackTrace();
 					}
 				}
+				updateThread = null;
 			}
 		};
 		updateThread.start();
 	}
 	
-	private static void fireGameUpdated(IGame game) {
+	private void fireGameUpdated(IGame game) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
 			listener.gameUpdated(game);
 		}
 	}
 	
-	private static void fireRobotUpdated(IRobot robot) {
+	private void fireRobotUpdated(IRobot robot) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
 			listener.robotUpdated(robot);
 		}
 	}
 	
-	private static void firePlayersUpdated(IPlayers players) {
+	private void firePlayersUpdated(IPlayers players) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
 			listener.playersUpdated(players);
 		}
 	}
+	
+	private void firePlayerQueueUpdated(IPlayerQueue pq) {
+		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
+		for (IUpdateListener listener : listeners) {
+			listener.playerQueueUpdated(pq);
+		}
+	}
+	
+	private void fireArenaCamViewUpdated(IArenaCamImage img) {
+		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
+		for (IUpdateListener listener : listeners) {
+			listener.arenaCamViewUpdated(img);
+		}
+	}
 
+	private void fireTelemetryUpdated(ITelemetry tm) {
+		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
+		for (IUpdateListener listener : listeners) {
+			listener.telemetryUpdated(tm);
+		}
+	}
+
+	/**
+	 * Provide team's authentication details, used for manipulating the robot.
+	 * @param username the team user name
+	 * @param password the team's password token
+	 */
+	public void setAuthentication(String username, String password) {
+		server.setAuthentication(username, password);
+	}
+
+	public void stop() {
+		if(updateThread != null) { updateThread.interrupt(); }
+	}	
 }

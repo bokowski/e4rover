@@ -1,8 +1,9 @@
 package org.eclipsecon.ebots.internal.core;
 
 import org.eclipsecon.ebots.core.IPlayer;
+import org.eclipsecon.ebots.internal.servers.AbstractServer;
 
-public class Player implements Comparable<Player>, IPlayer {
+public class Player extends ServerObject implements Comparable<Player>, IPlayer {
 
 	private final String name;
 	private int timesPlayed;
@@ -35,7 +36,6 @@ public class Player implements Comparable<Player>, IPlayer {
 	public int compareTo(Player o) {
 		return o.bestScore - bestScore;
 	}
-
 }
 
 
