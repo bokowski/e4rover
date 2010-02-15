@@ -15,6 +15,8 @@ public class Game extends ServerObject implements IGame{
 	Shot lastShot = null;
 	Shot nextShot = null;
 	int nextReward;
+	private long gameStartTimeMillis;
+	private long gameEndTimeMillis;
 	
 	public String getPlayerName() {
 		return playerName;
@@ -45,7 +47,68 @@ public class Game extends ServerObject implements IGame{
 	}
 
 	public byte[] getCameraImage() {
+		// TODO Needs to actually return an image!
 		return null;
 	}
 
+	/* Game state changers - called only by server */
+
+	public void enterCountdownState(String playerName) {
+		System.out.println("Entering countdown state...");
+		this.playerName = playerName;
+		countdownSeconds = IGame.COUNTDOWN_SECONDS;
+		gameStartTimeMillis = System.currentTimeMillis() + countdownSeconds*1000;
+	}
+	
+	public boolean tickCountdownClock() {
+		countdownSeconds = Math.round((gameStartTimeMillis - System.currentTimeMillis())/1000);
+		if (countdownSeconds < 0) {
+			countdownSeconds=0;
+			return false;
+		}
+		return true;
+	}
+	
+	public void enterPlayingState() {
+		System.out.println("Entering playing state...");
+		countdownSeconds = 0;
+		remainingSeconds = GAME_LENGTH_SECONDS;
+		lastShot = null;
+		nextShot = new Shot();
+		nextReward = FIRST_REWARD;
+		score = 0;
+		gameEndTimeMillis = System.currentTimeMillis() + (remainingSeconds * 1000);
+	}
+
+	public boolean tickPlayClock() {
+		remainingSeconds = Math.round((gameEndTimeMillis - System.currentTimeMillis())/1000);
+		if (remainingSeconds < 0) {
+			remainingSeconds = 0;
+			return false;
+		}
+		return true;
+	}
+	
+	public void handleShot(IShot shot) {
+		System.out.println("Handling " + shot);
+		if (shot.equals(nextShot)) {
+			System.out.println("Shot is good!");
+			score += nextReward;
+			nextReward++;
+		} else {
+			System.out.println("Shot is bad. Expected " + nextShot);
+			nextReward = Game.FIRST_REWARD;
+		}
+		// time for next shot
+		lastShot = nextShot;
+		nextShot = new Shot();
+	}
+	
+	public void enterGameOverState() {
+		remainingSeconds = 0;
+		lastShot = null;
+		nextShot = null;
+		nextReward = 0;
+	}
+	
 }

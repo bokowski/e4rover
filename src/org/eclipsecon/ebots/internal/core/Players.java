@@ -1,14 +1,11 @@
 package org.eclipsecon.ebots.internal.core;
 
-import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.URIUtil;
-import org.eclipsecon.ebots.core.ContestPlatform;
 import org.eclipsecon.ebots.core.IPlayers;
 
 public class Players extends ServerObject implements IPlayers {

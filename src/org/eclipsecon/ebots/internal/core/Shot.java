@@ -26,6 +26,11 @@ public class Shot implements IShot {
 		return (obj instanceof Shot) && (((Shot)obj).goal == goal) && (((Shot)obj).puck == puck);
 	}
 
+	@Override
+	public int hashCode() {
+		return (goal.toString() + puck.toString()).hashCode();
+	}
+	
 	public GOAL getGoal() {
 		return goal;
 	}
@@ -34,4 +39,10 @@ public class Shot implements IShot {
 		return puck;
 	}
 
+	@Override
+	public String toString() {
+		return "Shot: (puck= " + puck + ") (goal= " + goal + ")";
+	}
+	
+	
 }
