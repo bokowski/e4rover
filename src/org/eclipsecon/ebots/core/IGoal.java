@@ -27,7 +27,7 @@ public interface IGoal {
 	 * robot at 45, 135, 225, and 315 degree. Points are scored by aligning an
 	 * instrument on the robot with a target on the site perimeter.
 	 */
-	public enum INSTRUMENT {A, B,C, D}
+	public enum INSTRUMENT {MICROSCOPE, SPECTROMETER, DRILL, BRUSH}
 
 	/**
 	 * Returns the target for this goal.
