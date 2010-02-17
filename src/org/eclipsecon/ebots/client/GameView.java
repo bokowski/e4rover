@@ -26,10 +26,11 @@ public class GameView {
 		cp.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
 			public void gameUpdated(final IGame game) {
+				if(parent.isDisposed()) { return; }
 				parent.getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						if(!text.isDisposed()) {
+						if(!parent.isDisposed()) {
 							text.setText(game.toString());
 						}
 					}

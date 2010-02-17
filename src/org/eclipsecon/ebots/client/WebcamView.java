@@ -42,6 +42,7 @@ public class WebcamView {
 		cp.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
 			public void arenaCamViewUpdated(IArenaCamImage img) {
+				if(parent.isDisposed()) { return; }
 				ImageLoader il = new ImageLoader();
 				ImageData[] imageData = il.load(new ByteArrayInputStream(img.getImage()));
 				image = new Image(parent.getDisplay(), imageData[0]);
@@ -54,6 +55,7 @@ public class WebcamView {
 		parent.getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
+				if(parent.isDisposed()) { return; }
 				parent.redraw();
 			}});
 	}

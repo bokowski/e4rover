@@ -28,10 +28,11 @@ public class TelemetryView {
 		cp.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
 			public void telemetryUpdated(final ITelemetry tm) {
+				if(parent.isDisposed()) { return; }
 				parent.getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						if(!text.isDisposed()) {
+						if(!parent.isDisposed()) {
 							text.setText(tm.toString());
 						}
 					}
