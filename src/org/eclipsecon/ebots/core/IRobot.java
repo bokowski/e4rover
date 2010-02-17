@@ -18,7 +18,7 @@ package org.eclipsecon.ebots.core;
  * 
  * With apologies to Asimov and Binder.
  */
-public interface IRobot extends IServerObject {
+public interface IRobot extends IGameObject {
 	
 	public boolean commandWheelPower(int left, int right);
 	

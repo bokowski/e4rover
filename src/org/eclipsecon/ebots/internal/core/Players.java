@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.eclipsecon.ebots.core.IPlayer;
 import org.eclipsecon.ebots.core.IPlayers;
-import org.eclipsecon.ebots.internal.servers.AbstractServer;
 
 public class Players extends ServerObject implements IPlayers {
 

@@ -1,34 +1,47 @@
 package org.eclipsecon.ebots.internal.core;
 
+import java.util.Random;
+
 import org.eclipsecon.ebots.core.IGoal;
 
 public class Goal extends ServerObject implements IGoal {
-	private String last;
-	private String next;
-	private int nextReward;
+
+	public final TARGET target;
+	public final INSTRUMENT instrument;
+
+	static final Random rand = new Random();
+
+	public Goal(TARGET target, INSTRUMENT instrument) {
+		this.target = target;
+		this.instrument = instrument;
+	}
+
+	public Goal() {
+		target = TARGET.values()[rand.nextInt(3)];
+		instrument = INSTRUMENT.values()[rand.nextInt(4)];
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof Goal) && (((Goal)obj).target == target) && (((Goal)obj).instrument == instrument);
+	}
+
+	@Override
+	public int hashCode() {
+		return (target.toString() + instrument.toString()).hashCode();
+	}
 	
-	public String getLast() {
-		return last;
+	public TARGET getTarget() {
+		return target;
 	}
 
-	public String getNext() {
-		return next;
+	public INSTRUMENT getInstrument() {
+		return instrument;
 	}
 
-	public int getNextReward() {
-		return nextReward;
+	@Override
+	public String toString() {
+		return "Goal: (instrument= " + instrument + ") (target= " + target + ")";
 	}
-
-	public void setLast(String last) {
-		this.last = last;
-	}
-
-	public void setNext(String next) {
-		this.next = next;
-	}
-
-	public void setNextReward(int nextReward) {
-		this.nextReward = nextReward;
-	}
-
+	
 }

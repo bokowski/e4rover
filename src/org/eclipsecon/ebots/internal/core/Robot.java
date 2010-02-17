@@ -11,11 +11,20 @@ public class Robot extends ServerObject implements IRobot {
 	int leftOdom;
 	int rightOdom;
 	
+	public Robot(int batteryLevel, int leftPower, int rightPower, int leftOdom,
+			int rightOdom) {
+		this.batteryLevel = batteryLevel;
+		this.leftPower = leftPower;
+		this.rightPower = rightPower;
+		this.leftOdom = leftOdom;
+		this.rightOdom = rightOdom;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ebots.internal.core.IRobot#commandWheelPower(int, int)
 	 */
 	public boolean commandWheelPower(int left, int right) {
-		// TODO Auto-generated method stub
+		// TODO Send command to server!
 		return false;
 	}
 

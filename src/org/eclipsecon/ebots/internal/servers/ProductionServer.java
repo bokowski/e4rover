@@ -11,7 +11,7 @@ import org.eclipsecon.ebots.core.IGame;
 import org.eclipsecon.ebots.core.IPlayers;
 import org.eclipsecon.ebots.core.IRobot;
 import org.eclipsecon.ebots.core.IS3Constants;
-import org.eclipsecon.ebots.core.IServerObject;
+import org.eclipsecon.ebots.core.IGameObject;
 import org.eclipsecon.ebots.core.ITelemetry;
 import org.eclipsecon.ebots.internal.core.ServerObject;
 
@@ -41,7 +41,7 @@ public class ProductionServer extends AbstractServer {
 		// classToURIMap.put(IArenaCamImage.class, "");
 	}
 
-	public <T extends IServerObject> T getLatest(Class<T> desiredClass) throws IOException {
+	public <T extends IGameObject> T getLatest(Class<T> desiredClass) throws IOException {
 		URI uri = classToURIMap.get(desiredClass);
 		if (uri == null) {
 			throw new IllegalArgumentException("Class " + desiredClass + " is not a valid server object");

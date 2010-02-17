@@ -13,7 +13,7 @@ package org.eclipsecon.ebots.core;
 /**
  * Represents a player participating in a robot challenge {@link IGame}.
  */
-public interface IPlayer extends IServerObject {
+public interface IPlayer extends IGameObject {
 
 	/**
 	 * The highest score this player has achieved in the current game.

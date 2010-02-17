@@ -13,7 +13,7 @@ import org.eclipsecon.ebots.core.IPlayer;
 import org.eclipsecon.ebots.core.IPlayerQueue;
 import org.eclipsecon.ebots.core.IPlayers;
 import org.eclipsecon.ebots.core.IRobot;
-import org.eclipsecon.ebots.core.IServerObject;
+import org.eclipsecon.ebots.core.IGameObject;
 import org.eclipsecon.ebots.core.ITelemetry;
 import org.eclipsecon.ebots.internal.core.Drive;
 import org.eclipsecon.ebots.internal.core.Game;
@@ -76,7 +76,7 @@ public abstract class AbstractServer {
 	 * @return a deserialized object of desiredClass
 	 * @throws IOException if a problem occurs while fetching the object
 	 */
-	public abstract <T extends IServerObject> T getLatest(Class<T> desiredClass) throws IOException;
+	public abstract <T extends IGameObject> T getLatest(Class<T> desiredClass) throws IOException;
 
 	protected String getStringContents(URI uri, String encoding)
 			throws IOException {

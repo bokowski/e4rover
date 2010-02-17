@@ -2,7 +2,7 @@ package org.eclipsecon.ebots.core;
 
 import java.util.Map;
 
-public interface IPlayers extends IServerObject {
+public interface IPlayers extends IGameObject {
 
 	/**
 	 * Provides an unmodifiable map containing information about all of the

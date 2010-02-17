@@ -2,7 +2,7 @@ package org.eclipsecon.ebots.core;
 
 import java.util.Map;
 
-public interface IPlayerQueue extends IServerObject {
+public interface IPlayerQueue extends IGameObject {
 	/**
 	 * Provides an unmodifiable list containing the names of all the players
 	 * currently waiting to play the game, ordered by precedence.

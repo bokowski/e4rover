@@ -6,14 +6,14 @@ import java.util.List;
 import org.eclipsecon.ebots.internal.servers.AbstractServer;
 import org.eclipsecon.ebots.internal.servers.TestServer;
 
-
 /**
- * This class holds the main singleton objects that competitors will need to
- * access in order to play the game. It also periodically updates them from the
- * server after the {@link #startUpdateThread()} method is called.
+ * This class holds the main game objects that competitors will need to access
+ * in order to play. It also periodically updates them from the server after the
+ * {@link #startUpdateThread()} method is called.
  * 
- * Note that the singleton objects returned from the getters in this class are
- * snapshots. They will *not* be subsequently updated.
+ * Note that the game objects returned from the getters in this class are
+ * snapshots. They will *not* be kept up to date after they are returned to the
+ * caller.
  * 
  * Users that want to be notified when updated versions of the singletons are
  * retrieved should implement IUpdateListener and add themselves as a listener
@@ -31,7 +31,9 @@ public class ContestPlatform {
 		return singleton;
 	}
 
-	private AbstractServer server = new TestServer();		// HACK for testing
+	// HACK for testing: this should be configured using
+	// DI or something
+	private AbstractServer server = new TestServer();		
 	private IGame game;
 	private IRobot robot;
 	private IPlayers players;

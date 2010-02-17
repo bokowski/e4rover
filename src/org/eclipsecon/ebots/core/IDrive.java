@@ -1,6 +1,6 @@
 package org.eclipsecon.ebots.core;
 
-public interface IDrive extends IServerObject {
+public interface IDrive extends IGameObject {
 	/** @return the robot's current velocity */
 	int getVelocity();
 	

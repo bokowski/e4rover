@@ -1,8 +1,7 @@
 package org.eclipsecon.ebots.internal.core;
 
 import org.eclipsecon.ebots.core.IGame;
-import org.eclipsecon.ebots.core.IShot;
-import org.eclipsecon.ebots.internal.servers.AbstractServer;
+import org.eclipsecon.ebots.core.IGoal;
 
 public class Game extends ServerObject implements IGame {
 
@@ -13,10 +12,10 @@ public class Game extends ServerObject implements IGame {
 	int score;
 	int countdownSeconds;
 	int remainingSeconds;
-	Shot lastShot = null;
-	Shot nextShot = null;
+	Goal lastGoal = null;
+	Goal nextGoal = null;
 	int nextReward;
-	
+
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -33,16 +32,15 @@ public class Game extends ServerObject implements IGame {
 		return remainingSeconds;
 	}
 
-	public IShot getLastShot() {
-		return lastShot;
+	public IGoal getLastGoal() {
+		return lastGoal;
 	}
 
-	public IShot getNextShot() {
-		return nextShot;
+	public IGoal getNextGoal() {
+		return nextGoal;
 	}
 
 	public int getNextReward() {
 		return nextReward;
 	}
-
 }

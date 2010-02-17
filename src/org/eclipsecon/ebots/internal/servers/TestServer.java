@@ -12,7 +12,7 @@ import org.eclipsecon.ebots.core.IPlayer;
 import org.eclipsecon.ebots.core.IPlayerQueue;
 import org.eclipsecon.ebots.core.IPlayers;
 import org.eclipsecon.ebots.core.IRobot;
-import org.eclipsecon.ebots.core.IServerObject;
+import org.eclipsecon.ebots.core.IGameObject;
 import org.eclipsecon.ebots.core.ITelemetry;
 import org.eclipsecon.ebots.internal.core.ArenaCamImage;
 import org.eclipsecon.ebots.internal.core.ServerObject;
@@ -21,7 +21,7 @@ import org.eclipsecon.ebots.internal.core.ServerObject;
 public class TestServer extends AbstractServer {
 
 	@Override
-	public <T extends IServerObject> T getLatest(Class<T> desiredClass) throws IOException {
+	public <T extends IGameObject> T getLatest(Class<T> desiredClass) throws IOException {
 		Object result = null;
 		try {
 			if(desiredClass == IArenaCamImage.class) {
