@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.e4.ui.workbench.swt.E4Application"
+            name="EclipseCon 2010 ebots client">
+         <property
+               name="appName"
+               value="EclipseCon 2010 ebots client">
+         </property>
+         <property
+               name="applicationXMI"
+               value="org.eclipsecon.ebots.client/Application.e4xmi">
+         </property>
+         <property
+               name="applicationCSS"
+               value="platform:/plugin/org.eclipsecon.ebots.client/css/irobotclient.css">
+         </property>
+         <property
+               name="applicationCSSResources"
+               value="platform:/plugin/org.eclipsecon.ebots.client/images/">
+         </property>
+      </product>
+   </extension>
+
+</plugin>
