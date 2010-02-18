@@ -1,54 +1,52 @@
 package org.eclipsecon.ebots.client;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.services.annotations.PostConstruct;
+import org.eclipse.e4.core.services.annotations.PreDestroy;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipsecon.ebots.core.ContestPlatform;
+import org.eclipsecon.ebots.core.ITelemetry;
+import org.eclipsecon.ebots.core.IUpdateListener;
+import org.eclipsecon.ebots.core.UpdateAdapter;
 
 public class TelemetryView {
 
-	@Inject
-	public TelemetryView(final Composite parent) throws IOException {
+	@Inject Composite parent;
+	protected IUpdateListener listener;
+
+	@PostConstruct
+	public void init() throws IOException {
 		parent.setLayout(new FillLayout());
 		final Text text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
-		final URL url = new URL(
-				"http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml?query=CYOW");
-		Thread t = new Thread() {
+		ContestPlatform cp = ContestPlatform.getDefault();
+		cp.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
-			public void run() {
-				while (true) {
-					try {
-						InputStream stream = url.openStream();
-						byte[] buffer = new byte[4096];
-						int len;
-						final StringBuffer content = new StringBuffer();
-						while ((len = stream.read(buffer, 0, buffer.length)) > 0) {
-							content.append(new String(buffer, 0, len));
+			public void telemetryUpdated(final ITelemetry tm) {
+				if(parent.isDisposed()) { return; }
+				parent.getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						if(!parent.isDisposed()) {
+							text.setText(tm.toString());
 						}
-						parent.getDisplay().asyncExec(new Runnable() {
-							@Override
-							public void run() {
-								text.setText(content.toString());
-							}
-						});
-					} catch (IOException e) {
-						e.printStackTrace();
 					}
-					try {
-						Thread.sleep(100000);
-					} catch (InterruptedException e) {
-						return;
-					}
-				}
-			}
-		};
-		t.setDaemon(true);
-		t.start();
+				});
+			}});
+	}
+	
+	@PreDestroy
+	public void dispose() {
+		System.out.println(getClass().getSimpleName() + ": PreDestroy fired");
+		if(listener != null) {
+			ContestPlatform cp = ContestPlatform.getDefault();
+			cp.removeUpdateListener(listener);
+		}
+		listener = null;
 	}
 }

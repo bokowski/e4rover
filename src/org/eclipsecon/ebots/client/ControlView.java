@@ -2,9 +2,10 @@ package org.eclipsecon.ebots.client;
 
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.services.annotations.PostConstruct;
+import org.eclipse.e4.core.services.annotations.PreDestroy;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -13,8 +14,10 @@ import org.eclipse.swt.widgets.Listener;
 
 public class ControlView {
 
-	@Inject
-	public void ControlView(Composite parent) {
+	@Inject Composite parent;
+	
+	@PostConstruct
+	public void init() {
 		new Label(parent, SWT.NONE);
 		final Button forward = new Button(parent, SWT.PUSH);
 		forward.setText("Forward");
