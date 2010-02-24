@@ -8,13 +8,13 @@ public class Game extends ServerObject implements IGame {
 	public static final int FIRST_REWARD = 1;
 	public static final int REWARD_STEP = 1;
 
-	String playerName;
-	int score;
-	int countdownSeconds;
-	int remainingSeconds;
-	Goal lastGoal = null;
-	Goal nextGoal = null;
-	int nextReward;
+	protected String playerName;
+	protected int score;
+	protected int countdownSeconds;
+	protected int remainingSeconds;
+	protected Goal lastGoal = null;
+	protected Goal nextGoal = null;
+	protected int nextReward;
 
 	public String getPlayerName() {
 		return playerName;

@@ -18,9 +18,9 @@ package org.eclipsecon.ebots.core;
 public interface IGoal extends IGameObject {
 	/**
 	 * The TARGET enumeration lists the target RFID readers available on the site
-	 * perimeter. The goals are at 0, 120, and 240 degrees around the arena perimeter
+	 * perimeter. The goals are at 0, 90, 180, and 270 degrees around the arena perimeter
 	 */
-	public enum TARGET {G1, G2,G3}
+	public enum TARGET {ADIRONDACK, MIMI, HUMPHREY, MAZATZAL}
 
 	/**
 	 * The INSTRUMENTs are represented as RFID tags around the perimeter of the
