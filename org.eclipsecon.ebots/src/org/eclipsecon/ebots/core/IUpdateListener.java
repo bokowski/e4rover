@@ -39,9 +39,4 @@ public interface IUpdateListener extends EventListener {
 	 */
 	public void arenaCamViewUpdated(IArenaCamImage img);
 
-	/**
-	 * Called when the ContestPlatform has retrieved an updated telemetry data.
-	 * @param tm the updated telemetry data
-	 */
-	public void telemetryUpdated(ITelemetry tm);
 }

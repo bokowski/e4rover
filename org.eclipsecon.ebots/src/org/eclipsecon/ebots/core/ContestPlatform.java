@@ -1,5 +1,6 @@
 package org.eclipsecon.ebots.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +22,12 @@ import org.eclipsecon.ebots.internal.servers.TestServer;
  */
 public class ContestPlatform {
 	private static ContestPlatform singleton;
-	
+
 	static {
 		singleton = new ContestPlatform();
 		singleton.startUpdateThread();
 	}
-	
+
 	public static ContestPlatform getDefault() {
 		return singleton;
 	}
@@ -38,9 +39,8 @@ public class ContestPlatform {
 	private IRobot robot;
 	private IPlayers players;
 	private IPlayerQueue queue;
-	private IArenaCamImage cameraImage;
-	private ITelemetry telemetry;
-	
+	private IArenaCamImage arenaCameraImage;
+
 	private Thread updateThread;
 	private List<IUpdateListener> updateListeners = new ArrayList<IUpdateListener>();
 
@@ -85,8 +85,8 @@ public class ContestPlatform {
 	/**
 	 * Returns an image captured from the game's arena camera.
 	 */
-	public synchronized IArenaCamImage getCameraImage() {
-		return cameraImage;
+	public synchronized IArenaCamImage getArenaCameraImage() {
+		return arenaCameraImage;
 	}
 
 
@@ -113,7 +113,7 @@ public class ContestPlatform {
 	public boolean isRunning() {
 		return updateThread != null && updateThread.isAlive() && !updateThread.isInterrupted();
 	}
-	
+
 	/**
 	 * Starts a thread that periodically updates the contest singleton objects
 	 * from the data stored on the server. Please do not edit this method!
@@ -134,31 +134,27 @@ public class ContestPlatform {
 								synchronized(this) {
 									robot = server.getLatest(IRobot.class);
 								}
-								synchronized(this) {
-									telemetry = server.getLatest(ITelemetry.class);
-								}
 								fireRobotUpdated(robot);
-								fireTelemetryUpdated(telemetry);
 							}
 							// Every second
 							synchronized(this) {
 								game = server.getLatest(IGame.class);
 							}
-							synchronized(this) {
-								queue = server.getLatest(IPlayerQueue.class);
+							synchronized (this) {
+								arenaCameraImage = server.getLatest(IArenaCamImage.class);
 							}
 							fireGameUpdated(game);
-							firePlayerQueueUpdated(queue);
+							fireArenaCamViewUpdated(arenaCameraImage);
 						}
 						// Every 10 seconds
 						synchronized (this) {
 							players = server.getLatest(IPlayers.class);
 						}
-						synchronized (this) {
-							cameraImage = server.getLatest(IArenaCamImage.class);
+						synchronized(this) {
+							queue = server.getLatest(IPlayerQueue.class);
 						}
 						firePlayersUpdated(players);
-						fireArenaCamViewUpdated(cameraImage);
+						firePlayerQueueUpdated(queue);
 					} catch(InterruptedException e) {
 						break;
 					} catch (Exception e) {
@@ -171,35 +167,35 @@ public class ContestPlatform {
 		};
 		updateThread.start();
 	}
-	
+
 	private void fireGameUpdated(IGame game) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
 			listener.gameUpdated(game);
 		}
 	}
-	
+
 	private void fireRobotUpdated(IRobot robot) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
 			listener.robotUpdated(robot);
 		}
 	}
-	
+
 	private void firePlayersUpdated(IPlayers players) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
 			listener.playersUpdated(players);
 		}
 	}
-	
+
 	private void firePlayerQueueUpdated(IPlayerQueue pq) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
 			listener.playerQueueUpdated(pq);
 		}
 	}
-	
+
 	private void fireArenaCamViewUpdated(IArenaCamImage img) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
@@ -207,20 +203,36 @@ public class ContestPlatform {
 		}
 	}
 
-	private void fireTelemetryUpdated(ITelemetry tm) {
-		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
-		for (IUpdateListener listener : listeners) {
-			listener.telemetryUpdated(tm);
-		}
-	}
-
 	/**
-	 * Provide team's authentication details, used for manipulating the robot.
-	 * @param username the team user name
-	 * @param password the team's password token
+	 * Sends a command to the robot that will set the velocity of its left and
+	 * right wheels. If your IServerConstants.PLAYER_KEY is valid and it is
+	 * currently your turn, the robot will immediately execute the command and
+	 * continue driving at the requested velocities until another command is
+	 * received or the game concludes.  If it is not your turn, then this method
+	 * throws a NotYourTurnException.
+	 * 
+	 * Valid wheel velocities are between -100 (max backward speed) and 100 (max
+	 * forward speed). To turn the robot in place, set left and right wheel
+	 * velocities opposite each other. Here are some example drive velocities and
+	 * the expected results:
+	 * 
+	 * 0,0 : stop the robot
+	 * 100, 100 : drive the robot forward full speed
+	 * 100, -100 : turn the robot in place to the right without moving forward 
+	 *             or backward (spin clockwise very fast)
+	 * 50, 100 : drive the robot forwards while turning to the left
+	 * 
+	 * @param leftWheel rotation rate for the left wheel, must be between -100 and 100
+	 * @param rightWheel rotation rate for the right wheel, must be between -100 and 100
+	 * @throws IOException if a problem occurs while sending the command to the server
+	 * @throws NotYourTurnException if someone else is controlling the robot
+	 * @throws IllegalArgumentException if an invalid wheel velocity is provided
 	 */
-	public void setAuthentication(String username, String password) {
-		server.setAuthentication(username, password);
+	public void setRobotWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException {
+		if (leftWheel < -100 || leftWheel > 100 || rightWheel < -100 || rightWheel > 100)
+			throw new IllegalArgumentException("Valid wheel velocities are between -100 and 100 but received (" + 
+					leftWheel + "," + rightWheel + ").");
+		server.setWheelVelocity(leftWheel, rightWheel);
 	}
 
 	public void stop() {

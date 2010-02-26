@@ -1,7 +1,6 @@
 package org.eclipsecon.ebots.internal.core;
 
 import org.eclipsecon.ebots.core.IRobot;
-import org.eclipsecon.ebots.internal.servers.AbstractServer;
 
 public class Robot extends ServerObject implements IRobot {
 
@@ -10,7 +9,12 @@ public class Robot extends ServerObject implements IRobot {
 	int rightPower;
 	int leftOdom;
 	int rightOdom;
-	
+
+	/**
+	 * Clients should not call this constructor. Robot objects are returned
+	 * automatically from the server and can be accessed via
+	 * ContestPlatform.getRobot().
+	 */
 	public Robot(int batteryLevel, int leftPower, int rightPower, int leftOdom,
 			int rightOdom) {
 		this.batteryLevel = batteryLevel;
@@ -20,14 +24,6 @@ public class Robot extends ServerObject implements IRobot {
 		this.rightOdom = rightOdom;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ebots.internal.core.IRobot#commandWheelPower(int, int)
-	 */
-	public boolean commandWheelPower(int left, int right) {
-		// TODO Send command to server!
-		return false;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.ebots.internal.core.IRobot#getBatteryLevel()
 	 */

@@ -1,57 +1,90 @@
 package org.eclipsecon.ebots.internal.servers;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.URIUtil;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.eclipsecon.ebots.core.IArenaCamImage;
 import org.eclipsecon.ebots.core.IGame;
+import org.eclipsecon.ebots.core.IGameObject;
+import org.eclipsecon.ebots.core.IPlayerQueue;
 import org.eclipsecon.ebots.core.IPlayers;
 import org.eclipsecon.ebots.core.IRobot;
-import org.eclipsecon.ebots.core.IS3Constants;
-import org.eclipsecon.ebots.core.IGameObject;
-import org.eclipsecon.ebots.core.ITelemetry;
+import org.eclipsecon.ebots.core.IServerConstants;
+import org.eclipsecon.ebots.core.NotYourTurnException;
+import org.eclipsecon.ebots.internal.core.ArenaCamImage;
 import org.eclipsecon.ebots.internal.core.ServerObject;
 
 
 public class ProductionServer extends AbstractServer {
 
-	/* URIs for key game objects */
-	/** The S3 server for the competition */
-	private static URI EROVER_SERVER_URI;
-	static {
-		try {
-			EROVER_SERVER_URI= new URI(IS3Constants.S3_BASE_URL);
-		} catch (URISyntaxException e) {/*gulp*/} 
-	}
-	private static final URI GAME_FILE_URI = URIUtil.append(EROVER_SERVER_URI, IS3Constants.GAME_FILE_NAME);
-	private static final URI ROBOT_FILE_URI = URIUtil.append(EROVER_SERVER_URI, IS3Constants.ROBOT_FILE_NAME);
-	private static final URI PLAYERS_FILE_URI = URIUtil.append(EROVER_SERVER_URI, IS3Constants.PLAYERS_FILE_NAME);
-
 	/** Map for looking up the right URI for each important game object */
-	private Map<Class<?>, URI> classToURIMap = new HashMap<Class<?>, URI>();
+	private Map<Class<?>, String> classToURIMap = new HashMap<Class<?>, String>();
+
 	public ProductionServer() {
-		classToURIMap.put(IGame.class, GAME_FILE_URI);
-		classToURIMap.put(IRobot.class, ROBOT_FILE_URI);
-		classToURIMap.put(ITelemetry.class, ROBOT_FILE_URI);
-		classToURIMap.put(IPlayers.class, PLAYERS_FILE_URI);
-		// classToURIMap.put(IPlayerQueue.class, "");
-		// classToURIMap.put(IArenaCamImage.class, "");
+		classToURIMap.put(IGame.class, IServerConstants.GAME_FILE_URI);
+		classToURIMap.put(IRobot.class, IServerConstants.ROBOT_FILE_URI);
+		classToURIMap.put(IPlayers.class, IServerConstants.PLAYERS_FILE_URI);
+		classToURIMap.put(IPlayerQueue.class, IServerConstants.QUEUE_FILE_URI);
+		classToURIMap.put(IArenaCamImage.class, IServerConstants.IMAGE_FILE_URI);
 	}
 
 	public <T extends IGameObject> T getLatest(Class<T> desiredClass) throws IOException {
-		URI uri = classToURIMap.get(desiredClass);
+
+		// Get the URI for this object
+		String uri = classToURIMap.get(desiredClass);
 		if (uri == null) {
 			throw new IllegalArgumentException("Class " + desiredClass + " is not a valid server object");
 		}
-		
-		Object result = xstream.fromXML(getStringContents(uri, "UTF-8"));
+
+		Object result = null;
+		if (desiredClass == IArenaCamImage.class) { // binary product
+			result = new ArenaCamImage(getContents(uri));
+		} else { // XML product
+			result = xstream.fromXML(getStringContents(uri, "UTF-8"));
+		}
 		// hmm, if it isn't a ServerObject, then that's a problem too!
 		if(result instanceof ServerObject) {
 			((ServerObject) result).setTimestamp(System.currentTimeMillis());
 		}
+
 		return desiredClass.cast(result);	// CCE indicates something is very wrong
 	}
+
+	@Override
+	public void setWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException {
+
+		final PostMethod post = new PostMethod(IServerConstants.COMMAND_RESTLET_URI);
+		try {
+			String command = leftWheel + "," + rightWheel;
+			//TODO replace with constants
+			post.setRequestEntity(new StringRequestEntity(command, "text/xml", "UTF-8"));
+			int resp = httpClient.executeMethod(post);
+			if (resp == HttpStatus.SC_CONFLICT) {
+				throw new NotYourTurnException(post.getResponseBodyAsString());
+			}
+			if (resp != HttpStatus.SC_OK) {
+				throw new IOException("Server reported error " + resp + ".  Message: " + post.getResponseBodyAsString());
+			}
+		} finally {
+			post.releaseConnection();
+		}
+
+	}
+
+	public static void main(String[] args) throws IOException, NotYourTurnException {
+		ProductionServer server = new ProductionServer();
+		IArenaCamImage img = server.getLatest(IArenaCamImage.class);
+		System.out.println(img.getImage().length);
+		
+		for (int i = 0; i < 50; i ++){
+			long time = System.currentTimeMillis();
+			server.setWheelVelocity(42, 42);
+			System.err.println(System.currentTimeMillis() - time);
+		}
+	}
+
 }

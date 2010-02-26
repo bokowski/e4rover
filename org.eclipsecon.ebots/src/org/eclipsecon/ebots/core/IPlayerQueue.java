@@ -1,6 +1,6 @@
 package org.eclipsecon.ebots.core;
 
-import java.util.Map;
+import java.util.List;
 
 public interface IPlayerQueue extends IGameObject {
 	/**
@@ -9,5 +9,5 @@ public interface IPlayerQueue extends IGameObject {
 	 * 
 	 * @return an unmodifiable list of player names mapped to their wait times
 	 */
-	public Map<String, Integer> getPlayerQueue();
+	public List<String> getPlayerQueue();
 }

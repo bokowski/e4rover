@@ -13,7 +13,20 @@ package org.eclipsecon.ebots.core;
 /**
  * Represents a player participating in a robot challenge {@link IGame}.
  */
-public interface IPlayer extends IGameObject {
+public interface IPlayer extends IGameObject, Comparable<IPlayer> {
+
+	/**
+	 * PLAYER_KEY uniquely identifies you to the game server and allows you to
+	 * command the robot.
+	 * 
+	 * IMPORTANT: You *must* paste the secret key you received in your
+	 * registration confirmation email into the PLAYER_KEY field. If you do not
+	 * have a player key, visit the arena in the Magnolia room and register with
+	 * the arena attendant.
+	 * 
+	 * Do NOT share your PLAYER_KEY with anyone!
+	 */
+	public static final String MY_PLAYER_KEY = "c2c9eff1469b0148bb98de69ad6f6b611abff90c";
 
 	/**
 	 * The highest score this player has achieved in the current game.
@@ -33,14 +46,4 @@ public interface IPlayer extends IGameObject {
 	 */
 	public int getPlayCount();
 	
-	/**
-	 * Returns the amount of time until this player will reach the top of the player
-	 * queue and have another chance to play the game. Returns -1 if this player
-	 * is not currently in the queue.
-	 * @return The wait time in milliseconds, or -1 if this player is not waiting
-	 */
-	// TBD: Not sure how whether we'll represent this here.
-//	public long getTimeToWait();
-	
-
 }

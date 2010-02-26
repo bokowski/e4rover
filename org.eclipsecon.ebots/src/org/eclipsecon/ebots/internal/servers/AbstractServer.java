@@ -3,36 +3,35 @@ package org.eclipsecon.ebots.internal.servers;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URLConnection;
 
-import org.eclipsecon.ebots.core.IDrive;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.io.IOUtils;
 import org.eclipsecon.ebots.core.IGame;
+import org.eclipsecon.ebots.core.IGameObject;
 import org.eclipsecon.ebots.core.IGoal;
 import org.eclipsecon.ebots.core.IPlayer;
 import org.eclipsecon.ebots.core.IPlayerQueue;
 import org.eclipsecon.ebots.core.IPlayers;
 import org.eclipsecon.ebots.core.IRobot;
-import org.eclipsecon.ebots.core.IGameObject;
-import org.eclipsecon.ebots.core.ITelemetry;
-import org.eclipsecon.ebots.internal.core.Drive;
+import org.eclipsecon.ebots.core.NotYourTurnException;
 import org.eclipsecon.ebots.internal.core.Game;
 import org.eclipsecon.ebots.internal.core.Goal;
 import org.eclipsecon.ebots.internal.core.Player;
 import org.eclipsecon.ebots.internal.core.PlayerQueue;
 import org.eclipsecon.ebots.internal.core.Players;
 import org.eclipsecon.ebots.internal.core.Robot;
-import org.eclipsecon.ebots.internal.core.Telemetry;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 public abstract class AbstractServer {
-	private static final String HEADER_AUTHORIZATION = "Authorization";
-	private static final String AUTH_BASIC = "Basic ";
+
 	/** Static XStream instance, used to serialize and deserialize all contest objects */  
-	protected static XStream xstream;
-	
+	public static final XStream xstream;
+
+	public static final HttpClient httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
+
 	static {
 		// configure XStream to produce prettier XML
 		xstream = new XStream();
@@ -41,12 +40,9 @@ public abstract class AbstractServer {
 		xstream.alias("players", IPlayers.class, Players.class);
 		xstream.alias("player", IPlayer.class, Player.class);
 		xstream.alias("queue", IPlayerQueue.class, PlayerQueue.class);
-		xstream.alias("drive", IDrive.class, Drive.class);
 		xstream.alias("goal", IGoal.class, Goal.class);
-		xstream.alias("telemetry", ITelemetry.class, Telemetry.class);
-		xstream.registerConverter(new TelemetryConverter());
 	}
-	
+
 	public static String toXML(Object o) {
 		return xstream.toXML(o);
 	}
@@ -57,15 +53,6 @@ public abstract class AbstractServer {
 
 	public static Object fromXML(InputStream s) {
 		return xstream.fromXML(s);
-	}
-	
-	protected String username;
-	protected String password;
-	private Base64Encoder encoder = new Base64Encoder();
-	
-	public void setAuthentication(String username, String password) {
-		this.username = username;
-		this.password = password;
 	}
 
 	/**
@@ -78,51 +65,21 @@ public abstract class AbstractServer {
 	 */
 	public abstract <T extends IGameObject> T getLatest(Class<T> desiredClass) throws IOException;
 
-	protected String getStringContents(URI uri, String encoding)
-			throws IOException {
-				return getContents(uri).toString(encoding);
-			}
+	public abstract void setWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException;
 
-	protected byte[] getByteContents(URI uri) throws IOException {
-		return getContents(uri).toByteArray();
+	protected String getStringContents(String uri, String encoding) throws IOException {
+		return new String(getContents(uri),encoding);
 	}
 
-	protected ByteArrayOutputStream getContents(URI uri) throws IOException {
-		URLConnection uc = uri.toURL().openConnection();
-		if(username != null && password != null) {
-			String encoded = encoder.encode((username + ":" + password).getBytes());
-			uc.setRequestProperty(HEADER_AUTHORIZATION, AUTH_BASIC + encoded);
-		}
-		uc.connect();
-		// FIXME: cast to HttpURLConnection and check response code?
-		
-		InputStream in = uc.getInputStream();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		
+	protected byte[] getContents(String uri) throws IOException {
+		final GetMethod get = new GetMethod(uri);
 		try {
-			byte[] buffer = new byte[8192];
-			while (true) {
-				int bytesRead = -1;
-					bytesRead = in.read(buffer);
-				if (bytesRead == -1)
-					break;
-					out.write(buffer, 0, bytesRead);
-			}
+			AbstractServer.httpClient.executeMethod(get);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			IOUtils.copy(get.getResponseBodyAsStream(), baos);
+			return baos.toByteArray();
 		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				// ignore
-			} finally {
-				//close destination in finally in case source.close fails
-				try {
-					out.close();
-				} catch (IOException e) {
-					// ignore
-				}
-			}
+			get.releaseConnection();
 		}
-		return out;
 	}
-
 }

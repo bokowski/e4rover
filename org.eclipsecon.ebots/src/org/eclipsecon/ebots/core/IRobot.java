@@ -10,18 +10,14 @@
  *******************************************************************************/
 package org.eclipsecon.ebots.core;
 
-
 /**
- * This is the main interface for interacting with the robot participating in the game.
- * Any client can ask the robot for its state information, but only the client operated
- * by the active game player can manipulate the robot state (drive it).
+ * This is the main interface for accessing telemetry from the robot
+ * participating in the game.
  * 
  * With apologies to Asimov and Binder.
  */
 public interface IRobot extends IGameObject {
-	
-	public boolean commandWheelPower(int left, int right);
-	
+
 	public int getBatteryLevel();
 
 	public int getLeftPower();

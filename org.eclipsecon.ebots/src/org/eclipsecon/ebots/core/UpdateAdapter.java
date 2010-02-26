@@ -12,5 +12,4 @@ public class UpdateAdapter implements IUpdateListener {
 
 	public void robotUpdated(IRobot robot) {}
 
-	public void telemetryUpdated(ITelemetry tm) {}
 }

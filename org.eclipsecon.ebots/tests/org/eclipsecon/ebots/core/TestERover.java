@@ -10,15 +10,13 @@ public class TestERover {
 	@Test
 	public void testXstreamSerialization() throws IOException {
 		TestServer server = new TestServer();
-		Assert.assertTrue(server.getLatest(ITelemetry.class) instanceof ITelemetry);
 		Assert.assertTrue(server.getLatest(IGoal.class) instanceof IGoal);
-		Assert.assertTrue(server.getLatest(IDrive.class) instanceof IDrive);
 		Assert.assertTrue(server.getLatest(IPlayer.class) instanceof IPlayer);
 		Assert.assertTrue(server.getLatest(IRobot.class) instanceof IRobot);
 		Assert.assertTrue(server.getLatest(IGame.class) instanceof IGame);
 		Assert.assertTrue(server.getLatest(IPlayers.class) instanceof IPlayers);
 		Assert.assertTrue(server.getLatest(IPlayerQueue.class) instanceof IPlayerQueue);
-		// Assert.assertNotNull(server.getLatest(IArenaCamImage.class));
+		Assert.assertTrue(server.getLatest(IArenaCamImage.class) instanceof IArenaCamImage);
 	}
 	
 	@Test
@@ -47,15 +45,13 @@ public class TestERover {
 				System.out.println(pq.toString());
 			}
 
-			public void telemetryUpdated(ITelemetry tm) {
-				System.out.println(tm);
-			}
-			
 		});
 		Thread.sleep(10000);
 		
 		cp.stop();
 		Assert.assertTrue(cp.exceptionsCount == 0);
 	}
+	
+	
 
 }

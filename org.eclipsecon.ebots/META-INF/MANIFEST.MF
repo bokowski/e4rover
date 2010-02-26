@@ -5,9 +5,14 @@ Bundle-SymbolicName: org.eclipsecon.ebots
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.junit4,
  com.thoughtworks.xstream;bundle-version="1.2.2";visibility:=reexport,
- org.eclipse.equinox.common;bundle-version="3.6.0"
+ org.eclipse.equinox.common;bundle-version="3.6.0",
+ org.apache.commons.httpclient;bundle-version="3.1.0";visibility:=reexport,
+ org.apache.commons.io;bundle-version="1.4.0",
+ org.apache.commons.logging,
+ org.apache.commons.codec;bundle-version="1.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipsecon.ebots.core,
- org.eclipsecon.ebots.internal.core
+ org.eclipsecon.ebots.internal.core,
+ org.eclipsecon.ebots.internal.servers
 Eclipse-RegisterBuddy: com.thoughtworks.xstream
