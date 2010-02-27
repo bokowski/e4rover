@@ -6,6 +6,10 @@ import java.util.EventListener;
  * Listener interface that allows users to receive updates when ContestPlatform
  * retrieves an updated version of one of the contest singleton classes.
  * 
+ * Users should implement this interface and then register via
+ * {@link ContestPlatform#addUpdateListener(IUpdateListener)}.
+ * 
+ * @see ContestPlatform
  */
 public interface IUpdateListener extends EventListener {
 

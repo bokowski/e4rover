@@ -17,8 +17,8 @@ import org.eclipsecon.ebots.internal.servers.TestServer;
  * caller.
  * 
  * Users that want to be notified when updated versions of the singletons are
- * retrieved should implement IUpdateListener and add themselves as a listener
- * on this class.
+ * retrieved should implement {@link IUpdateListener} and add themselves as a
+ * listener on this class.
  */
 public class ContestPlatform {
 	private static ContestPlatform singleton;
@@ -35,6 +35,8 @@ public class ContestPlatform {
 	// HACK for testing: this should be configured using
 	// DI or something
 	private AbstractServer server = new TestServer();		
+	
+	// Current contest singleton objects
 	private IGame game;
 	private IRobot robot;
 	private IPlayers players;
@@ -89,7 +91,6 @@ public class ContestPlatform {
 		return arenaCameraImage;
 	}
 
-
 	/**
 	 * Requests that the provided listener be notified whenever any of the
 	 * contest singleton classes is updated
@@ -110,17 +111,23 @@ public class ContestPlatform {
 		updateListeners.remove(updateListener);
 	}
 
+	/**
+	 * @return true iff the automatic update thread is running (started by calling {@link #startUpdateThread()})
+	 */
 	public boolean isRunning() {
 		return updateThread != null && updateThread.isAlive() && !updateThread.isInterrupted();
 	}
 
 	/**
 	 * Starts a thread that periodically updates the contest singleton objects
-	 * from the data stored on the server. Please do not edit this method!
+	 * from the data stored on the server. 
+	 * 
+	 * Clients should *not* edit this method!
 	 */
 	public void startUpdateThread() {
-		if (updateThread != null)
+		if (isRunning())
 			return;
+		
 		updateThread = new Thread("Client Update Thread") {
 			@Override
 			public void run() {
@@ -168,6 +175,52 @@ public class ContestPlatform {
 		updateThread.start();
 	}
 
+	public void enterPlayerQueue() throws IOException {
+		server.enterPlayerQueue();
+	}
+	
+	/**
+	 * Sends a command to the robot that will set the velocity of its left and
+	 * right wheels. If your IServerConstants.PLAYER_KEY is valid and it is
+	 * currently your turn, the robot will immediately execute the command and
+	 * continue driving at the requested velocities until another command is
+	 * received or the game concludes.  If it is not your turn, then this method
+	 * throws a NotYourTurnException.
+	 * 
+	 * Valid wheel velocities are between -100 (max backward speed) and 100 (max
+	 * forward speed). To turn the robot in place, set left and right wheel
+	 * velocities opposite each other. Here are some example drive velocities and
+	 * the expected results:
+	 * 
+	 * 0,0 : stop the robot
+	 * 100, 100 : drive the robot forward full speed
+	 * 100, -100 : turn the robot in place to the right without moving forward 
+	 *             or backward (spin clockwise very fast)
+	 * 50, 100 : drive the robot forwards while turning to the left
+	 * 
+	 * @param leftWheel rotation rate for the left wheel, must be between -100 and 100
+	 * @param rightWheel rotation rate for the right wheel, must be between -100 and 100
+	 * @throws IOException if a problem occurs while sending the command to the server
+	 * @throws NotYourTurnException if someone else is controlling the robot
+	 * @throws IllegalArgumentException if an invalid wheel velocity is provided
+	 */
+	public void setRobotWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException {
+		if (leftWheel < -100 || leftWheel > 100 || rightWheel < -100 || rightWheel > 100)
+			throw new IllegalArgumentException("Valid wheel velocities are between -100 and 100 but received (" + 
+					leftWheel + "," + rightWheel + ").");
+		server.setWheelVelocity(leftWheel, rightWheel);
+	}
+
+	/**
+	 * Stops the automatic update thread that retrieves the contest singleton
+	 * objects from the server and announces updates to listeners.
+	 */
+	public void stop() {
+		if(updateThread != null) { updateThread.interrupt(); }
+	}	
+	
+	/* internal methods for announcing that various contest singletons have been updated */
+	
 	private void fireGameUpdated(IGame game) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
@@ -203,39 +256,5 @@ public class ContestPlatform {
 		}
 	}
 
-	/**
-	 * Sends a command to the robot that will set the velocity of its left and
-	 * right wheels. If your IServerConstants.PLAYER_KEY is valid and it is
-	 * currently your turn, the robot will immediately execute the command and
-	 * continue driving at the requested velocities until another command is
-	 * received or the game concludes.  If it is not your turn, then this method
-	 * throws a NotYourTurnException.
-	 * 
-	 * Valid wheel velocities are between -100 (max backward speed) and 100 (max
-	 * forward speed). To turn the robot in place, set left and right wheel
-	 * velocities opposite each other. Here are some example drive velocities and
-	 * the expected results:
-	 * 
-	 * 0,0 : stop the robot
-	 * 100, 100 : drive the robot forward full speed
-	 * 100, -100 : turn the robot in place to the right without moving forward 
-	 *             or backward (spin clockwise very fast)
-	 * 50, 100 : drive the robot forwards while turning to the left
-	 * 
-	 * @param leftWheel rotation rate for the left wheel, must be between -100 and 100
-	 * @param rightWheel rotation rate for the right wheel, must be between -100 and 100
-	 * @throws IOException if a problem occurs while sending the command to the server
-	 * @throws NotYourTurnException if someone else is controlling the robot
-	 * @throws IllegalArgumentException if an invalid wheel velocity is provided
-	 */
-	public void setRobotWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException {
-		if (leftWheel < -100 || leftWheel > 100 || rightWheel < -100 || rightWheel > 100)
-			throw new IllegalArgumentException("Valid wheel velocities are between -100 and 100 but received (" + 
-					leftWheel + "," + rightWheel + ").");
-		server.setWheelVelocity(leftWheel, rightWheel);
-	}
-
-	public void stop() {
-		if(updateThread != null) { updateThread.interrupt(); }
-	}	
+	
 }

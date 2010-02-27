@@ -11,7 +11,17 @@
 package org.eclipsecon.ebots.core;
 
 /**
- * Represents a player participating in a robot challenge {@link IGame}.
+ * Contains publicly-accessible information for each player participating in the
+ * contest. Up-to-date Player objects can be retrieved via
+ * {@link ContestPlatform#getPlayers()}.
+ * 
+ * Note that this interface also contains the all-important
+ * {@link #MY_PLAYER_KEY} constant that uniquely identifies you to the contest
+ * server and enables you to control the robot. See the docs for
+ * {@link #MY_PLAYER_KEY} for information on how to get your own player key.
+ * 
+ * @see #MY_PLAYER_KEY
+ * @see IPlayers
  */
 public interface IPlayer extends IGameObject, Comparable<IPlayer> {
 

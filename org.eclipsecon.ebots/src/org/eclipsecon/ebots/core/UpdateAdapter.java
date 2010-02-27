@@ -1,5 +1,8 @@
 package org.eclipsecon.ebots.core;
 
+/**
+ * Convenience class for {@link IUpdateListener}.
+ */
 public class UpdateAdapter implements IUpdateListener {
 
 	public void arenaCamViewUpdated(IArenaCamImage pq) {}

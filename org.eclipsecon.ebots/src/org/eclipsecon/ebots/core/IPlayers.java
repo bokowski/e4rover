@@ -3,11 +3,16 @@ package org.eclipsecon.ebots.core;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contains all of the {@link IPlayer}s that have registered for the contest.
+ * You can get an up-to-date version of this object via
+ * {@link ContestPlatform#getPlayers()}.
+ */
 public interface IPlayers extends IGameObject {
 
 	/**
 	 * Provides an unmodifiable map containing information about all of the
-	 * registered players in the game.
+	 * registered players in the contest.
 	 * 
 	 * @return an unmodifiable map of player names to player objects.
 	 */

@@ -10,34 +10,46 @@
  *******************************************************************************/
 package org.eclipsecon.ebots.core;
 
+import org.eclipsecon.ebots.internal.core.Game;
+
 /**
- * A goal represents a task to be performed by the robot. In particular, a goal
- * involves aligning an instrument held by the robot with a target attached to
- * the perimeter of the site.
+ * A Goal represents a task that the player must perform with the robot. More
+ * specifically, a Goal requires aligning one of the four instruments held by
+ * the robot with one of the four targets attached to the perimeter of the
+ * arena. When a Goal is successfully completed, a reward is given to the player
+ * and a new Goal is generated.
+ * 
+ * The current Goal can be accessed by retrieving the current Game state via
+ * {@link ContestPlatform#getGame()} and calling the {@link Game#getNextGoal()}
+ * method.
+ * 
+ * @see IGame
  */
 public interface IGoal extends IGameObject {
 	/**
-	 * The TARGET enumeration lists the target RFID readers available on the site
-	 * perimeter. The goals are at 0, 90, 180, and 270 degrees around the arena perimeter
+	 * The TARGET enumeration identifies the target RFID readers available on
+	 * the arena perimeter. The goals are at 0, 90, 180, and 270 degrees.
 	 */
-	public enum TARGET {ADIRONDACK, MIMI, HUMPHREY, MAZATZAL}
+	public enum TARGET {
+		ADIRONDACK, MIMI, HUMPHREY, MAZATZAL
+	}
 
 	/**
 	 * The INSTRUMENTs are represented as RFID tags around the perimeter of the
-	 * robot at 45, 135, 225, and 315 degree. Points are scored by aligning an
+	 * robot at 45, 135, 225, and 315 degrees. Points are scored by aligning an
 	 * instrument on the robot with a target on the site perimeter.
 	 */
-	public enum INSTRUMENT {MICROSCOPE, SPECTROMETER, DRILL, BRUSH}
+	public enum INSTRUMENT {
+		MICROSCOPE, SPECTROMETER, DRILL, BRUSH
+	}
 
 	/**
-	 * Returns the target for this goal.
-	 * @return the target
+	 * @return the target for this goal.
 	 */
 	public TARGET getTarget();
 
 	/**
-	 * Returns the instrument for this goal
-	 * @return the instrument.
+	 * @return the instrument for this goal.
 	 */
 	public INSTRUMENT getInstrument();
 }

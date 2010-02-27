@@ -11,10 +11,16 @@
 package org.eclipsecon.ebots.core;
 
 /**
- * This is the main interface for accessing telemetry from the robot
- * participating in the game.
+ * This is the interface for accessing the current state of the robot. Note that
+ * anyone can monitor the robot even if they are not controlling the robot.
+ * 
+ * Retrive the up-to-date version of this object from
+ * {@link ContestPlatform#getRobot()} or by registering as an
+ * {@link IUpdateListener} on {@link ContestPlatform}.
  * 
  * With apologies to Asimov and Binder.
+ * 
+ * @see ContestPlatform
  */
 public interface IRobot extends IGameObject {
 

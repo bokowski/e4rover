@@ -84,4 +84,10 @@ public class TestServer extends AbstractServer {
 	throws IOException {
 		// do nothing
 	}
+	
+	@Override
+	public int enterPlayerQueue() throws IOException {
+	    // do nothing
+		return 0;
+	}
 }

@@ -10,9 +10,17 @@
  *******************************************************************************/
 package org.eclipsecon.ebots.core;
 
-
 /**
- * Represents a running robot challenge game.
+ * Represents the game currently in progress. All players can access the current
+ * game state by calling {@link ContestPlatform#getGame()} or by registering as
+ * an {@link IUpdateListener} on {@link ContestPlatform} to receive periodic
+ * updates.
+ * 
+ * At a minimum, the current game player needs to monitor the game state in
+ * order to know what {@link Goal} they are trying to achieve and how much time
+ * remains in the game (via {@link #getRemainingSeconds()}).
+ * 
+ * @see ContestPlatform
  */
 public interface IGame extends IGameObject {
 

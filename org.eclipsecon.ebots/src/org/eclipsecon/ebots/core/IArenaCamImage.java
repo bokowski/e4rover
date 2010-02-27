@@ -1,6 +1,15 @@
 package org.eclipsecon.ebots.core;
 
-
+/**
+ * The contest arena has a camera mounted overhead. This interface represents
+ * the image from that camera. You can retrieve the most current version of this
+ * object (even if you're not the current player) by calling
+ * {@link ContestPlatform#getArenaCameraImage()}. However, the best way to get
+ * the latest images is to register as an {@link IUpdateListener} on
+ * {@link ContestPlatform}.
+ * 
+ * @see ContestPlatform
+ */
 public interface IArenaCamImage extends IGameObject {
 
 	/**

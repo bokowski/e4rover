@@ -67,6 +67,8 @@ public abstract class AbstractServer {
 
 	public abstract void setWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException;
 
+	public abstract int enterPlayerQueue() throws IOException;
+
 	protected String getStringContents(String uri, String encoding) throws IOException {
 		return new String(getContents(uri),encoding);
 	}
@@ -82,4 +84,5 @@ public abstract class AbstractServer {
 			get.releaseConnection();
 		}
 	}
+
 }

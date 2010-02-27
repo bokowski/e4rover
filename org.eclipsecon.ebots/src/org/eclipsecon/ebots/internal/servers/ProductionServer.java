@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.eclipsecon.ebots.core.IArenaCamImage;
 import org.eclipsecon.ebots.core.IGame;
 import org.eclipsecon.ebots.core.IGameObject;
+import org.eclipsecon.ebots.core.IPlayer;
 import org.eclipsecon.ebots.core.IPlayerQueue;
 import org.eclipsecon.ebots.core.IPlayers;
 import org.eclipsecon.ebots.core.IRobot;
@@ -75,16 +77,23 @@ public class ProductionServer extends AbstractServer {
 
 	}
 
-	public static void main(String[] args) throws IOException, NotYourTurnException {
-		ProductionServer server = new ProductionServer();
-		IArenaCamImage img = server.getLatest(IArenaCamImage.class);
-		System.out.println(img.getImage().length);
+	@Override
+	public int enterPlayerQueue() throws IOException {
+		PostMethod post = new PostMethod(IServerConstants.QUEUE_RESTLET);
 		
-		for (int i = 0; i < 50; i ++){
-			long time = System.currentTimeMillis();
-			server.setWheelVelocity(42, 42);
-			System.err.println(System.currentTimeMillis() - time);
+		try {
+			NameValuePair[] form = new NameValuePair[1];
+			form[0] = new NameValuePair(IServerConstants.HASH, IPlayer.MY_PLAYER_KEY);
+			post.setRequestBody(form);
+			int resp = AbstractServer.httpClient.executeMethod(post);
+			if (resp == HttpStatus.SC_OK) {
+				return Integer.parseInt(post.getResponseHeader(IServerConstants.QUEUE_POSITION).getValue());
+			}
+			else 
+				throw new IOException("Server reported error " + resp + ".  Message: " + post.getResponseBodyAsString());
+		} finally {
+			post.releaseConnection();
 		}
 	}
-
+	
 }
