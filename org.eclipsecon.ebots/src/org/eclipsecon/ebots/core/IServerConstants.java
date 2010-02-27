@@ -9,8 +9,6 @@ public interface IServerConstants {
 	/* Downlink */
 	public static final String EROVER_DOWNLINK_SERVER_URI = "http://" + EBOTS_BUCKET_NAME +  ".s3.amazonaws.com/";
 	
-	
-	
 	public static final String GAME_FILE_NAME = "game.xml";
 	public static final String ROBOT_FILE_NAME = "robot.xml";
 	public static final String PLAYERS_FILE_NAME = "players.xml";
@@ -25,7 +23,7 @@ public interface IServerConstants {
 	
 	/* Uplink */
 //	public static final String EROVER_UPLINK_SERVER_URI ="http://ebots-1899286855.us-west-1.elb.amazonaws.com/";
-	public static final String EROVER_UPLINK_SERVER_URI ="http://localhost:9111/";
+	public static final String EROVER_UPLINK_SERVER_URI ="http://137.78.29.221:9111/";
 	
 	public static final String COMMAND_RESTLET_URI = EROVER_UPLINK_SERVER_URI + "cmd/" + IPlayer.MY_PLAYER_KEY;
 	public static final String QUEUE_RESTLET = EROVER_UPLINK_SERVER_URI + "queue";

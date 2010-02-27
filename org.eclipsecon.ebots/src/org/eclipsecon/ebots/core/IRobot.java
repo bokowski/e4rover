@@ -20,11 +20,11 @@ public interface IRobot extends IGameObject {
 
 	public int getBatteryLevel();
 
-	public int getLeftPower();
+	public int getLeftWheelVelocity();
 
-	public int getRightPower();
+	public int getRightWheelVelocity();
 
-	public int getLeftOdom();
+	public int getLeftWheelOdometry();
 
-	public int getRightOdom();
+	public int getRightWheelOdometry();
 }

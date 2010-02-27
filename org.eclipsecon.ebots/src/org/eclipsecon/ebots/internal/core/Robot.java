@@ -5,57 +5,42 @@ import org.eclipsecon.ebots.core.IRobot;
 public class Robot extends ServerObject implements IRobot {
 
 	int batteryLevel;
-	int leftPower;
-	int rightPower;
-	int leftOdom;
-	int rightOdom;
+	int leftWheelVelocity;
+	int rightWheelVelocity;
+	int leftWheelOdometry;
+	int rightWheelOdometry;
 
 	/**
-	 * Clients should not call this constructor. Robot objects are returned
+	 * Clients should not call this constructor. Robot objects are fetched
 	 * automatically from the server and can be accessed via
-	 * ContestPlatform.getRobot().
+	 * ContestPlatform.getRobot() or by listening on that class.
 	 */
-	public Robot(int batteryLevel, int leftPower, int rightPower, int leftOdom,
+	public Robot(int batteryLevel, int leftWheelVelocity, int rightWheelVelocity, int leftOdom,
 			int rightOdom) {
 		this.batteryLevel = batteryLevel;
-		this.leftPower = leftPower;
-		this.rightPower = rightPower;
-		this.leftOdom = leftOdom;
-		this.rightOdom = rightOdom;
+		this.leftWheelVelocity = leftWheelVelocity;
+		this.rightWheelVelocity = rightWheelVelocity;
+		this.leftWheelOdometry = leftOdom;
+		this.rightWheelOdometry = rightOdom;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ebots.internal.core.IRobot#getBatteryLevel()
-	 */
 	public int getBatteryLevel() {
 		return batteryLevel;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ebots.internal.core.IRobot#getLeftWheelPower()
-	 */
-	public int getLeftPower() {
-		return leftPower;
+	public int getLeftWheelVelocity() {
+		return leftWheelVelocity;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ebots.internal.core.IRobot#getRightWheelPower()
-	 */
-	public int getRightPower() {
-		return rightPower;
+	public int getRightWheelVelocity() {
+		return rightWheelVelocity;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ebots.internal.core.IRobot#getLeftTachoCount()
-	 */
-	public int getLeftOdom() {
-		return leftOdom;
+	public int getLeftWheelOdometry() {
+		return leftWheelOdometry;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ebots.internal.core.IRobot#getRightTachoCount()
-	 */
-	public int getRightOdom() {
-		return rightOdom;
+	public int getRightWheelOdometry() {
+		return rightWheelOdometry;
 	}
 }
