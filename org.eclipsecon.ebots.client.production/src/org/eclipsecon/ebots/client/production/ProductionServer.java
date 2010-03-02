@@ -77,9 +77,9 @@ public class ProductionServer implements IServer {
 		return desiredClass.cast(result);	// CCE indicates something is very wrong
 	}
 
-	public void setWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException {
+	public void setWheelVelocity(int leftWheel, int rightWheel, String playerKey) throws IOException, NotYourTurnException {
 
-		final PostMethod post = new PostMethod(IServerConstants.COMMAND_RESTLET_URI);
+		final PostMethod post = new PostMethod(IServerConstants.COMMAND_RESTLET_URI + playerKey);
 		try {
 			String command = leftWheel + "," + rightWheel;
 			//TODO replace with constants
@@ -97,12 +97,12 @@ public class ProductionServer implements IServer {
 
 	}
 
-	public int enterPlayerQueue() throws IOException {
+	public int enterPlayerQueue(String playerKey) throws IOException {
 		PostMethod post = new PostMethod(IServerConstants.QUEUE_RESTLET);
 		
 		try {
 			NameValuePair[] form = new NameValuePair[1];
-			form[0] = new NameValuePair(IServerConstants.HASH, IPlayer.MY_PLAYER_KEY);
+			form[0] = new NameValuePair(IServerConstants.HASH, playerKey);
 			post.setRequestBody(form);
 			int resp = httpClient.executeMethod(post);
 			if (resp == HttpStatus.SC_OK) {

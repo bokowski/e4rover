@@ -31,7 +31,6 @@ public class WebcamView {
 		
 		parent.setLayout(new FillLayout());
 		parent.addPaintListener(new PaintListener() {
-			@Override
 			public void paintControl(PaintEvent e) {
 				if (image != null) {
 					e.gc.drawImage(image, 0, 0);
@@ -53,7 +52,6 @@ public class WebcamView {
 	public void redraw() {
 		if(parent.isDisposed()) { return; }
 		parent.getDisplay().asyncExec(new Runnable() {
-			@Override
 			public void run() {
 				if(parent.isDisposed()) { return; }
 				parent.redraw();

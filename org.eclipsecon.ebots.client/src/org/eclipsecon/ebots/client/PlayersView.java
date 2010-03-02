@@ -30,7 +30,6 @@ public class PlayersView {
 			public void playersUpdated(final IPlayers players) {
 				if(parent.isDisposed()) { return; }
 				parent.getDisplay().asyncExec(new Runnable() {
-					@Override
 					public void run() {
 						if(!parent.isDisposed()) {
 							text.setText(players.toString());

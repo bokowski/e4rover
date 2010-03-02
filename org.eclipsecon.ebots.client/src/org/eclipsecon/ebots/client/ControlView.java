@@ -3,6 +3,7 @@ package org.eclipsecon.ebots.client;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.e4.core.services.annotations.PostConstruct;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -20,7 +21,7 @@ public class ControlView {
 
 	@Inject Composite parent;
 	@Inject ContestPlatform platform;
-	IPlayerQueue playerQ;
+	@Inject @Named("playerkey") String playerKey;
 	
 	@PostConstruct
 	public void init() {
@@ -48,14 +49,13 @@ public class ControlView {
 		
 		Listener listener = new Listener() {
 			
-			@Override
 			public void handleEvent(Event event) {
 				if (event.widget == left) {
 					System.out.println("turn left!");
 					try {
-						platform.setRobotWheelVelocity(-20, 20);
+						platform.setRobotWheelVelocity(-20, 20, playerKey);
 						Thread.sleep(250);
-						platform.setRobotWheelVelocity(0, 0);
+						platform.setRobotWheelVelocity(0, 0, playerKey);
 
 					} catch (IOException e) {
 						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
@@ -67,9 +67,9 @@ public class ControlView {
 				} else if (event.widget == right) {
 					System.out.println("turn right!");
 					try {
-						platform.setRobotWheelVelocity(20, -20);
+						platform.setRobotWheelVelocity(20, -20, playerKey);
 						Thread.sleep(250);
-						platform.setRobotWheelVelocity(0, 0);
+						platform.setRobotWheelVelocity(0, 0, playerKey);
 
 					} catch (IOException e) {
 						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
@@ -81,9 +81,9 @@ public class ControlView {
 				} else if (event.widget == forward) {
 					System.out.println("go forward!");
 					try {
-						platform.setRobotWheelVelocity(50, 50);
+						platform.setRobotWheelVelocity(50, 50, playerKey);
 						Thread.sleep(1000);
-						platform.setRobotWheelVelocity(0, 0);
+						platform.setRobotWheelVelocity(0, 0, playerKey);
 					} catch (IOException e) {
 						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
 					} catch (NotYourTurnException e) {
@@ -94,9 +94,9 @@ public class ControlView {
 				} else if (event.widget == backward) {
 					System.out.println("go backward!");
 					try {
-						platform.setRobotWheelVelocity(-50, -50);
+						platform.setRobotWheelVelocity(-50, -50, playerKey);
 						Thread.sleep(1000);
-						platform.setRobotWheelVelocity(0, 0);
+						platform.setRobotWheelVelocity(0, 0, playerKey);
 					} catch (IOException e) {
 						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
 					} catch (NotYourTurnException e) {
@@ -106,7 +106,7 @@ public class ControlView {
 					}
 				} else if(event.widget == enqueue) {
 					try {
-						platform.enterPlayerQueue();
+						platform.enterPlayerQueue(playerKey);
 					} catch(IOException e) {
 						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
 					}

@@ -29,7 +29,6 @@ public class PlayersQueueView extends Object {
 			public void playerQueueUpdated(final IPlayerQueue queue) {
 				if(parent.isDisposed()) { return; }
 				parent.getDisplay().asyncExec(new Runnable() {
-					@Override
 					public void run() {
 						if(!parent.isDisposed()) {
 							text.setText(queue.toString());

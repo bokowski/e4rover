@@ -31,7 +31,6 @@ public class TelemetryView {
 			public void robotUpdated(final IRobot robot) {
 				if(parent.isDisposed()) { return; }
 				parent.getDisplay().asyncExec(new Runnable() {
-					@Override
 					public void run() {
 						if(!parent.isDisposed()) {
 							text.setText(robot.toString());
