@@ -16,6 +16,7 @@
         </children>
         <children xsi:type="application:PartStack" xmi:id="_mf-y4A06Ed-dvbNEK73RoQ" id="_mf-y4A06Ed-dvbNEK73RoQ">
           <children xsi:type="application:Part" xmi:id="_w9CnoA06Ed-dvbNEK73RoQ" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.ControlView" label="Control"/>
+          <children xsi:type="application:Part" xmi:id="_G1GGUSYkEd-t8by8HUwSHw" id="_G1GGUSYkEd-t8by8HUwSHw" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.PlayersQueueView" label="Players Queue" tooltip="List of Awaiting Players"/>
         </children>
       </children>
     </children>
