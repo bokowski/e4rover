@@ -43,4 +43,24 @@ public class Robot extends ServerObject implements IRobot {
 	public int getRightWheelOdometry() {
 		return rightWheelOdometry;
 	}
+
+	public void setBatteryLevel(int batteryLevel) {
+		this.batteryLevel = batteryLevel;
+	}
+
+	public void setLeftWheelVelocity(int leftWheelVelocity) {
+		this.leftWheelVelocity = leftWheelVelocity;
+	}
+
+	public void setRightWheelVelocity(int rightWheelVelocity) {
+		this.rightWheelVelocity = rightWheelVelocity;
+	}
+
+	public void setLeftWheelOdometry(int leftWheelOdometry) {
+		this.leftWheelOdometry = leftWheelOdometry;
+	}
+
+	public void setRightWheelOdometry(int rightWheelOdometry) {
+		this.rightWheelOdometry = rightWheelOdometry;
+	}
 }

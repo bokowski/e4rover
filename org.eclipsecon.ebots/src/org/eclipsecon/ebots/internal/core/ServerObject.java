@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.eclipsecon.ebots.core.IGameObject;
-import org.eclipsecon.ebots.internal.servers.AbstractServer;
+import org.eclipsecon.ebots.core.XmlSerializer;
 
 /**
  * Base level server object.
@@ -24,6 +24,6 @@ public class ServerObject implements IGameObject {
 	public String toString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("kk:mm:ss.SSS");	// expensive but worth it
 		return "<!-- timestamp: " + formatter.format(new Date(timestamp)) + " -->\n" +
-			AbstractServer.toXML(this);
+			new XmlSerializer().toXML(this);
 	}
 }

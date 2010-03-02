@@ -14,7 +14,7 @@ package org.eclipsecon.ebots.core;
  * This is the interface for accessing the current state of the robot. Note that
  * anyone can monitor the robot even if they are not controlling the robot.
  * 
- * Retrive the up-to-date version of this object from
+ * Retrieve the up-to-date version of this object from
  * {@link ContestPlatform#getRobot()} or by registering as an
  * {@link IUpdateListener} on {@link ContestPlatform}.
  * 
@@ -26,11 +26,19 @@ public interface IRobot extends IGameObject {
 
 	public int getBatteryLevel();
 
+	/** @see ContestPlatform#setRobotWheelVelocity(int,int) */
 	public int getLeftWheelVelocity();
 
+	/** @see ContestPlatform#setRobotWheelVelocity(int,int) */
 	public int getRightWheelVelocity();
 
+	/**
+	 * @return the distance travelled by the robot's left wheel
+	 */
 	public int getLeftWheelOdometry();
 
+	/**
+	 * @return the distance travelled by the robot's right wheel
+	 */
 	public int getRightWheelOdometry();
 }

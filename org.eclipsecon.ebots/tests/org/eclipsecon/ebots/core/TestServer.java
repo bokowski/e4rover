@@ -1,40 +1,49 @@
-package org.eclipsecon.ebots.internal.servers;
+package org.eclipsecon.ebots.core;
 
 import java.io.IOException;
+import java.net.URL;
 
-import org.eclipsecon.ebots.core.IArenaCamImage;
-import org.eclipsecon.ebots.core.IGame;
-import org.eclipsecon.ebots.core.IGameObject;
-import org.eclipsecon.ebots.core.IPlayerQueue;
-import org.eclipsecon.ebots.core.IPlayers;
-import org.eclipsecon.ebots.core.IRobot;
 import org.eclipsecon.ebots.internal.core.ArenaCamImage;
 import org.eclipsecon.ebots.internal.core.ServerObject;
+import org.eclipsecon.ebots.internal.servers.IServer;
 
 
-public class TestServer extends AbstractServer {
+public class TestServer implements IServer {
 
-	@Override
+	protected XmlSerializer xmlserializer = new XmlSerializer();
+
 	public <T extends IGameObject> T getLatest(Class<T> desiredClass) throws IOException {
 		Object result = null;
 		if(desiredClass == IArenaCamImage.class) {
 			// HACK: just for testing
 			String uri = "http://www.collineduparlement-parliamenthill.gc.ca/text/newhillcam.jpg";
-			result = new ArenaCamImage(getContents(uri));
+			result = new ArenaCamImage((byte[])new URL(uri).getContent());
 		} else if(desiredClass == IRobot.class) {
-			result = fromXML(generateRobot());
+			result = xmlserializer.fromXML(generateRobot());
 		} else if(desiredClass == IPlayers.class) {
-			result = fromXML(generatePlayers());
+			result = xmlserializer.fromXML(generatePlayers());
 		} else if(desiredClass == IPlayerQueue.class) {
-			result = fromXML(generatePlayerQueue());
+			result = xmlserializer.fromXML(generatePlayerQueue());
 		} else if(desiredClass == IGame.class) {
-			result = fromXML(generateGame());
+			result = xmlserializer.fromXML(generateGame());
+		} else if(desiredClass == IGoal.class) {
+			result = xmlserializer.fromXML(generateGoal());
+		} else if(desiredClass == IPlayer.class) {
+			result = xmlserializer.fromXML(generatePlayer());
 		}
 		if(result != null) {
 			((ServerObject)result).setTimestamp(System.currentTimeMillis());
 			return desiredClass.cast(result);
 		}
 		return null;
+	}
+
+	private String generatePlayer() {
+		return "<player name=\"Khawaja Shams\" secondsToWait=\"150\" />\n";
+	}
+
+	private String generateGoal() {
+		return "<goal target='ADIRONDACK' instrument='MICROSCOPE'/>";
 	}
 
 	private String generatePlayerQueue() {
@@ -79,13 +88,11 @@ public class TestServer extends AbstractServer {
 		"</robot>";
 	}
 
-	@Override
 	public void setWheelVelocity(int leftWheel, int rightWheel)
-	throws IOException {
+			throws IOException {
 		// do nothing
 	}
 	
-	@Override
 	public int enterPlayerQueue() throws IOException {
 	    // do nothing
 		return 0;

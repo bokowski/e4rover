@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.eclipsecon.ebots.internal.servers.AbstractServer;
+import org.eclipsecon.ebots.internal.servers.IServer;
 import org.eclipsecon.ebots.internal.servers.ProductionServer;
 
 /**
@@ -35,7 +35,7 @@ public class ContestPlatform {
 
 	// HACK for testing: this should be configured using
 	// DI or something
-	private AbstractServer server = new ProductionServer();		
+	private IServer server = new ProductionServer();		
 
 	// Current contest singleton objects
 	private IGame game;

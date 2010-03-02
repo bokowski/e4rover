@@ -2,7 +2,6 @@ package org.eclipsecon.ebots.core;
 
 import java.io.IOException;
 
-import org.eclipsecon.ebots.internal.servers.TestServer;
 import org.junit.Assert;
 import org.junit.Test;
 
