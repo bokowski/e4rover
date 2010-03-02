@@ -18,14 +18,15 @@ import org.eclipsecon.ebots.core.UpdateAdapter;
 public class TelemetryView {
 
 	@Inject Composite parent;
+	@Inject ContestPlatform platform;
+
 	protected IUpdateListener listener;
 
 	@PostConstruct
 	public void init() throws IOException {
 		parent.setLayout(new FillLayout());
 		final Text text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
-		ContestPlatform cp = ContestPlatform.getDefault();
-		cp.addUpdateListener(listener = new UpdateAdapter() {
+		platform.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
 			public void robotUpdated(final IRobot robot) {
 				if(parent.isDisposed()) { return; }
@@ -44,8 +45,7 @@ public class TelemetryView {
 	public void dispose() {
 		System.out.println(getClass().getSimpleName() + ": PreDestroy fired");
 		if(listener != null) {
-			ContestPlatform cp = ContestPlatform.getDefault();
-			cp.removeUpdateListener(listener);
+			platform.removeUpdateListener(listener);
 		}
 		listener = null;
 	}

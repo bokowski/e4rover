@@ -19,7 +19,7 @@ import org.eclipsecon.ebots.core.NotYourTurnException;
 public class ControlView {
 
 	@Inject Composite parent;
-	ContestPlatform platform = ContestPlatform.getDefault();
+	@Inject ContestPlatform platform;
 	IPlayerQueue playerQ;
 	
 	@PostConstruct
