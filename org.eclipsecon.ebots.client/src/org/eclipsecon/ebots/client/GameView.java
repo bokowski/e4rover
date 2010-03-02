@@ -1,6 +1,6 @@
 package org.eclipsecon.ebots.client;
 
-import javax.inject.Inject; 
+import javax.inject.Inject;
 
 import org.eclipse.e4.core.services.annotations.PostConstruct;
 import org.eclipse.e4.core.services.annotations.PreDestroy;
@@ -15,6 +15,8 @@ import org.eclipsecon.ebots.core.UpdateAdapter;
 
 public class GameView {
 	@Inject Composite parent;
+	@Inject ContestPlatform platform;
+
 	protected IUpdateListener listener;
 	
 	@PostConstruct
@@ -22,8 +24,7 @@ public class GameView {
 		parent.setLayout(new FillLayout());
 		final Text text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 
-		ContestPlatform cp = ContestPlatform.getDefault();
-		cp.addUpdateListener(listener = new UpdateAdapter() {
+		platform.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
 			public void gameUpdated(final IGame game) {
 				if(parent.isDisposed()) { return; }
@@ -41,8 +42,7 @@ public class GameView {
 	@PreDestroy
 	public void dispose() {
 		if(listener != null) {
-			ContestPlatform cp = ContestPlatform.getDefault();
-			cp.removeUpdateListener(listener);
+			platform.removeUpdateListener(listener);
 		}
 		listener = null;
 	}

@@ -9,13 +9,14 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipsecon.ebots.core.ContestPlatform;
-import org.eclipsecon.ebots.core.IGame;
 import org.eclipsecon.ebots.core.IPlayerQueue;
 import org.eclipsecon.ebots.core.IUpdateListener;
 import org.eclipsecon.ebots.core.UpdateAdapter;
 
 public class PlayersQueueView extends Object {
 	@Inject Composite parent;
+	@Inject ContestPlatform platform;
+
 	protected IUpdateListener listener;
 	
 	@PostConstruct
@@ -23,8 +24,7 @@ public class PlayersQueueView extends Object {
 		parent.setLayout(new FillLayout());
 		final Text text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 
-		ContestPlatform cp = ContestPlatform.getDefault();
-		cp.addUpdateListener(listener = new UpdateAdapter() {
+		platform.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
 			public void playerQueueUpdated(final IPlayerQueue queue) {
 				if(parent.isDisposed()) { return; }
@@ -42,8 +42,7 @@ public class PlayersQueueView extends Object {
 	@PreDestroy
 	public void dispose() {
 		if(listener != null) {
-			ContestPlatform cp = ContestPlatform.getDefault();
-			cp.removeUpdateListener(listener);
+			platform.removeUpdateListener(listener);
 		}
 		listener = null;
 	}

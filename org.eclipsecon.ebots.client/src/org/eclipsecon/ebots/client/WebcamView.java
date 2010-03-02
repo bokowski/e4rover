@@ -21,16 +21,16 @@ import org.eclipsecon.ebots.core.UpdateAdapter;
 
 public class WebcamView {
 	@Inject Composite parent;
+	@Inject ContestPlatform platform;
+
 	protected Image image;
 	protected IUpdateListener listener;
 	
 	@PostConstruct
 	public void init() throws IOException {
-		ContestPlatform cp = ContestPlatform.getDefault();
 		
 		parent.setLayout(new FillLayout());
 		parent.addPaintListener(new PaintListener() {
-
 			@Override
 			public void paintControl(PaintEvent e) {
 				if (image != null) {
@@ -39,7 +39,7 @@ public class WebcamView {
 			}
 		});
 		
-		cp.addUpdateListener(listener = new UpdateAdapter() {
+		platform.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
 			public void arenaCamViewUpdated(IArenaCamImage img) {
 				if(parent.isDisposed()) { return; }
@@ -63,8 +63,7 @@ public class WebcamView {
 	@PreDestroy
 	public void dispose() {
 		if(listener != null) {
-			ContestPlatform cp = ContestPlatform.getDefault();
-			cp.removeUpdateListener(listener);
+			platform.removeUpdateListener(listener);
 		}
 		listener = null;
 	}

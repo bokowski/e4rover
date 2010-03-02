@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Access for Production Server
+Bundle-SymbolicName: org.eclipsecon.ebots.client.production
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipsecon.ebots.client.production.Activator
+Bundle-Vendor: EclipseCon 2010
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipsecon.ebots;bundle-version="1.0.0",
+ org.eclipsecon.ebots.client;bundle-version="1.0.0",
+ org.apache.commons.io;bundle-version="1.4.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/prodserver.xml
