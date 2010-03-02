@@ -72,10 +72,10 @@ public class TestServer extends AbstractServer {
 	private String generateRobot() {
 		return "<robot>\n" +
 		"<batteryLevel>7657</batteryLevel>\n" +
-		"<leftPower>40</leftPower>\n" +
-		"<rightPower>40</rightPower>\n" +
-		"<leftOdom>0</leftOdom>\n" +
-		"<rightOdom>0</rightOdom>\n" +
+		"<leftWheelVelocity>40</leftWheelVelocity>\n" +
+		"<rightWheelVelocity>40</rightWheelVelocity>\n" +
+		"<leftWheelOdometry>0</leftWheelOdometry>\n" +
+		"<rightWheelOdometry>0</rightWheelOdometry>\n" +
 		"</robot>";
 	}
 

@@ -3,9 +3,10 @@ package org.eclipsecon.ebots.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.eclipsecon.ebots.internal.servers.AbstractServer;
-import org.eclipsecon.ebots.internal.servers.TestServer;
+import org.eclipsecon.ebots.internal.servers.ProductionServer;
 
 /**
  * This class holds the main game objects that competitors will need to access
@@ -34,8 +35,8 @@ public class ContestPlatform {
 
 	// HACK for testing: this should be configured using
 	// DI or something
-	private AbstractServer server = new TestServer();		
-	
+	private AbstractServer server = new ProductionServer();		
+
 	// Current contest singleton objects
 	private IGame game;
 	private IRobot robot;
@@ -127,7 +128,7 @@ public class ContestPlatform {
 	public void startUpdateThread() {
 		if (isRunning())
 			return;
-		
+
 		updateThread = new Thread("Client Update Thread") {
 			@Override
 			public void run() {
@@ -175,10 +176,38 @@ public class ContestPlatform {
 		updateThread.start();
 	}
 
-	public void enterPlayerQueue() throws IOException {
-		server.enterPlayerQueue();
+	public int enterPlayerQueue() throws IOException {
+		return server.enterPlayerQueue();
 	}
-	
+
+	public static void main(String[] args) {
+		ContestPlatform.getDefault().startUpdateThread();
+		while (true) {
+			try {
+				Thread.sleep(2000);
+				Random rand = new Random();
+				while (true) {
+					ContestPlatform.getDefault().setRobotWheelVelocity(100 - rand.nextInt(200), 100 - rand.nextInt(200));
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NotYourTurnException e) {
+				e.printStackTrace();
+				try {
+					int pos = ContestPlatform.getDefault().enterPlayerQueue();
+					System.err.println("Position: " + pos);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	/**
 	 * Sends a command to the robot that will set the velocity of its left and
 	 * right wheels. If your IServerConstants.PLAYER_KEY is valid and it is
@@ -218,9 +247,9 @@ public class ContestPlatform {
 	public void stop() {
 		if(updateThread != null) { updateThread.interrupt(); }
 	}	
-	
+
 	/* internal methods for announcing that various contest singletons have been updated */
-	
+
 	private void fireGameUpdated(IGame game) {
 		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
 		for (IUpdateListener listener : listeners) {
@@ -256,5 +285,5 @@ public class ContestPlatform {
 		}
 	}
 
-	
+
 }
