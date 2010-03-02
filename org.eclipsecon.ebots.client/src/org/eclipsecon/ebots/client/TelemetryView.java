@@ -11,7 +11,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipsecon.ebots.core.ContestPlatform;
-import org.eclipsecon.ebots.core.ITelemetry;
+import org.eclipsecon.ebots.core.IRobot;
 import org.eclipsecon.ebots.core.IUpdateListener;
 import org.eclipsecon.ebots.core.UpdateAdapter;
 
@@ -27,19 +27,19 @@ public class TelemetryView {
 		ContestPlatform cp = ContestPlatform.getDefault();
 		cp.addUpdateListener(listener = new UpdateAdapter() {
 			@Override
-			public void telemetryUpdated(final ITelemetry tm) {
+			public void robotUpdated(final IRobot robot) {
 				if(parent.isDisposed()) { return; }
 				parent.getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
 						if(!parent.isDisposed()) {
-							text.setText(tm.toString());
+							text.setText(robot.toString());
 						}
 					}
 				});
 			}});
 	}
-	
+
 	@PreDestroy
 	public void dispose() {
 		System.out.println(getClass().getSimpleName() + ": PreDestroy fired");
