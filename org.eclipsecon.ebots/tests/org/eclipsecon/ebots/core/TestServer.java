@@ -3,9 +3,9 @@ package org.eclipsecon.ebots.core;
 import java.io.IOException;
 import java.net.URL;
 
+import org.eclipsecon.ebots.IServer;
 import org.eclipsecon.ebots.internal.core.ArenaCamImage;
 import org.eclipsecon.ebots.internal.core.ServerObject;
-import org.eclipsecon.ebots.internal.servers.IServer;
 
 
 public class TestServer implements IServer {

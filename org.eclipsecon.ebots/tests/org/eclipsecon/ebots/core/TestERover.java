@@ -20,7 +20,8 @@ public class TestERover {
 	
 	@Test
 	public void testSingletonObjectListener() throws InterruptedException {
-		ContestPlatform cp = ContestPlatform.getDefault();
+		ContestPlatform cp = new ContestPlatform();
+		cp.setServer(new TestServer());
 
 		cp.addUpdateListener(new IUpdateListener() {
 
@@ -45,6 +46,7 @@ public class TestERover {
 			}
 
 		});
+		cp.startUpdateThread();
 		Thread.sleep(10000);
 		
 		cp.stop();

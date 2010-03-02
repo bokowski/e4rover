@@ -1,4 +1,4 @@
-package org.eclipsecon.ebots.internal.servers;
+package org.eclipsecon.ebots;
 
 import java.io.IOException;
 

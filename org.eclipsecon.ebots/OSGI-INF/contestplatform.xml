@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<component name="contestplatform">
+	<implementation class="org.eclipsecon.ebots.core.ContestPlatform"/>
+	<service>
+		<provide interface="org.eclipsecon.ebots.core.ContestPlatform"/>
+	</service>
+
+	<reference name="platform"
+	    interface="org.eclipsecon.ebots.IServer"
+	    bind="setServer"
+	    unbind="unsetServer"
+	    cardinality="1..1"
+	    policy="static"/>
+</component>

@@ -12,7 +12,8 @@ Require-Bundle: org.junit4,
  org.apache.commons.codec;bundle-version="1.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipsecon.ebots.core,
- org.eclipsecon.ebots.internal.core,
- org.eclipsecon.ebots.internal.servers
+Export-Package: org.eclipsecon.ebots,
+ org.eclipsecon.ebots.core,
+ org.eclipsecon.ebots.internal.core
 Eclipse-RegisterBuddy: com.thoughtworks.xstream
+Service-Component: OSGI-INF/contestplatform.xml
