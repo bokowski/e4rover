@@ -21,7 +21,11 @@ public class ControlView {
 
 	@Inject Composite parent;
 	@Inject ContestPlatform platform;
-	@Inject @Named("playerkey") String playerKey;
+	private String playerKey;
+	@Inject void setPlayerKey(@Named("preference-PLAYER_KEY") String playerKey) {
+		System.out.println("new player key is: "  + playerKey);
+		this.playerKey = playerKey;
+	}
 	
 	@PostConstruct
 	public void init() {
