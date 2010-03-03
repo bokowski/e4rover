@@ -178,8 +178,8 @@ public class ContestPlatform {
 		updateThread.start();
 	}
 
-	public int enterPlayerQueue() throws IOException {
-		return server.enterPlayerQueue();
+	public int enterPlayerQueue(String playerKey) throws IOException {
+		return server.enterPlayerQueue(playerKey);
 	}
 
 	/**
@@ -203,15 +203,16 @@ public class ContestPlatform {
 	 * 
 	 * @param leftWheel rotation rate for the left wheel, must be between -100 and 100
 	 * @param rightWheel rotation rate for the right wheel, must be between -100 and 100
+	 * @param playerKey TODO
 	 * @throws IOException if a problem occurs while sending the command to the server
 	 * @throws NotYourTurnException if someone else is controlling the robot
 	 * @throws IllegalArgumentException if an invalid wheel velocity is provided
 	 */
-	public void setRobotWheelVelocity(int leftWheel, int rightWheel) throws IOException, NotYourTurnException {
+	public void setRobotWheelVelocity(int leftWheel, int rightWheel, String playerKey) throws IOException, NotYourTurnException {
 		if (leftWheel < -100 || leftWheel > 100 || rightWheel < -100 || rightWheel > 100)
 			throw new IllegalArgumentException("Valid wheel velocities are between -100 and 100 but received (" + 
 					leftWheel + "," + rightWheel + ").");
-		server.setWheelVelocity(leftWheel, rightWheel);
+		server.setWheelVelocity(leftWheel, rightWheel, playerKey);
 	}
 
 	/**

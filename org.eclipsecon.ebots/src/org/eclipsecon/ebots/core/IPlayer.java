@@ -15,28 +15,9 @@ package org.eclipsecon.ebots.core;
  * contest. Up-to-date Player objects can be retrieved via
  * {@link ContestPlatform#getPlayers()}.
  * 
- * Note that this interface also contains the all-important
- * {@link #MY_PLAYER_KEY} constant that uniquely identifies you to the contest
- * server and enables you to control the robot. See the docs for
- * {@link #MY_PLAYER_KEY} for information on how to get your own player key.
- * 
- * @see #MY_PLAYER_KEY
  * @see IPlayers
  */
 public interface IPlayer extends IGameObject, Comparable<IPlayer> {
-
-	/**
-	 * PLAYER_KEY uniquely identifies you to the game server and allows you to
-	 * command the robot.
-	 * 
-	 * IMPORTANT: You *must* paste the secret key you received in your
-	 * registration confirmation email into the PLAYER_KEY field. If you do not
-	 * have a player key, visit the arena in the Magnolia room and register with
-	 * the arena attendant.
-	 * 
-	 * Do NOT share your PLAYER_KEY with anyone!
-	 */
-	public static final String MY_PLAYER_KEY = "c2c9eff1469b0148bb98de69ad6f6b611abff90c";
 
 	/**
 	 * The highest score this player has achieved in the current game.

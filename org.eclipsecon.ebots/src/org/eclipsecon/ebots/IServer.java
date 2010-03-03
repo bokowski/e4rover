@@ -21,11 +21,12 @@ public interface IServer {
 	 * Set the robot's velocities on a per-wheel basis
 	 * @param leftWheel velocity in cm/s
 	 * @param rightWheel velocity in cm/s
+	 * @param playerKey TODO
 	 * @throws IOException if there was an error in fulfilling the request
 	 * @throws NotYourTurnException if this is not the current player
-	 * @see ContestPlatform#setRobotWheelVelocity(int, int)
+	 * @see ContestPlatform#setRobotWheelVelocity(int, int, String)
 	 */
-	public abstract void setWheelVelocity(int leftWheel, int rightWheel)
+	public abstract void setWheelVelocity(int leftWheel, int rightWheel, String playerKey)
 			throws IOException, NotYourTurnException;
 
 	/**
@@ -33,6 +34,6 @@ public interface IServer {
 	 * @return the position of the player in the queue
 	 * @throws IOException
 	 */
-	public abstract int enterPlayerQueue() throws IOException;
+	public abstract int enterPlayerQueue(String playerKey) throws IOException;
 
 }

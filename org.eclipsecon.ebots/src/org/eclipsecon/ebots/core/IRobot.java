@@ -26,10 +26,10 @@ public interface IRobot extends IGameObject {
 
 	public int getBatteryLevel();
 
-	/** @see ContestPlatform#setRobotWheelVelocity(int,int) */
+	/** @see ContestPlatform#setRobotWheelVelocity(int,int, String) */
 	public int getLeftWheelVelocity();
 
-	/** @see ContestPlatform#setRobotWheelVelocity(int,int) */
+	/** @see ContestPlatform#setRobotWheelVelocity(int,int, String) */
 	public int getRightWheelVelocity();
 
 	/**

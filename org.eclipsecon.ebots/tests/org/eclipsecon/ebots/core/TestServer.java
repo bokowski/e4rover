@@ -88,12 +88,12 @@ public class TestServer implements IServer {
 		"</robot>";
 	}
 
-	public void setWheelVelocity(int leftWheel, int rightWheel)
+	public void setWheelVelocity(int leftWheel, int rightWheel, String playerKey)
 			throws IOException {
 		// do nothing
 	}
 	
-	public int enterPlayerQueue() throws IOException {
+	public int enterPlayerQueue(String playerKey) throws IOException {
 	    // do nothing
 		return 0;
 	}
