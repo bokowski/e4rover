@@ -24,8 +24,8 @@ public interface IServerConstants {
 	public static final String IMAGE_FILE_URI = EROVER_DOWNLINK_SERVER_URI + IMAGE_FILE_NAME;
 	
 	/* Uplink */
-//	public static final String EROVER_UPLINK_SERVER_URI ="http://ebots.eclipsecon.org/";
-	public static final String EROVER_UPLINK_SERVER_URI ="http://137.78.29.221:9111/";
+	public static final String EROVER_UPLINK_SERVER_URI ="http://ebots.eclipsecon.org/";
+//	public static final String EROVER_UPLINK_SERVER_URI ="http://137.78.29.221:9111/";
 	
 	public static final String COMMAND_RESTLET_URI = EROVER_UPLINK_SERVER_URI + "cmd/";
 	public static final String QUEUE_RESTLET = EROVER_UPLINK_SERVER_URI + "queue";
