@@ -44,6 +44,11 @@ public class WebcamView {
 				if(parent.isDisposed()) { return; }
 				ImageLoader il = new ImageLoader();
 				ImageData[] imageData = il.load(new ByteArrayInputStream(img.getImage()));
+				if (image != null && !image.isDisposed()) {
+					Image toBeDisposed = image;
+					image = null;
+					toBeDisposed.dispose();
+				}
 				image = new Image(parent.getDisplay(), imageData[0]);
 				redraw();
 			}});
