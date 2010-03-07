@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.services.annotations.EventHandler;
 import org.eclipse.e4.core.services.annotations.PostConstruct;
-import org.eclipse.e4.core.services.annotations.PreDestroy;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
@@ -14,21 +14,17 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipsecon.ebots.core.ContestPlatform;
 import org.eclipsecon.ebots.core.IArenaCamImage;
-import org.eclipsecon.ebots.core.IUpdateListener;
-import org.eclipsecon.ebots.core.UpdateAdapter;
 
 public class WebcamView {
-	@Inject Composite parent;
-	@Inject ContestPlatform platform;
+	@Inject
+	Composite parent;
 
 	protected Image image;
-	protected IUpdateListener listener;
-	
+
 	@PostConstruct
 	public void init() throws IOException {
-		
+
 		parent.setLayout(new FillLayout());
 		parent.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
@@ -37,37 +33,38 @@ public class WebcamView {
 				}
 			}
 		});
-		
-		platform.addUpdateListener(listener = new UpdateAdapter() {
-			@Override
-			public void arenaCamViewUpdated(IArenaCamImage img) {
-				if(parent.isDisposed()) { return; }
-				ImageLoader il = new ImageLoader();
-				ImageData[] imageData = il.load(new ByteArrayInputStream(img.getImage()));
-				if (image != null && !image.isDisposed()) {
-					Image toBeDisposed = image;
-					image = null;
-					toBeDisposed.dispose();
-				}
-				image = new Image(parent.getDisplay(), imageData[0]);
-				redraw();
-			}});
 	}
 
-	public void redraw() {
-		if(parent.isDisposed()) { return; }
+	// use a non-UI event handler so that the expensive image manipulation happens off the UI thread.
+	@EventHandler(IArenaCamImage.TOPIC)
+	void arenaCamViewUpdated(IArenaCamImage img) {
+		if (parent.isDisposed()) {
+			return;
+		}
+		ImageLoader il = new ImageLoader();
+		ImageData[] imageData = il
+				.load(new ByteArrayInputStream(img.getImage()));
+		if (image != null && !image.isDisposed()) {
+			Image toBeDisposed = image;
+			image = null;
+			toBeDisposed.dispose();
+		}
+		image = new Image(parent.getDisplay(), imageData[0]);
+		redraw();
+	};
+
+	void redraw() {
+		if (parent.isDisposed()) {
+			return;
+		}
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
-				if(parent.isDisposed()) { return; }
+				if (parent.isDisposed()) {
+					return;
+				}
 				parent.redraw();
-			}});
+			}
+		});
 	}
-	
-	@PreDestroy
-	public void dispose() {
-		if(listener != null) {
-			platform.removeUpdateListener(listener);
-		}
-		listener = null;
-	}
+
 }

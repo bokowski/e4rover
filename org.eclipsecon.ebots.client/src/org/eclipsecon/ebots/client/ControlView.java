@@ -14,18 +14,13 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipsecon.ebots.core.ContestPlatform;
-import org.eclipsecon.ebots.core.IPlayerQueue;
 import org.eclipsecon.ebots.core.NotYourTurnException;
 
 public class ControlView {
 
 	@Inject Composite parent;
 	@Inject ContestPlatform platform;
-	private String playerKey;
-	@Inject void setPlayerKey(@Named("preference-PLAYER_KEY") String playerKey) {
-		System.out.println("new player key is: "  + playerKey);
-		this.playerKey = playerKey;
-	}
+	@Inject @Named("preference-PLAYER_KEY") String playerKey;
 	
 	@PostConstruct
 	public void init() {
