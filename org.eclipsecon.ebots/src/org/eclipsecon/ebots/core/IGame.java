@@ -23,6 +23,8 @@ package org.eclipsecon.ebots.core;
  * @see ContestPlatform
  */
 public interface IGame extends IGameObject {
+	
+	public static final String TOPIC = "org/eclipsecon/ebots/game";
 
 	public static final int GAME_LENGTH_SECONDS = 180;
 	public static final int COUNTDOWN_SECONDS = 3;

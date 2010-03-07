@@ -12,6 +12,8 @@ package org.eclipsecon.ebots.core;
  */
 public interface IArenaCamImage extends IGameObject {
 
+	public static final String TOPIC = "org/eclipsecon/ebots/arenaimage";
+
 	/**
 	 * Returns JPEG image file contents captured from the game's arena camera.
 	 * 

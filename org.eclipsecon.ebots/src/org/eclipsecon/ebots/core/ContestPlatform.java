@@ -2,9 +2,13 @@ package org.eclipsecon.ebots.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipsecon.ebots.IServer;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
 
 /**
  * This class holds the main game objects that competitors will need to access
@@ -39,6 +43,8 @@ public class ContestPlatform {
 	 */
 	public int exceptionsCount = 0;
 
+	private EventAdmin eventAdmin;
+
 	public ContestPlatform() {
 		System.out.println("Contest Platform: creation");
 	}
@@ -59,6 +65,7 @@ public class ContestPlatform {
 		return robot;
 	}
 
+	// this method is being called through OSGI DS, see contestplatform.xml 
 	public void setServer(IServer server) {
 		System.out.println("ContestPlatform: provided server: " + server);
 		this.server = server;
@@ -226,40 +233,39 @@ public class ContestPlatform {
 	/* internal methods for announcing that various contest singletons have been updated */
 
 	private void fireGameUpdated(IGame game) {
-		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
-		for (IUpdateListener listener : listeners) {
-			listener.gameUpdated(game);
+		if (eventAdmin != null) {
+			eventAdmin.postEvent(new Event(IGame.TOPIC, Collections.singletonMap(IEventBroker.DATA, game)));
 		}
 	}
 
 	private void fireRobotUpdated(IRobot robot) {
-		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
-		for (IUpdateListener listener : listeners) {
-			listener.robotUpdated(robot);
+		if (eventAdmin != null) {
+			eventAdmin.postEvent(new Event(IRobot.TOPIC, Collections.singletonMap(IEventBroker.DATA, robot)));
 		}
 	}
 
 	private void firePlayersUpdated(IPlayers players) {
-		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
-		for (IUpdateListener listener : listeners) {
-			listener.playersUpdated(players);
+		if (eventAdmin != null) {
+			eventAdmin.postEvent(new Event(IPlayers.TOPIC, Collections.singletonMap(IEventBroker.DATA, players)));
 		}
 	}
 
 	private void firePlayerQueueUpdated(IPlayerQueue pq) {
-		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
-		for (IUpdateListener listener : listeners) {
-			listener.playerQueueUpdated(pq);
+		if (eventAdmin != null) {
+			eventAdmin.postEvent(new Event(IPlayerQueue.TOPIC, Collections.singletonMap(IEventBroker.DATA, pq)));
 		}
 	}
 
 	private void fireArenaCamViewUpdated(IArenaCamImage img) {
-		IUpdateListener[] listeners = updateListeners.toArray(new IUpdateListener[]{});
-		for (IUpdateListener listener : listeners) {
-			listener.arenaCamViewUpdated(img);
+		if (eventAdmin != null) {
+			eventAdmin.postEvent(new Event(IArenaCamImage.TOPIC, Collections.singletonMap(IEventBroker.DATA, img)));
 		}
 	}
 
+	// this method is being called through OSGI DS, see contestplatform.xml 
+	public void setEventAdmin(EventAdmin eventAdmin) {
+		this.eventAdmin = eventAdmin;
+	}
 
 //	public static void main(String[] args) {
 //		ContestPlatform cp = new ContestPlatform();

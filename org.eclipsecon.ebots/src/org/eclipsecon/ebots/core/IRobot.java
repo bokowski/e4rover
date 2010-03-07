@@ -24,6 +24,8 @@ package org.eclipsecon.ebots.core;
  */
 public interface IRobot extends IGameObject {
 
+	public static final String TOPIC = "org/eclipsecon/ebots/robot";
+
 	public int getBatteryLevel();
 
 	/** @see ContestPlatform#setRobotWheelVelocity(int,int, String) */

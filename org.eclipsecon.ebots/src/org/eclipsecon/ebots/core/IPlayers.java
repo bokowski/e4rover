@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public interface IPlayers extends IGameObject {
 
+	public static final String TOPIC = "org/eclipsecon/ebots/players";
+
 	/**
 	 * Provides an unmodifiable map containing information about all of the
 	 * registered players in the contest.

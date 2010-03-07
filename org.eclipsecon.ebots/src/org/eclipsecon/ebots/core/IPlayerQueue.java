@@ -13,6 +13,9 @@ import java.util.List;
  * 
  */
 public interface IPlayerQueue extends IGameObject {
+	
+	public static final String TOPIC = "org/eclipsecon/ebots/queue";
+
 	/**
 	 * Provides an unmodifiable list containing the names of all the players
 	 * currently waiting to play the game, ordered by precedence.
