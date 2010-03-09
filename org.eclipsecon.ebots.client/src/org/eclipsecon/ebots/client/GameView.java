@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.services.annotations.PostConstruct;
 import org.eclipse.e4.core.services.annotations.UIEventHandler;
+import org.eclipse.e4.ui.services.IStylingEngine;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -31,10 +32,13 @@ public class GameView {
 	private Label rewardLabel;
 	private Control[] controls;
 
+	@Inject IStylingEngine stylingEngine;
+	
 	@PostConstruct
 	public void init() {
 		new Label(parent, SWT.NONE).setText("Timestamp:");
 		timestampText = new Text(parent, SWT.READ_ONLY);
+		stylingEngine.setClassname(timestampText, "foo");
 		new Label(parent, SWT.NONE).setText("Player:");
 		playerText = new Text(parent, SWT.READ_ONLY);
 		new Label(parent, SWT.NONE).setText("Score:");

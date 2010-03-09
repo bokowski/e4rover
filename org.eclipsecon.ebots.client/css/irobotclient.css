@@ -22,6 +22,38 @@ Composite Label {
 	color: #f08d00;
 }
 
+Button.forward {
+	background-image: url(forward.png);
+}
+
+Button.fastforward {
+	background-image: url(fastforward.png);
+}
+
+Button.backward {
+	background-image: url(backward.png);
+}
+
+Button.fastbackward {
+	background-image: url(fastbackward.png);
+}
+
+Button.left {
+	background-image: url(left.png);
+}
+
+Button.right {
+	background-image: url(right.png);
+}
+
+Button.hardleft {
+	background-image: url(left.png);
+}
+
+Button.hardright {
+	background-image: url(right.png);
+}
+
 Text {
 	font: Verdana 8px;
 }
@@ -29,6 +61,10 @@ Text {
 Composite Text {
 	background-color: rgb(100, 100, 100);
 	color: white;
+}
+
+.foo {
+	background-color: green;
 }
 
 SashForm {

@@ -25,7 +25,7 @@ public class TelemetryView {
 	
 	@UIEventHandler(IRobot.TOPIC)
 	void queueUpdated(final IRobot robot) {
-		if (parent != null && !parent.isDisposed()) {
+		if (text != null && !text.isDisposed()) {
 			text.setText(robot.toString());
 		}
 	};
