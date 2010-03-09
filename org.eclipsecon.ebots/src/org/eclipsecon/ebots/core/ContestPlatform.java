@@ -145,11 +145,11 @@ public class ContestPlatform {
 					try {
 						for (int j = 0; j< 10; j++) {
 
-							for (int i = 0; i < 4; i++) {
-								Thread.sleep(250);
+							for (int i = 0; i < 8; i++) {
+								Thread.sleep(125);
 								// Every quarter of a second
 								synchronized(this) {
-									robot = server.getLatest(IRobot.class);
+									arenaCameraImage = server.getLatest(IArenaCamImage.class);
 								}
 								fireRobotUpdated(robot);
 							}
@@ -158,7 +158,8 @@ public class ContestPlatform {
 								game = server.getLatest(IGame.class);
 							}
 							synchronized (this) {
-								arenaCameraImage = server.getLatest(IArenaCamImage.class);
+								robot = server.getLatest(IRobot.class);
+//								arenaCameraImage = server.getLatest(IArenaCamImage.class);
 							}
 							fireGameUpdated(game);
 							fireArenaCamViewUpdated(arenaCameraImage);
