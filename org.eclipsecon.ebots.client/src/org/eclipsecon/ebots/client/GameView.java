@@ -103,7 +103,7 @@ public class GameView {
 							.getSystemColor(SWT.COLOR_RED));
 					break;
 				case SPECTROMETER:
-					targetRockText.setBackground(display
+					targetInstrumentText.setBackground(display
 							.getSystemColor(SWT.COLOR_GREEN));
 					break;
 				}

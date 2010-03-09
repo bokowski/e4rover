@@ -8,116 +8,86 @@ import javax.inject.Named;
 import org.eclipse.e4.core.services.annotations.PostConstruct;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipsecon.ebots.core.ContestPlatform;
-import org.eclipsecon.ebots.core.NotYourTurnException;
 
 public class ControlView {
 
-	@Inject Composite parent;
-	@Inject ContestPlatform platform;
-	@Inject @Named("preference-PLAYER_KEY") String playerKey;
-	
+	@Inject
+	Composite parent;
+	@Inject
+	ContestPlatform platform;
+	@Inject
+	@Named("preference-PLAYER_KEY")
+	String playerKey;
+
 	@PostConstruct
 	public void init() {
-		new Label(parent, SWT.NONE);
-		final Button forward = new Button(parent, SWT.PUSH);
-		forward.setText("Forward");
-		new Label(parent, SWT.NONE);
+		createSpacer(2);
+		createButton("Fast Forward", 50, 50, 1000);
+		createSpacer(2);
 
-		final Button left = new Button(parent, SWT.PUSH);
-		left.setText("Left");
-		new Label(parent, SWT.NONE);
-		final Button right = new Button(parent, SWT.PUSH);
-		right.setText("Right");
+		createSpacer(2);
+		createButton("Forward", 20, 20, 500);
+		createSpacer(2);
 
-		new Label(parent, SWT.NONE);
-		final Button backward = new Button(parent, SWT.PUSH);
-		backward.setText("Backward");
-		new Label(parent, SWT.NONE);
+		createButton("Hard Left", 20, -20, 500);
+		createButton("Left", 5, -5, 500);
+		createSpacer(1);
+		createButton("Right", -5, 5, 500);
+		createButton("Hard Right", -20, 20, 500);
 
-		new Label(parent, SWT.NONE);
+		createSpacer(2);
+		createButton("Backward", -20, -20, 500);
+		createSpacer(2);
+
+		createSpacer(2);
+		createButton("Fast Backward", -50, -50, 1000);
+		createSpacer(2);
+
+		createSpacer(2);
 		final Button enqueue = new Button(parent, SWT.PUSH);
 		enqueue.setText("Request Control");
-		new Label(parent, SWT.NONE);
-
-		
-		Listener listener = new Listener() {
-			
-			public void handleEvent(Event event) {
-				if (event.widget == left) {
-					System.out.println("turn left!");
-					try {
-						platform.setRobotWheelVelocity(-20, 20, playerKey);
-						Thread.sleep(250);
-						platform.setRobotWheelVelocity(0, 0, playerKey);
-
-					} catch (IOException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (NotYourTurnException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (InterruptedException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					}
-				} else if (event.widget == right) {
-					System.out.println("turn right!");
-					try {
-						platform.setRobotWheelVelocity(20, -20, playerKey);
-						Thread.sleep(250);
-						platform.setRobotWheelVelocity(0, 0, playerKey);
-
-					} catch (IOException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (NotYourTurnException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (InterruptedException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					}
-				} else if (event.widget == forward) {
-					System.out.println("go forward!");
-					try {
-						platform.setRobotWheelVelocity(50, 50, playerKey);
-						Thread.sleep(1000);
-						platform.setRobotWheelVelocity(0, 0, playerKey);
-					} catch (IOException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (NotYourTurnException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (InterruptedException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					}
-				} else if (event.widget == backward) {
-					System.out.println("go backward!");
-					try {
-						platform.setRobotWheelVelocity(-50, -50, playerKey);
-						Thread.sleep(1000);
-						platform.setRobotWheelVelocity(0, 0, playerKey);
-					} catch (IOException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (NotYourTurnException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					} catch (InterruptedException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					}
-				} else if(event.widget == enqueue) {
-					try {
-						platform.enterPlayerQueue(playerKey);
-					} catch(IOException e) {
-						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
-					}
+		enqueue.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					platform.enterPlayerQueue(playerKey);
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
-		};
-		left.addListener(SWT.Selection, listener);
-		forward.addListener(SWT.Selection, listener);
-		backward.addListener(SWT.Selection, listener);
-		right.addListener(SWT.Selection, listener);
-		enqueue.addListener(SWT.Selection, listener);
-		GridLayoutFactory.fillDefaults().numColumns(3).generateLayout(parent);
+		});
+		createSpacer(2);
+
+		GridLayoutFactory.fillDefaults().numColumns(5).generateLayout(parent);
 	}
-	
+
+	private void createSpacer(int count) {
+		for (int i = 0; i < count; i++) {
+			new Label(parent, SWT.NONE);
+		}
+	}
+
+	private void createButton(String label, final int leftMotor,
+			final int rightMotor, final int duration) {
+		final Button forward = new Button(parent, SWT.PUSH);
+		forward.setText(label);
+		forward.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					platform.setRobotWheelVelocity(leftMotor, rightMotor,
+							playerKey);
+					Thread.sleep(duration);
+					platform.setRobotWheelVelocity(0, 0, playerKey);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
+
 }

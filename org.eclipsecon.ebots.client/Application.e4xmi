@@ -11,12 +11,15 @@
               label="Webcam" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/webcam.png"/>
         </children>
         <children xsi:type="application:PartStack" id="_lYm7IA06Ed-dvbNEK73RoQ">
-          <children xsi:type="application:Part" id="_q8vSEA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.GameView"
-              label="Game" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/world.png"/>
+          <children xsi:type="application:Part" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.ControlView"
+              label="Control" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/controller.png"/>
         </children>
       </children>
       <children xsi:type="application:PartSashContainer" id="_j1zroA06Ed-dvbNEK73RoQ">
         <children xsi:type="application:PartStack" id="_l22WUA06Ed-dvbNEK73RoQ" containerData="100">
+          <children xsi:type="application:Part" id="_G1GGUSYkEd-t8by8HUwSHw" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.PlayersQueueView"
+              label="Players Queue" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/group.png"
+              tooltip="List of Awaiting Players"/>
           <children xsi:type="application:Part" id="_uKYSwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.TelemetryView"
               label="Telemetry" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/information.png"/>
         </children>
@@ -24,11 +27,8 @@
             containerData="5" label="Player Key" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/group.png"
             tooltip="List of Awaiting Players"/>
         <children xsi:type="application:PartStack" id="_mf-y4A06Ed-dvbNEK73RoQ" containerData="100">
-          <children xsi:type="application:Part" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.ControlView"
-              label="Control" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/controller.png"/>
-          <children xsi:type="application:Part" id="_G1GGUSYkEd-t8by8HUwSHw" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.PlayersQueueView"
-              label="Players Queue" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/group.png"
-              tooltip="List of Awaiting Players"/>
+          <children xsi:type="application:Part" id="_q8vSEA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.GameView"
+              label="Game" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/world.png"/>
         </children>
       </children>
     </children>
