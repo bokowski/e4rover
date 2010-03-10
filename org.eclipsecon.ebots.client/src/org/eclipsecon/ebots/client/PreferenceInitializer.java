@@ -13,6 +13,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		Preferences node = new DefaultScope().getNode("org.eclipsecon.ebots.client");
 		node.put("PLAYER_KEY", "not set");
+		node.put("PLAYER_NICK", "not set");
 	}
 
 }

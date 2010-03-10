@@ -22,37 +22,22 @@ Composite Label {
 	color: #f08d00;
 }
 
-Button.forward {
-	background-image: url(forward.png);
-}
-
-Button.fastforward {
-	background-image: url(fastforward.png);
-}
-
-Button.backward {
-	background-image: url(backward.png);
-}
-
-Button.fastbackward {
-	background-image: url(fastbackward.png);
-}
-
-Button.left {
-	background-image: url(left.png);
-}
-
-Button.right {
-	background-image: url(right.png);
-}
-
-Button.hardleft {
-	background-image: url(left.png);
-}
-
-Button.hardright {
-	background-image: url(right.png);
-}
+.disabled Button.forward {      background-image: url(forward-gray.png);      }
+.disabled Button.fastforward {  background-image: url(fastforward-gray.png);  }
+.disabled Button.backward {     background-image: url(backward-gray.png);     }
+.disabled Button.fastbackward { background-image: url(fastbackward-gray.png); }
+.disabled Button.left {         background-image: url(left-gray.png);         }
+.disabled Button.right {        background-image: url(right-gray.png);        }
+.disabled Button.hardleft {     background-image: url(left-gray.png);         }
+.disabled Button.hardright {    background-image: url(right-gray.png);        }
+.enabled  Button.forward {      background-image: url(forward.png);           }
+.enabled  Button.fastforward {  background-image: url(fastforward.png);       }
+.enabled  Button.backward {     background-image: url(backward.png);          }
+.enabled  Button.fastbackward { background-image: url(fastbackward.png);      }
+.enabled  Button.left {         background-image: url(left.png);              }
+.enabled  Button.right {        background-image: url(right.png);             }
+.enabled  Button.hardleft {     background-image: url(left.png);              }
+.enabled  Button.hardright {    background-image: url(right.png);             }
 
 Text {
 	font: Verdana 8px;

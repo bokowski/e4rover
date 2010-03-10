@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.services.annotations.PostConstruct;
+import org.eclipse.e4.core.services.annotations.UIEventHandler;
 import org.eclipse.e4.ui.services.IStylingEngine;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,14 +13,16 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipsecon.ebots.core.ContestPlatform;
+import org.eclipsecon.ebots.core.IGame;
 
 public class ControlView {
 
 	@Inject
 	Composite outerParent;
-	
+
 	Composite parent;
 	@Inject
 	ContestPlatform platform;
@@ -57,8 +60,9 @@ public class ControlView {
 		createButton("fastbackward", -50, -50, 1000);
 		createSpacer(2);
 
+		setButtonsEnabled(false);
 		parent.setLayout(new GridLayout(5, true));
-//		GridLayoutFactory.fillDefaults().numColumns(5).generateLayout(parent);
+		// GridLayoutFactory.fillDefaults().numColumns(5).generateLayout(parent);
 	}
 
 	private void createSpacer(int count) {
@@ -70,7 +74,7 @@ public class ControlView {
 	private void createButton(String label, final int leftMotor,
 			final int rightMotor, final int duration) {
 		final Button button = new Button(parent, SWT.PUSH);
-//		button.setText(label);
+		// button.setText(label);
 		stylingEngine.setClassname(button, label);
 		button.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -86,4 +90,29 @@ public class ControlView {
 		});
 	}
 
+	@Inject
+	@Named("preference-PLAYER_NICK")
+	String playerNick;
+
+	@UIEventHandler(IGame.TOPIC)
+	void gameUpdated(final IGame game) {
+		if (game != null && game.getCountdownSeconds() == 0
+				&& game.getPlayerName() != null
+				&& game.getPlayerName().equals(playerNick)) {
+			setButtonsEnabled(true);
+		} else {
+			setButtonsEnabled(false);
+		}
+	}
+
+	private void setButtonsEnabled(boolean enabled) {
+		stylingEngine.setClassname(parent, enabled ? "enabled" : "disabled");
+		Control[] controls = parent.getChildren();
+		for (int i = 0; i < controls.length; i++) {
+			Control control = controls[i];
+			if (control instanceof Button) {
+				((Button)control).setEnabled(enabled);
+			}
+		}
+	}
 }

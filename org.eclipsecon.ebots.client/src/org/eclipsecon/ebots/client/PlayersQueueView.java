@@ -32,6 +32,7 @@ public class PlayersQueueView extends Object {
 
 	private Text text;
 	private Text keyText;
+	private Text nickText;
 
 	@PostConstruct
 	public void init() {
@@ -42,6 +43,13 @@ public class PlayersQueueView extends Object {
 		keyText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				preferences.put("PLAYER_KEY", keyText.getText());
+			}
+		});
+		new Label(parent, SWT.NONE).setText("Player Nick:");
+		nickText = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		nickText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				preferences.put("PLAYER_NICK", nickText.getText());
 			}
 		});
 		final Button enqueue = new Button(parent, SWT.PUSH);
@@ -69,6 +77,17 @@ public class PlayersQueueView extends Object {
 		});
 	}
 
+	@Inject
+	void setPlayerNick(@Named("preference-PLAYER_NICK") final String playerNick) {
+		parent.getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				if (!nickText.getText().equals(playerNick)) {
+					nickText.setText(playerNick);
+				}
+			}
+		});
+	}
+	
 	@UIEventHandler(IPlayerQueue.TOPIC)
 	void queueUpdated(final IPlayerQueue queue) {
 		if (parent != null && !parent.isDisposed()) {
