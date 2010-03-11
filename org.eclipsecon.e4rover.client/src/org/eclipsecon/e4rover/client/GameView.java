@@ -19,7 +19,6 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipsecon.e4rover.core.IGame;
@@ -29,6 +28,9 @@ import org.eclipsecon.e4rover.core.IGoal.TARGET;
 public class GameView {
 	@Inject
 	Composite parent;
+	@Inject
+	IStylingEngine stylingEngine;
+
 	private Text timestampText;
 	private Text playerText;
 	private Label secondsLabel;
@@ -42,13 +44,10 @@ public class GameView {
 	private Label rewardLabel;
 	private Control[] controls;
 
-	@Inject IStylingEngine stylingEngine;
-	
 	@PostConstruct
 	public void init() {
 		new Label(parent, SWT.NONE).setText("Timestamp:");
 		timestampText = new Text(parent, SWT.READ_ONLY);
-		stylingEngine.setClassname(timestampText, "foo");
 		new Label(parent, SWT.NONE).setText("Player:");
 		playerText = new Text(parent, SWT.READ_ONLY);
 		new Label(parent, SWT.NONE).setText("Score:");
@@ -89,38 +88,13 @@ public class GameView {
 				secondsText.setText("" + game.getRemainingSeconds());
 				TARGET targetRock = game.getNextGoal().getTarget();
 				targetRockText.setText(targetRock.toString());
-				Display display = parent.getDisplay();
-				switch (targetRock) {
-				case ADIRONDACK:
-					targetRockText.setBackground(display
-							.getSystemColor(SWT.COLOR_BLUE));
-					break;
-				case HUMPHREY:
-					targetRockText.setBackground(display
-							.getSystemColor(SWT.COLOR_YELLOW));
-					break;
-				case MAZATZAL:
-					targetRockText.setBackground(display
-							.getSystemColor(SWT.COLOR_GREEN));
-					break;
-				case MIMI:
-					targetRockText.setBackground(display
-							.getSystemColor(SWT.COLOR_RED));
-					break;
-				}
+				stylingEngine.setClassname(targetRockText, targetRock
+						.toString());
 				INSTRUMENT targetInstrument = game.getNextGoal()
 						.getInstrument();
 				targetInstrumentText.setText(targetInstrument.toString());
-				switch (targetInstrument) {
-				case DRILL:
-					targetInstrumentText.setBackground(display
-							.getSystemColor(SWT.COLOR_RED));
-					break;
-				case SPECTROMETER:
-					targetInstrumentText.setBackground(display
-							.getSystemColor(SWT.COLOR_GREEN));
-					break;
-				}
+				stylingEngine.setClassname(targetInstrumentText,
+						targetInstrument.toString());
 				rewardText.setText("" + game.getNextReward());
 				setDetailWidgetVisibility(true);
 			}
