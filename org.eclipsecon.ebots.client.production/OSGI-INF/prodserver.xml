@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<component name="prodserver">
-	<implementation class="org.eclipsecon.ebots.client.production.ProductionServer"/>
-	<service>
-		<provide interface="org.eclipsecon.ebots.IServer"/>
-	</service>
-</component>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<component name="prodserver">
+	<implementation class="org.eclipsecon.e4rover.client.production.ProductionServer"/>
+	<service>
+		<provide interface="org.eclipsecon.e4rover.IServer"/>
+	</service>
+</component>
