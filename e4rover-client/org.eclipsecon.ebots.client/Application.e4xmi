@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<application:Application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:application="http://www.eclipse.org/ui/2008/UIModel" id="_AXU5UO8IEd6FC9cDb6iV7g">
+  <children xsi:type="application:Window" id="_AXU5Ue8IEd6FC9cDb6iV7f" x="20" y="20"
+      width="900" height="768">
+    <children xsi:type="application:PartSashContainer" id="_AXU5Uu8IEd6FC9cDb6iV7g"
+        horizontal="true">
+      <children xsi:type="application:PartSashContainer" id="_i2CQsA06Ed-dvbNEK73RoQ"
+          containerData="70">
+        <children xsi:type="application:Part" id="_ngWqwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.WebcamView"
+            containerData="65" label="Webcam" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/webcam.png"/>
+        <children xsi:type="application:Part" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.ControlView"
+            containerData="35" label="Control" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/controller.png"/>
+      </children>
+      <children xsi:type="application:PartSashContainer" id="_j1zroA06Ed-dvbNEK73RoQ"
+          containerData="30">
+        <children xsi:type="application:PartStack" id="_l22WUA06Ed-dvbNEK73RoQ" containerData="100">
+          <children xsi:type="application:Part" id="_uKYSwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.TelemetryView"
+              label="Telemetry" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/information.png"/>
+        </children>
+        <children xsi:type="application:PartStack">
+          <children xsi:type="application:Part" id="_G1GGUSYkEd-t8by8HUwSHw" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.PlayersQueueView"
+              label="Players Queue" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/group.png"
+              tooltip="List of Awaiting Players"/>
+        </children>
+        <children xsi:type="application:PartStack" id="_mf-y4A06Ed-dvbNEK73RoQ" containerData="100">
+          <children xsi:type="application:Part" id="_q8vSEA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.ebots.client/org.eclipsecon.ebots.client.GameView"
+              label="Game" iconURI="platform:/plugin/org.eclipsecon.ebots.client/icons/world.png"/>
+        </children>
+      </children>
+    </children>
+    <variables>selection</variables>
+    <variables>exif</variables>
+  </children>
+  <commands id="e4photo.exit" commandName="Exit" description=""/>
+  <commands id="e4photo.createAlbum" commandName="Create Album"/>
+  <commands id="e4photo.switchPersepective" commandName="Switch Perspective" description=""/>
+  <commands id="e4photo.imageDialog" commandName="Image Dialog" description=""/>
+  <commands id="e4photo.addNote" commandName="Add Note"/>
+</application:Application>
