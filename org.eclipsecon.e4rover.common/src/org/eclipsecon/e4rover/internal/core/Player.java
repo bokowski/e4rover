@@ -17,6 +17,7 @@ public class Player extends ServerObject implements IPlayer {
 	private final String name;
 	private int timesPlayed;
 	private int highScore;
+	private int lastScore;
 
 	public Player(String name) {
 		this.name = name;
@@ -56,6 +57,14 @@ public class Player extends ServerObject implements IPlayer {
 	public void updateHighScore(int latestScore) {
 		if (highScore < latestScore)
 			highScore = latestScore;
+	}
+
+	public void setLastScore(int lastScore) {
+		this.lastScore = lastScore;
+	}
+
+	public int getLastScore() {
+		return lastScore;
 	}
 }
 
