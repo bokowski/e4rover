@@ -53,11 +53,11 @@ public class ControlView {
 		createButton("forward", 20, 20, 500);
 		createSpacer(2);
 
-		createButton("hardleft", -20, -20, 500);
-		createButton("left", 5, -5, 500);
+		createButton("hardleft", -20, 20, 500);
+		createButton("left", -5, 5, 500);
 		createSpacer(1);
-		createButton("right", -5, 5, 500);
-		createButton("hardright", -20, 20, 500);
+		createButton("right", 5, -5, 500);
+		createButton("hardright", 20, -20, 500);
 
 		createSpacer(2);
 		createButton("backward", -20, -20, 500);
