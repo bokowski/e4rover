@@ -21,18 +21,15 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipsecon.e4rover.core.IPlayers;
 
 public class PlayersView {
-	@Inject
-	Composite parent;
+	@Inject Composite parent;
 	private Text text;
 
-	@PostConstruct
-	public void init() {
+	@PostConstruct public void init() {
 		parent.setLayout(new FillLayout());
 		text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 	}
 
-	@UIEventHandler(IPlayers.TOPIC)
-	void queueUpdated(final IPlayers players) {
+	@UIEventHandler(IPlayers.TOPIC) void queueUpdated(final IPlayers players) {
 		if (parent != null && !parent.isDisposed()) {
 			text.setText(players.toString());
 		}

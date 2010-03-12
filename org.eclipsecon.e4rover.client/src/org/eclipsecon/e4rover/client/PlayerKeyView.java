@@ -27,7 +27,7 @@ public class PlayerKeyView {
 	@Inject Composite parent;
 	@Inject IEclipsePreferences preferences;
 	private Text text;
-	
+
 	@Inject void setPlayerKey(@Named("preference-PLAYER_KEY") final String playerKey) {
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
@@ -37,11 +37,10 @@ public class PlayerKeyView {
 			}
 		});
 	}
-	
-	@PostConstruct
-	public void init() {
+
+	@PostConstruct public void init() {
 		new Label(parent, SWT.NONE).setText("Player Key:");
-		text = new Text(parent, SWT.SINGLE| SWT.BORDER);
+		text = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		text.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				preferences.put("PLAYER_KEY", text.getText());

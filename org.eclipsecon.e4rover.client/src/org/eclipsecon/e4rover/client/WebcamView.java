@@ -27,13 +27,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipsecon.e4rover.core.IArenaCamImage;
 
 public class WebcamView {
-	@Inject
-	Composite parent;
+	@Inject Composite parent;
 
 	protected Image image;
 
-	@PostConstruct
-	public void init() throws IOException {
+	@PostConstruct public void init() throws IOException {
 
 		parent.setLayout(new FillLayout());
 		parent.addPaintListener(new PaintListener() {
@@ -45,15 +43,14 @@ public class WebcamView {
 		});
 	}
 
-	// use a non-UI event handler so that the expensive image manipulation happens off the UI thread.
-	@EventHandler(IArenaCamImage.TOPIC)
-	void arenaCamViewUpdated(IArenaCamImage img) {
+	// use a non-UI event handler so that the expensive image manipulation
+	// happens off the UI thread.
+	@EventHandler(IArenaCamImage.TOPIC) void arenaCamViewUpdated(IArenaCamImage img) {
 		if (parent.isDisposed()) {
 			return;
 		}
 		ImageLoader il = new ImageLoader();
-		ImageData[] imageData = il
-				.load(new ByteArrayInputStream(img.getImage()));
+		ImageData[] imageData = il.load(new ByteArrayInputStream(img.getImage()));
 		if (image != null && !image.isDisposed()) {
 			Image toBeDisposed = image;
 			image = null;

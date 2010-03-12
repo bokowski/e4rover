@@ -27,14 +27,12 @@ public class TelemetryView {
 	@Inject Composite parent;
 	private Text text;
 
-	@PostConstruct
-	public void init() throws IOException {
+	@PostConstruct public void init() throws IOException {
 		parent.setLayout(new FillLayout());
 		text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 	}
-	
-	@UIEventHandler(IRobot.TOPIC)
-	void queueUpdated(final IRobot robot) {
+
+	@UIEventHandler(IRobot.TOPIC) void queueUpdated(final IRobot robot) {
 		if (text != null && !text.isDisposed()) {
 			text.setText(robot.toString());
 		}

@@ -26,10 +26,8 @@ import org.eclipsecon.e4rover.core.IGoal.INSTRUMENT;
 import org.eclipsecon.e4rover.core.IGoal.TARGET;
 
 public class GameView {
-	@Inject
-	Composite parent;
-	@Inject
-	IStylingEngine stylingEngine;
+	@Inject Composite parent;
+	@Inject IStylingEngine stylingEngine;
 
 	private Text timestampText;
 	private Text playerText;
@@ -44,8 +42,7 @@ public class GameView {
 	private Label rewardLabel;
 	private Control[] controls;
 
-	@PostConstruct
-	public void init() {
+	@PostConstruct public void init() {
 		new Label(parent, SWT.NONE).setText("Timestamp:");
 		timestampText = new Text(parent, SWT.READ_ONLY);
 		new Label(parent, SWT.NONE).setText("Player:");
@@ -65,15 +62,12 @@ public class GameView {
 		rewardLabel.setText("Reward:");
 		rewardText = new Text(parent, SWT.READ_ONLY);
 		// for layout purposes, remember all controls
-		controls = new Control[] { timestampText, playerText, scoreText,
-				secondsLabel, secondsText, targetRockLabel, targetRockText,
-				targetInstrumentLabel, targetInstrumentText, rewardLabel,
-				rewardText };
+		controls = new Control[] { timestampText, playerText, scoreText, secondsLabel, secondsText, targetRockLabel,
+				targetRockText, targetInstrumentLabel, targetInstrumentText, rewardLabel, rewardText };
 		GridLayoutFactory.fillDefaults().numColumns(2).generateLayout(parent);
 	}
 
-	@UIEventHandler(IGame.TOPIC)
-	void gameUpdated(final IGame game) {
+	@UIEventHandler(IGame.TOPIC) void gameUpdated(final IGame game) {
 		if (parent != null && !parent.isDisposed()) {
 			timestampText.setText("" + game.getTimestamp());
 			String playerName = game.getPlayerName();
@@ -88,13 +82,10 @@ public class GameView {
 				secondsText.setText("" + game.getRemainingSeconds());
 				TARGET targetRock = game.getNextGoal().getTarget();
 				targetRockText.setText(targetRock.toString());
-				stylingEngine.setClassname(targetRockText, targetRock
-						.toString());
-				INSTRUMENT targetInstrument = game.getNextGoal()
-						.getInstrument();
+				stylingEngine.setClassname(targetRockText, targetRock.toString());
+				INSTRUMENT targetInstrument = game.getNextGoal().getInstrument();
 				targetInstrumentText.setText(targetInstrument.toString());
-				stylingEngine.setClassname(targetInstrumentText,
-						targetInstrument.toString());
+				stylingEngine.setClassname(targetInstrumentText, targetInstrument.toString());
 				rewardText.setText("" + game.getNextReward());
 				setDetailWidgetVisibility(true);
 			}

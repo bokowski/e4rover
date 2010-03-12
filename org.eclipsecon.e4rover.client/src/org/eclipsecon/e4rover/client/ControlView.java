@@ -30,20 +30,14 @@ import org.eclipsecon.e4rover.core.IGame;
 
 public class ControlView {
 
-	@Inject
-	Composite outerParent;
+	@Inject Composite outerParent;
 
 	Composite parent;
-	@Inject
-	ContestPlatform platform;
-	@Inject
-	IStylingEngine stylingEngine;
-	@Inject
-	@Named("preference-PLAYER_KEY")
-	String playerKey;
+	@Inject ContestPlatform platform;
+	@Inject IStylingEngine stylingEngine;
+	@Inject @Named("preference-PLAYER_KEY") String playerKey;
 
-	@PostConstruct
-	public void init() {
+	@PostConstruct public void init() {
 		outerParent.setLayout(new GridLayout());
 		parent = new Composite(outerParent, SWT.NONE);
 		parent.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
@@ -81,16 +75,14 @@ public class ControlView {
 		}
 	}
 
-	private void createButton(String label, final int leftMotor,
-			final int rightMotor, final int duration) {
+	private void createButton(String label, final int leftMotor, final int rightMotor, final int duration) {
 		final Button button = new Button(parent, SWT.PUSH);
 		// button.setText(label);
 		stylingEngine.setClassname(button, label);
 		button.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					platform.setRobotWheelVelocity(leftMotor, rightMotor,
-							playerKey);
+					platform.setRobotWheelVelocity(leftMotor, rightMotor, playerKey);
 					Thread.sleep(duration);
 					platform.setRobotWheelVelocity(0, 0, playerKey);
 				} catch (Exception e1) {
@@ -100,14 +92,10 @@ public class ControlView {
 		});
 	}
 
-	@Inject
-	@Named("preference-PLAYER_NICK")
-	String playerNick;
+	@Inject @Named("preference-PLAYER_NICK") String playerNick;
 
-	@UIEventHandler(IGame.TOPIC)
-	void gameUpdated(final IGame game) {
-		if (game != null && game.getCountdownSeconds() == 0
-				&& game.getPlayerName() != null
+	@UIEventHandler(IGame.TOPIC) void gameUpdated(final IGame game) {
+		if (game != null && game.getCountdownSeconds() == 0 && game.getPlayerName() != null
 				&& game.getPlayerName().equals(playerNick)) {
 			setButtonsEnabled(true);
 		} else {
@@ -121,7 +109,7 @@ public class ControlView {
 		for (int i = 0; i < controls.length; i++) {
 			Control control = controls[i];
 			if (control instanceof Button) {
-				((Button)control).setEnabled(enabled);
+				((Button) control).setEnabled(enabled);
 			}
 		}
 	}
