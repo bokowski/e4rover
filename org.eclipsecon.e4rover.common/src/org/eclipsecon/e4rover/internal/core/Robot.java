@@ -19,21 +19,24 @@ public class Robot extends ServerObject implements IRobot {
 	int rightWheelVelocity;
 	int leftWheelOdometry;
 	int rightWheelOdometry;
+	float posX;
+	float posY;
+	float heading;
 
 	/**
 	 * Clients should not call this constructor. Robot objects are fetched
 	 * automatically from the server and can be accessed via
 	 * ContestPlatform.getRobot() or by listening on that class.
 	 */
-	public Robot(int batteryLevel, int leftWheelVelocity, int rightWheelVelocity, int leftOdom,
-			int rightOdom) {
+	public Robot(int batteryLevel, int leftWheelVelocity,
+			int rightWheelVelocity, int leftOdom, int rightOdom) {
 		this.batteryLevel = batteryLevel;
 		this.leftWheelVelocity = leftWheelVelocity;
 		this.rightWheelVelocity = rightWheelVelocity;
 		this.leftWheelOdometry = leftOdom;
 		this.rightWheelOdometry = rightOdom;
 	}
-	
+
 	public int getBatteryLevel() {
 		return batteryLevel;
 	}
@@ -52,6 +55,18 @@ public class Robot extends ServerObject implements IRobot {
 
 	public int getRightWheelOdometry() {
 		return rightWheelOdometry;
+	}
+
+	public float getPosX() {
+		return posX;
+	}
+
+	public float getPosY() {
+		return posY;
+	}
+
+	public float getHeading() {
+		return heading;
 	}
 
 	public void setBatteryLevel(int batteryLevel) {
@@ -73,4 +88,17 @@ public class Robot extends ServerObject implements IRobot {
 	public void setRightWheelOdometry(int rightWheelOdometry) {
 		this.rightWheelOdometry = rightWheelOdometry;
 	}
+
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+
+	public void setHeading(float heading) {
+		this.heading = heading;
+	}
+
 }
