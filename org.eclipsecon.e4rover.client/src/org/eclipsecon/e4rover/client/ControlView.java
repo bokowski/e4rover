@@ -12,7 +12,9 @@ package org.eclipsecon.e4rover.client;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 
+import org.eclipse.e4.core.services.StatusReporter;
 import org.eclipse.e4.core.services.annotations.PostConstruct;
 import org.eclipse.e4.core.services.annotations.UIEventHandler;
 import org.eclipse.e4.ui.services.IStylingEngine;
@@ -36,6 +38,7 @@ public class ControlView {
 	@Inject ContestPlatform platform;
 	@Inject IStylingEngine stylingEngine;
 	@Inject @Named("preference-PLAYER_KEY") String playerKey;
+	@Inject Provider<StatusReporter> statusReporter;
 
 	@PostConstruct public void init() {
 		outerParent.setLayout(new GridLayout());
@@ -50,7 +53,7 @@ public class ControlView {
 		createButton("forward", 20, 20, 500);
 		createSpacer(2);
 
-		createButton("hardleft", 20, -20, 500);
+		createButton("hardleft", -20, -20, 500);
 		createButton("left", 5, -5, 500);
 		createSpacer(1);
 		createButton("right", -5, 5, 500);
@@ -66,7 +69,6 @@ public class ControlView {
 
 		setButtonsEnabled(false);
 		parent.setLayout(new GridLayout(5, true));
-		// GridLayoutFactory.fillDefaults().numColumns(5).generateLayout(parent);
 	}
 
 	private void createSpacer(int count) {
@@ -85,8 +87,8 @@ public class ControlView {
 					platform.setRobotWheelVelocity(leftMotor, rightMotor, playerKey);
 					Thread.sleep(duration);
 					platform.setRobotWheelVelocity(0, 0, playerKey);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				} catch (Exception ex) {
+					statusReporter.get().show(StatusReporter.ERROR, "Could not perform the selected rover command", ex);
 				}
 			}
 		});
