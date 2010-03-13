@@ -26,6 +26,13 @@ public interface IRobot extends IGameObject {
 
 	public static final String TOPIC = "org/eclipsecon/e4rover/robot";
 
+	/**
+	 * Returns the robot's battery state of charge. New batteries give a value
+	 * of about 9000. A value below 3000 indicates that the batteries need to be
+	 * changed.
+	 * 
+	 * @return the current battery level of the robot.
+	 */
 	public int getBatteryLevel();
 
 	/** @see ContestPlatform#setRobotWheelVelocity(int,int, String) */
@@ -35,12 +42,70 @@ public interface IRobot extends IGameObject {
 	public int getRightWheelVelocity();
 
 	/**
-	 * @return the distance travelled by the robot's left wheel
+	 * Each time the left wheel rotates forward one turn, this value increments.
+	 * Each time it rotates backward, this value decrements. Note that this
+	 * value is not in the same units as {@link #getPosX()} and
+	 * {@link #getPosY()}.
+	 * 
+	 * @return the accumulated motor counts of the robot's left wheel
 	 */
 	public int getLeftWheelOdometry();
 
 	/**
-	 * @return the distance travelled by the robot's right wheel
+	 * Each time the right wheel rotates forward one turn, this value
+	 * increments. Each time it rotates backward, this value decrements. Note
+	 * that this value is not in the same units as {@link #getPosX()} and
+	 * {@link #getPosY()}.
+	 * 
+	 * @return the accumulated motor counts of the robot's right wheel
 	 */
 	public int getRightWheelOdometry();
+
+	/**
+	 * Returns the robot's x position in arena coordinates. The origin of the
+	 * arena coordinate system is in the center of the arena. When the arena is
+	 * viewed from above with the "Adirondack" target at the bottom (this is how
+	 * the arena camera is positioned), the positive x axis points right or east
+	 * of the center, towards "Humphrey".
+	 * 
+	 * See http://ebots.s3.amazonaws.com/diagrams.pdf for a detailed diagram of
+	 * the arena coordinate system.
+	 * 
+	 * @return the y coordinate of the robot's position in the arena
+	 */
+	public float getPosX();
+
+	/**
+	 * Returns the robot's y position in arena coordinates. The origin of the
+	 * arena coordinate system is in the center of the arena. When the arena is
+	 * viewed from above with the "Adirondack" target at the bottom (this is how
+	 * the arena camera is positioned), the positive y axis points upwards or
+	 * north of the center, towards "Mimi".
+	 * 
+	 * See http://ebots.s3.amazonaws.com/diagrams.pdf for a detailed diagram of
+	 * the arena coordinate system.
+	 * 
+	 * @return the y coordinate of the robot's position in the arena
+	 */
+	public float getPosY();
+
+	/**
+	 * Returns the robot's heading within the arena coordinate system in
+	 * positive degrees. When the arena is viewed from above with the
+	 * "Adirondack" target at the bottom (this is how the arena camera is
+	 * positioned), 0 degrees is to the right/east of center in the positive X
+	 * direction (towards "Humphrey"). 90 degrees is upwards/north of center in
+	 * the positive Y direction (towards "Mimi").
+	 * 
+	 * Heading angles increase counterclockwise when the arena is viewed from
+	 * above, like the trigonometric unit circle.
+	 * 
+	 * See http://ebots.s3.amazonaws.com/diagrams.pdf for a detailed diagram of
+	 * the arena coordinate system.
+	 * 
+	 * @return the robot's heading in the arena, between 0 degrees (inclusive)
+	 *         and 360 degrees (exclusive)
+	 */
+	public float getHeading();
+
 }

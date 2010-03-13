@@ -14,7 +14,7 @@ import org.eclipsecon.e4rover.internal.core.Game;
 
 /**
  * A Goal represents a task that the player must perform with the robot. More
- * specifically, a Goal requires aligning one of the four instruments held by
+ * specifically, a Goal requires aligning one of the two instruments held by
  * the robot with one of the four targets attached to the perimeter of the
  * arena. When a Goal is successfully completed, a reward is given to the player
  * and a new Goal is generated.
@@ -26,21 +26,34 @@ import org.eclipsecon.e4rover.internal.core.Game;
  * @see IGame
  */
 public interface IGoal extends IGameObject {
+
 	/**
-	 * The TARGET enumeration identifies the target RFID readers available on
-	 * the arena perimeter. The goals are at 0, 90, 180, and 270 degrees.
+	 * The TARGET enumeration identifies the four target RFID readers available
+	 * on the arena perimeter. HUMPHREY is at 0 degrees (on the right side of
+	 * the arena when viewed from above), MIMI is at 90 degrees (at the top of
+	 * the arena when viewed from above), MAZATZAL is at 180 degrees, and
+	 * ADIRONDACK is at 270 degrees.
+	 * 
+	 * See http://ebots.s3.amazonaws.com/diagrams.pdf for a detailed diagram of
+	 * the arena targets.
+	 * 
 	 */
 	public enum TARGET {
 		ADIRONDACK, MIMI, HUMPHREY, MAZATZAL
 	}
 
 	/**
-	 * The INSTRUMENTs are represented as RFID tags around the perimeter of the
-	 * robot at 45, 135, 225, and 315 degrees. Points are scored by aligning an
-	 * instrument on the robot with a target on the site perimeter.
+	 * The INSTRUMENTs are represented as RFID tags on the front and rear of the
+	 * robot. Points are scored by aligning an instrument on the robot with a
+	 * target on the site perimeter.  The DRILL is on the front of the robot and
+	 * the SPECTROMETER is on the rear of the robot.  
+	 * 
+	 * See http://ebots.s3.amazonaws.com/diagrams.pdf for a detailed diagram of
+	 * the robot showing the instrument positions.
+	 * 
 	 */
 	public enum INSTRUMENT {
-		MICROSCOPE, SPECTROMETER, DRILL, BRUSH
+		SPECTROMETER, DRILL
 	}
 
 	/**

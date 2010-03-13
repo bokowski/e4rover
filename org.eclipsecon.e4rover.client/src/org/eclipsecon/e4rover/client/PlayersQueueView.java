@@ -33,19 +33,15 @@ import org.eclipsecon.e4rover.core.ContestPlatform;
 import org.eclipsecon.e4rover.core.IPlayerQueue;
 
 public class PlayersQueueView extends Object {
-	@Inject
-	Composite parent;
-	@Inject
-	IEclipsePreferences preferences;
-	@Inject
-	ContestPlatform platform;
+	@Inject Composite parent;
+	@Inject IEclipsePreferences preferences;
+	@Inject ContestPlatform platform;
 
 	private Text text;
 	private Text keyText;
 	private Text nickText;
 
-	@PostConstruct
-	public void init() {
+	@PostConstruct public void init() {
 		text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 		GridDataFactory.defaultsFor(text).span(2, 1).applyTo(text);
 		new Label(parent, SWT.NONE).setText("Player Key:");
@@ -76,8 +72,7 @@ public class PlayersQueueView extends Object {
 		GridLayoutFactory.fillDefaults().numColumns(2).generateLayout(parent);
 	}
 
-	@Inject
-	void setPlayerKey(@Named("preference-PLAYER_KEY") final String playerKey) {
+	@Inject void setPlayerKey(@Named("preference-PLAYER_KEY") final String playerKey) {
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (!keyText.getText().equals(playerKey)) {
@@ -87,8 +82,7 @@ public class PlayersQueueView extends Object {
 		});
 	}
 
-	@Inject
-	void setPlayerNick(@Named("preference-PLAYER_NICK") final String playerNick) {
+	@Inject void setPlayerNick(@Named("preference-PLAYER_NICK") final String playerNick) {
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				if (!nickText.getText().equals(playerNick)) {
@@ -97,9 +91,8 @@ public class PlayersQueueView extends Object {
 			}
 		});
 	}
-	
-	@UIEventHandler(IPlayerQueue.TOPIC)
-	void queueUpdated(final IPlayerQueue queue) {
+
+	@UIEventHandler(IPlayerQueue.TOPIC) void queueUpdated(final IPlayerQueue queue) {
 		if (parent != null && !parent.isDisposed()) {
 			text.setText(queue.toString());
 		}

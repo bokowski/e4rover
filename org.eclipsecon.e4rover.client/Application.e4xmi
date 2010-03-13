@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="ASCII"?>
-<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2008/UIModel" xmi:id="_aLoZ0C1OEd-AdpmivnegrA" id="_AXU5UO8IEd6FC9cDb6iV7g" selectedElement="_aL770C1OEd-AdpmivnegrA">
-  <children xsi:type="application:Window" xmi:id="_aL770C1OEd-AdpmivnegrA" id="_AXU5Ue8IEd6FC9cDb6iV7f" selectedElement="_aL8i4C1OEd-AdpmivnegrA" x="48" y="22" width="500" height="500">
-    <children xsi:type="application:PartSashContainer" xmi:id="_aL8i4C1OEd-AdpmivnegrA" id="_AXU5Uu8IEd6FC9cDb6iV7g" selectedElement="_aL-YEi1OEd-AdpmivnegrA" horizontal="true">
-      <children xsi:type="application:PartSashContainer" xmi:id="_aL8i4S1OEd-AdpmivnegrA" id="_i2CQsA06Ed-dvbNEK73RoQ" containerData="700">
-        <children xsi:type="application:Part" xmi:id="_aL-YEC1OEd-AdpmivnegrA" id="_ngWqwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.WebcamView" containerData="650" label="Webcam" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/webcam.png"/>
-        <children xsi:type="application:Part" xmi:id="_aL-YES1OEd-AdpmivnegrA" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.ControlView" containerData="350" label="Control" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/controller.png"/>
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2008/UIModel" xmi:id="_amBtAC3hEd-W7t8lULI8aA" id="_AXU5UO8IEd6FC9cDb6iV7g">
+  <children xsi:type="application:Window" xmi:id="_amBtAS3hEd-W7t8lULI8aA" id="_AXU5Ue8IEd6FC9cDb6iV7f" x="20" y="20" width="900" height="768">
+    <children xsi:type="application:PartSashContainer" xmi:id="_amK28C3hEd-W7t8lULI8aA" id="_AXU5Uu8IEd6FC9cDb6iV7g" horizontal="true">
+      <children xsi:type="application:PartSashContainer" xmi:id="_amK28S3hEd-W7t8lULI8aA" id="_i2CQsA06Ed-dvbNEK73RoQ" containerData="70">
+        <children xsi:type="application:Part" xmi:id="_amK28i3hEd-W7t8lULI8aA" id="_ngWqwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.WebcamView" containerData="65" label="Webcam" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/webcam.png"/>
+        <children xsi:type="application:Part" xmi:id="_amK28y3hEd-W7t8lULI8aA" id="_w9CnoA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.ControlView" containerData="35" label="Control" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/controller.png"/>
       </children>
-      <children xsi:type="application:PartSashContainer" xmi:id="_aL-YEi1OEd-AdpmivnegrA" id="_j1zroA06Ed-dvbNEK73RoQ" containerData="300" selectedElement="_aL-_IC1OEd-AdpmivnegrA">
-        <children xsi:type="application:PartStack" xmi:id="_aL-_IC1OEd-AdpmivnegrA" id="_l22WUA06Ed-dvbNEK73RoQ" containerData="333" selectedElement="_aL-_IS1OEd-AdpmivnegrA">
-          <children xsi:type="application:Part" xmi:id="_aL-_IS1OEd-AdpmivnegrA" id="_uKYSwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.TelemetryView" label="Telemetry" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/information.png"/>
+      <children xsi:type="application:PartSashContainer" xmi:id="_amK29C3hEd-W7t8lULI8aA" id="_j1zroA06Ed-dvbNEK73RoQ" containerData="30">
+        <children xsi:type="application:PartStack" xmi:id="_amK29S3hEd-W7t8lULI8aA" id="_l22WUA06Ed-dvbNEK73RoQ" containerData="100">
+          <children xsi:type="application:Part" xmi:id="_amK29i3hEd-W7t8lULI8aA" id="_uKYSwA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.TelemetryView" label="Telemetry" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/information.png"/>
         </children>
-        <children xsi:type="application:PartStack" xmi:id="_aL-_Ii1OEd-AdpmivnegrA" id="_aL-_Ii1OEd-AdpmivnegrA" containerData="333" selectedElement="_aL-_Iy1OEd-AdpmivnegrA">
-          <children xsi:type="application:Part" xmi:id="_aL-_Iy1OEd-AdpmivnegrA" id="_G1GGUSYkEd-t8by8HUwSHw" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.PlayersQueueView" label="Players Queue" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/group.png" tooltip="List of Awaiting Players"/>
+        <children xsi:type="application:PartStack" xmi:id="_amK29y3hEd-W7t8lULI8aA" id="_amK29y3hEd-W7t8lULI8aA">
+          <children xsi:type="application:Part" xmi:id="_amK2-C3hEd-W7t8lULI8aA" id="_G1GGUSYkEd-t8by8HUwSHw" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.PlayersQueueView" label="Players Queue" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/group.png" tooltip="List of Awaiting Players"/>
         </children>
-        <children xsi:type="application:PartStack" xmi:id="_aL-_JC1OEd-AdpmivnegrA" id="_mf-y4A06Ed-dvbNEK73RoQ" containerData="333" selectedElement="_aL-_JS1OEd-AdpmivnegrA">
-          <children xsi:type="application:Part" xmi:id="_aL-_JS1OEd-AdpmivnegrA" id="_q8vSEA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.GameView" label="Game" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/world.png"/>
+        <children xsi:type="application:PartStack" xmi:id="_amK2-S3hEd-W7t8lULI8aA" id="_mf-y4A06Ed-dvbNEK73RoQ" containerData="100">
+          <children xsi:type="application:Part" xmi:id="_amK2-i3hEd-W7t8lULI8aA" id="_q8vSEA06Ed-dvbNEK73RoQ" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.GameView" label="Game" iconURI="platform:/plugin/org.eclipsecon.e4rover.client/icons/world.png"/>
         </children>
       </children>
     </children>

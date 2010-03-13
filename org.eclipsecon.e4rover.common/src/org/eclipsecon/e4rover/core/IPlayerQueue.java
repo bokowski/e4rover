@@ -18,8 +18,7 @@ import java.util.List;
  * at a time to play the {@link IGame}.
  * 
  * To enter the queue, you need to call
- * {@link ContestPlatform#enterPlayerQueue(String)}. Before you do this you need to
- * set your {@link IPlayer#MY_PLAYER_KEY}.
+ * {@link ContestPlatform#enterPlayerQueue(String)}.
  * 
  */
 public interface IPlayerQueue extends IGameObject {
