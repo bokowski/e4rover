@@ -13,15 +13,15 @@ package org.eclipsecon.e4rover.client;
 import java.io.IOException;
 
 import javax.inject.Inject;
-import javax.inject.Named;
+import javax.inject.Provider;
 
-import org.eclipse.e4.core.services.annotations.Optional;
-import org.eclipse.e4.ui.services.IStylingEngine;
-import org.eclipse.e4.workbench.ui.IExceptionHandler;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.e4.core.services.StatusReporter;
+import org.eclipse.e4.core.services.annotations.PostConstruct;
+import org.eclipse.e4.core.services.annotations.PreDestroy;
 import org.eclipsecon.e4rover.core.ContestPlatform;
 
 /**
@@ -29,39 +29,21 @@ import org.eclipsecon.e4rover.core.ContestPlatform;
  * to take control of the robot.
  */
 public class RequestControlHandler {
-	@Inject
-	@Optional	// since it may not be set 
-	@Named("preference-PLAYER_KEY")
-	String playerKey;
-	
-	@Inject
-	ContestPlatform platform;
-	
-	@Inject
-	IExceptionHandler handler;
-	
-	@Inject
-	IStylingEngine stylingEngine;
+	@Inject ContestPlatform platform;
+	@Inject Provider<StatusReporter> statusReporter;
 
-	@Optional	// since may be set up before there's a shell
-	@Inject
-	Shell shell;
+	/*
+	 * Unfortunately we cannot inject preferences into handler instances at this
+	 * moment. For now we hook into the preferences framework; see the end of
+	 * this class for details.
+	 */
+	// FIXME: @Inject @Named("preference-PLAYER_KEY")
+	String playerKey;
 
 	public boolean canExecute() {
  		if(playerKey == null || playerKey.trim().isEmpty()) {
- 			// FIXME: This should use IStatusHandler
-			MessageDialog dialog = new MessageDialog(shell, 
-					"Unable to register", null,
-					"Please provide your player key",
-					MessageDialog.ERROR,
-					new String[] { IDialogConstants.OK_LABEL },
-					SWT.SHEET);
-			dialog.create();
-            if (dialog.getShell().getBackgroundMode() == SWT.INHERIT_NONE) {
-            	dialog.getShell().setBackgroundMode(SWT.INHERIT_DEFAULT);
-            }
-			stylingEngine.style(dialog);
-			dialog.open();
+			statusReporter.get().show(StatusReporter.ERROR, "Unable to register: you must provide your player key",
+					null);
 			return false;
 		}
 		// we could check to see if we're already in the queue
@@ -72,7 +54,30 @@ public class RequestControlHandler {
 		try {
 			platform.enterPlayerQueue(playerKey);
 		} catch (IOException e) {
-			handler.handleException(e);
+			statusReporter.get().show(StatusReporter.ERROR, "An error occurred when trying to register for control", e);
 		}
+	}
+
+	/*
+	 * Old school preferences management
+	 */
+	IEclipsePreferences node;
+	IPreferenceChangeListener listener = new IPreferenceChangeListener() {
+		public void preferenceChange(PreferenceChangeEvent event) {
+			if (event.getKey().equals("PLAYER_KEY")) {
+				playerKey = (String) event.getNewValue();
+			}
+		}
+	};
+
+	@PostConstruct public void init() {
+		// FrameworkUtil.getBundle(this).getSymbolicName()
+		node = new InstanceScope().getNode("org.eclipsecon.e4rover.client");
+		playerKey = (String) node.get("PLAYER_KEY", null);
+		node.addPreferenceChangeListener(listener);
+	}
+
+	@PreDestroy public void dispose() {
+		node.removePreferenceChangeListener(listener);
 	}
 }
