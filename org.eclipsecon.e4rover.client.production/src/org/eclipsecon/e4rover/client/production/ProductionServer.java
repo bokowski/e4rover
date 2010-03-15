@@ -119,7 +119,7 @@ public class ProductionServer implements IServer {
 				return Integer.parseInt(post.getResponseHeader(IServerConstants.QUEUE_POSITION).getValue());
 			}
 			else 
-				throw new IOException("Server reported error " + resp + ".  Message: " + post.getResponseBodyAsString());
+				throw new IOException("Server reported error " + resp + ". URL: " + post.getURI() + ".  Message: " + post.getResponseBodyAsString());
 		} finally {
 			post.releaseConnection();
 		}
