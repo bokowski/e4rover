@@ -22,6 +22,7 @@ public class Game extends ServerObject implements IGame {
 	protected int score;
 	protected int countdownSeconds;
 	protected int remainingSeconds;
+	private int goalCount;
 	protected Goal lastGoal = null;
 	protected Goal nextGoal = null;
 	protected int nextReward;
@@ -52,5 +53,13 @@ public class Game extends ServerObject implements IGame {
 
 	public int getNextReward() {
 		return nextReward;
+	}
+
+	public void setGoalCount(int goalCount) {
+		this.goalCount = goalCount;
+	}
+
+	public int getGoalCount() {
+		return goalCount;
 	}
 }
