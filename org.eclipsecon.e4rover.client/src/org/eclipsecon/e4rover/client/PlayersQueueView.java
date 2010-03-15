@@ -67,8 +67,8 @@ public class PlayersQueueView extends Object {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					platform.enterPlayerQueue(keyText.getText());
-				} catch (IOException ex) {
-					statusReporter.get().show(StatusReporter.ERROR, "Problem while trying to get into queue", ex);
+				} catch (IOException e1) {
+					statusReporter.get().show(StatusReporter.ERROR, "An error occurred when requesting control", e1);
 				}
 			}
 		});

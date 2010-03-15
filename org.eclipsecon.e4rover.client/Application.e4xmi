@@ -19,11 +19,8 @@
       </children>
     </children>
     <variables>selection</variables>
-    <variables>exif</variables>
   </children>
-  <commands xmi:id="_amK2-y3hEd-W7t8lULI8aA" id="e4photo.exit" commandName="Exit" description=""/>
-  <commands xmi:id="_amK2_C3hEd-W7t8lULI8aA" id="e4photo.createAlbum" commandName="Create Album"/>
-  <commands xmi:id="_amK2_S3hEd-W7t8lULI8aA" id="e4photo.switchPersepective" commandName="Switch Perspective" description=""/>
-  <commands xmi:id="_amK2_i3hEd-W7t8lULI8aA" id="e4photo.imageDialog" commandName="Image Dialog" description=""/>
-  <commands xmi:id="_amK2_y3hEd-W7t8lULI8aA" id="e4photo.addNote" commandName="Add Note"/>
+  <handlers xmi:id="_8NMBYC1TEd-AdpmivnegrA" id="_8NMBYC1TEd-AdpmivnegrA" URI="platform:/plugin/org.eclipsecon.e4rover.client/org.eclipsecon.e4rover.client.RequestControlHandler" command="_2iz4gC1TEd-AdpmivnegrA"/>
+  <bindings xmi:id="__geXEC1TEd-AdpmivnegrA" keySequence="M1+R" id="__geXEC1TEd-AdpmivnegrA" command="_2iz4gC1TEd-AdpmivnegrA"/>
+  <commands xmi:id="_2iz4gC1TEd-AdpmivnegrA" id="e4rover.enqueue" commandName="Request Control"/>
 </application:Application>
