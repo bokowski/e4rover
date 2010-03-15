@@ -14,8 +14,10 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.e4.core.services.StatusReporter;
 import org.eclipse.e4.core.services.annotations.PostConstruct;
 import org.eclipse.e4.core.services.annotations.UIEventHandler;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -36,6 +38,7 @@ public class PlayersQueueView extends Object {
 	@Inject Composite parent;
 	@Inject IEclipsePreferences preferences;
 	@Inject ContestPlatform platform;
+	@Inject Provider<StatusReporter> statusReporter;
 
 	private Text text;
 	private Text keyText;
@@ -64,8 +67,8 @@ public class PlayersQueueView extends Object {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					platform.enterPlayerQueue(keyText.getText());
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				} catch (IOException ex) {
+					statusReporter.get().show(StatusReporter.ERROR, "Problem while trying to get into queue", ex);
 				}
 			}
 		});
