@@ -41,7 +41,7 @@ public class RequestControlHandler {
 	String playerKey;
 
 	public boolean canExecute() {
- 		if(playerKey == null || playerKey.trim().isEmpty()) {
+		if (playerKey == null || playerKey.trim().length() == 0) {
 			statusReporter.get().show(StatusReporter.ERROR, "Unable to register: you must provide your player key",
 					null);
 			return false;
