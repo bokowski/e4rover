@@ -35,15 +35,38 @@ import org.eclipsecon.e4rover.core.ContestPlatform;
 import org.eclipsecon.e4rover.core.IPlayerQueue;
 
 public class PlayersQueueView extends Object {
+	/* SWT parent composite for this view */
 	@Inject Composite parent;
+
+	// This is being used to set the PLAYER_KEY preference.
 	@Inject IEclipsePreferences preferences;
+
+	/*
+	 * ContestPlatform is a domain-specific interface that is registered as an
+	 * OSGi declarative service (see the ContestPlatform.java and
+	 * contestplatform.xml files). OSGi services (declarative or not) are
+	 * available to e4 parts through dependency injection.
+	 */
 	@Inject ContestPlatform platform;
+
+	/*
+	 * Injecting a javax.inject.Provider instead of the status reporter itself
+	 * means that the instance can be accessed lazily through Provider.get().
+	 * This was not necessary for this view to work, we just wanted to
+	 * demonstrate an exemplary use of Provider - the status reporter instance
+	 * will only be needed if we need handle an exception.
+	 */
 	@Inject Provider<StatusReporter> statusReporter;
 
 	private Text text;
 	private Text keyText;
 	private Text nickText;
 
+	/*
+	 * Methods annotated with @PostConstruct will be called after all values
+	 * have been injected successfully. The equivalent for in 3.x would be
+	 * createPartControl().
+	 */
 	@PostConstruct public void init() {
 		text = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
 		GridDataFactory.defaultsFor(text).span(2, 1).applyTo(text);
@@ -75,6 +98,17 @@ public class PlayersQueueView extends Object {
 		GridLayoutFactory.fillDefaults().numColumns(2).generateLayout(parent);
 	}
 
+	/*
+	 * The value of the "PLAYER_KEY" preference will be injected here. Any time
+	 * the preference value changes, this method will be called again. (Behind
+	 * the scenes, a preference listener will be managed by the framework.) You
+	 * can use field injection instead of method injection if no code needs to
+	 * run in response to preference changes.
+	 * 
+	 * [Note that the weird 'preference' prefix is not going to be the final
+	 * API, we are planning to replace the generic @Named annotation below with
+	 * a more specific annotation @Preference("PLAYER_KEY") in the final API.]
+	 */
 	@Inject void setPlayerKey(@Named("preference-PLAYER_KEY") final String playerKey) {
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
@@ -85,6 +119,18 @@ public class PlayersQueueView extends Object {
 		});
 	}
 
+	/*
+	 * The value of the "PLAYER_NICK" preference will be injected here. Any time
+	 * the preference value changes, this field's value will be updated. (Behind
+	 * the scenes, a preference listener will be managed by the framework.) If
+	 * code should run in response to preference changes, use method injection
+	 * instead of field injection - an example of this can be found in
+	 * PlayersQueueView.java.
+	 * 
+	 * [Note that the weird 'preference' prefix is not going to be the final
+	 * API, we are planning to replace the generic @Named annotation below with
+	 * a more specific annotation @Preference("PLAYER_NICK") in the final API.]
+	 */
 	@Inject void setPlayerNick(@Named("preference-PLAYER_NICK") final String playerNick) {
 		parent.getDisplay().asyncExec(new Runnable() {
 			public void run() {
@@ -95,6 +141,18 @@ public class PlayersQueueView extends Object {
 		});
 	}
 
+	/*
+	 * The @UIEventHandlet annotation means that an OSGi event admin listener
+	 * will be registered for us, and events of the given topic will cause this
+	 * method to be called. @UIEventHandler methods will be called on the UI
+	 * thread - if the thread is not important, use @EventHandler. At this time,
+	 * we only support payload data that is passed in the OSGi Event object
+	 * under the key IEventBroker#DATA. See ContestPlatform.java for the event
+	 * producer side.
+	 * 
+	 * This method will update the text widget with up to date information about
+	 * the player queue.
+	 */
 	@UIEventHandler(IPlayerQueue.TOPIC) void queueUpdated(final IPlayerQueue queue) {
 		if (parent != null && !parent.isDisposed()) {
 			text.setText(queue.toString());

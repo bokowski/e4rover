@@ -49,7 +49,7 @@ Composite Text {
 	color: white;
 }
 
-/* rocks */
+/* color coding for rocks */
 
 .ADIRONDACK {
 	background-color: blue;
@@ -67,7 +67,7 @@ Composite Text {
 	background-color: red;
 }
 
-/* instruments */
+/* color coding for instruments */
 
 .DRILL {
 	background-color: red;

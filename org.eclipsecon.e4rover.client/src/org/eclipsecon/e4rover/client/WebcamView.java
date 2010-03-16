@@ -27,10 +27,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipsecon.e4rover.core.IArenaCamImage;
 
 public class WebcamView {
+
+	/* SWT parent composite for this view */
 	@Inject Composite parent;
 
 	protected Image image;
 
+	/*
+	 * Methods annotated with @PostConstruct will be called after all values
+	 * have been injected successfully. The equivalent for in 3.x would be
+	 * createPartControl().
+	 */
 	@PostConstruct public void init() throws IOException {
 
 		parent.setLayout(new FillLayout());
@@ -43,8 +50,19 @@ public class WebcamView {
 		});
 	}
 
-	// use a non-UI event handler so that the expensive image manipulation
-	// happens off the UI thread.
+	/*
+	 * The @EventHandlet annotation means that an OSGi event admin listener will
+	 * be registered for us, and events of the given topic will cause this
+	 * method to be called. @EventHandler methods will be called on any thread -
+	 * use @UIEventHandler if the call should be on the UI thread. At this time,
+	 * we only support payload data that is passed in the OSGi Event object
+	 * under the key IEventBroker#DATA. See ContestPlatform.java for the event
+	 * producer side.
+	 * 
+	 * This method will update the current image and cause a redraw. Using a
+	 * non-UI event handler so that the expensive image manipulation happens off
+	 * the UI thread.
+	 */
 	@EventHandler(IArenaCamImage.TOPIC) void arenaCamViewUpdated(IArenaCamImage img) {
 		if (parent.isDisposed()) {
 			return;

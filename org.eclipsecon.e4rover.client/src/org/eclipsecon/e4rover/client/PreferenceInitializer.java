@@ -19,6 +19,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	public PreferenceInitializer() {
 	}
 
+	// This preference initializer exists so that we don't have to add null
+	// checks everywhere the preference value is being used.
 	@Override public void initializeDefaultPreferences() {
 		Preferences node = new DefaultScope().getNode("org.eclipsecon.e4rover.client");
 		node.put("PLAYER_KEY", "not set");

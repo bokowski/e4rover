@@ -26,9 +26,19 @@ import org.eclipsecon.e4rover.core.IGoal.INSTRUMENT;
 import org.eclipsecon.e4rover.core.IGoal.TARGET;
 
 public class GameView {
+	/* SWT parent composite for this view */
 	@Inject Composite parent;
+
+	/*
+	 * The styling engine allows you to assign CSS class names to widgets. See
+	 * references to 'stylingEngine' further below for how it is used.
+	 */
 	@Inject IStylingEngine stylingEngine;
 
+	/*
+	 * Most of the code in this view is concerned with creating and setting the
+	 * values of simple SWT widgets.
+	 */
 	private Text timestampText;
 	private Text playerText;
 	private Label secondsLabel;
@@ -42,6 +52,11 @@ public class GameView {
 	private Label rewardLabel;
 	private Control[] controls;
 
+	/*
+	 * Methods annotated with @PostConstruct will be called after all values
+	 * have been injected successfully. The equivalent for in 3.x would be
+	 * createPartControl().
+	 */
 	@PostConstruct public void init() {
 		new Label(parent, SWT.NONE).setText("Timestamp:");
 		timestampText = new Text(parent, SWT.READ_ONLY);
@@ -67,6 +82,17 @@ public class GameView {
 		GridLayoutFactory.fillDefaults().numColumns(2).generateLayout(parent);
 	}
 
+	/*
+	 * The @UIEventHandlet annotation means that an OSGi event admin listener
+	 * will be registered for us, and events of the given topic will cause this
+	 * method to be called. @UIEventHandler methods will be called on the UI
+	 * thread - if the thread is not important, use @EventHandler. At this time,
+	 * we only support payload data that is passed in the OSGi Event object
+	 * under the key IEventBroker#DATA. See ContestPlatform.java for the event
+	 * producer side.
+	 * 
+	 * This method will update the SWT widgets with up to date information.
+	 */
 	@UIEventHandler(IGame.TOPIC) void gameUpdated(final IGame game) {
 		if (parent != null && !parent.isDisposed()) {
 			timestampText.setText("" + game.getTimestamp());
@@ -82,6 +108,10 @@ public class GameView {
 				secondsText.setText("" + game.getRemainingSeconds());
 				TARGET targetRock = game.getNextGoal().getTarget();
 				targetRockText.setText(targetRock.toString());
+				// we are using CSS class names so that we can set the
+				// text field's background color using CSS. See the e4rover.css
+				// file. This makes it easier to figure out for the user where
+				// they are supposed to go with the robot.
 				stylingEngine.setClassname(targetRockText, targetRock.toString());
 				INSTRUMENT targetInstrument = game.getNextGoal().getInstrument();
 				targetInstrumentText.setText(targetInstrument.toString());

@@ -25,11 +25,26 @@ import org.eclipse.e4.core.services.annotations.PreDestroy;
 import org.eclipsecon.e4rover.core.ContestPlatform;
 
 /**
- * A command handler that initiates a request for this player
- * to take control of the robot.
+ * A command handler that initiates a request for this player to take control of
+ * the robot.
  */
 public class RequestControlHandler {
+
+	/*
+	 * ContestPlatform is a domain-specific interface that is registered as an
+	 * OSGi declarative service (see the ContestPlatform.java and
+	 * contestplatform.xml files). OSGi services (declarative or not) are
+	 * available to e4 parts through dependency injection.
+	 */
 	@Inject ContestPlatform platform;
+
+	/*
+	 * Injecting a javax.inject.Provider instead of the status reporter itself
+	 * means that the instance can be accessed lazily through Provider.get().
+	 * This was not necessary for this view to work, we just wanted to
+	 * demonstrate an exemplary use of Provider - the status reporter instance
+	 * will only be needed if we need handle an exception.
+	 */
 	@Inject Provider<StatusReporter> statusReporter;
 
 	/*
@@ -40,6 +55,12 @@ public class RequestControlHandler {
 	// FIXME: @Inject @Named("preference-PLAYER_KEY")
 	String playerKey;
 
+	/**
+	 * This method will be called by the framework to determine if the
+	 * corresponding menu or toolbar item should be enabled or disabled.
+	 * 
+	 * @return
+	 */
 	public boolean canExecute() {
 		if (playerKey == null || playerKey.trim().length() == 0) {
 			statusReporter.get().show(StatusReporter.ERROR, "Unable to register: you must provide your player key",
@@ -49,7 +70,11 @@ public class RequestControlHandler {
 		// we could check to see if we're already in the queue
 		return true;
 	}
-	
+
+	/**
+	 * This method will be called by the framework when the corresponding
+	 * command is invoked.
+	 */
 	public void execute() {
 		try {
 			platform.enterPlayerQueue(playerKey);
