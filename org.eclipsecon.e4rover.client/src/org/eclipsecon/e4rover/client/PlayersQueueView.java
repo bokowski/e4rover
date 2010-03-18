@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.e4.core.services.StatusReporter;
 import org.eclipse.e4.core.services.annotations.PostConstruct;
@@ -33,6 +34,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipsecon.e4rover.core.ContestPlatform;
 import org.eclipsecon.e4rover.core.IPlayerQueue;
+import org.eclipsecon.e4rover.core.RobotServerException;
 
 public class PlayersQueueView extends Object {
 	/* SWT parent composite for this view */
@@ -82,6 +84,14 @@ public class PlayersQueueView extends Object {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					platform.enterPlayerQueue(keyText.getText());
+				} catch (RobotServerException rse) {
+					if (rse.getResponseCode() == HttpStatus.SC_CONFLICT) {
+						statusReporter.get().show(StatusReporter.ERROR, "Player queue full!  Please try again later.",
+								null);
+					} else {
+						statusReporter.get().show(StatusReporter.ERROR, "An error occurred when requesting control",
+								rse);
+					}
 				} catch (IOException e1) {
 					statusReporter.get().show(StatusReporter.ERROR, "An error occurred when requesting control", e1);
 				}

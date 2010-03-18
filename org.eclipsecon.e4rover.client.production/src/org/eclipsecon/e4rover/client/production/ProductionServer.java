@@ -28,12 +28,12 @@ import org.eclipsecon.e4rover.IServer;
 import org.eclipsecon.e4rover.core.IArenaCamImage;
 import org.eclipsecon.e4rover.core.IGame;
 import org.eclipsecon.e4rover.core.IGameObject;
-import org.eclipsecon.e4rover.core.IPlayer;
 import org.eclipsecon.e4rover.core.IPlayerQueue;
 import org.eclipsecon.e4rover.core.IPlayers;
 import org.eclipsecon.e4rover.core.IRobot;
 import org.eclipsecon.e4rover.core.IServerConstants;
 import org.eclipsecon.e4rover.core.NotYourTurnException;
+import org.eclipsecon.e4rover.core.RobotServerException;
 import org.eclipsecon.e4rover.core.XmlSerializer;
 import org.eclipsecon.e4rover.internal.core.ArenaCamImage;
 import org.eclipsecon.e4rover.internal.core.ServerObject;
@@ -97,9 +97,8 @@ public class ProductionServer implements IServer {
 			int resp = httpClient.executeMethod(post);
 			if (resp == HttpStatus.SC_CONFLICT) {
 				throw new NotYourTurnException(post.getResponseBodyAsString());
-			}
-			if (resp != HttpStatus.SC_OK) {
-				throw new IOException("Server reported error " + resp + ".  Message: " + post.getResponseBodyAsString());
+			} else if (resp != HttpStatus.SC_OK) {
+				throw new RobotServerException(resp, post.getURI(), post.getResponseBodyAsString());
 			}
 		} finally {
 			post.releaseConnection();
@@ -117,9 +116,9 @@ public class ProductionServer implements IServer {
 			int resp = httpClient.executeMethod(post);
 			if (resp == HttpStatus.SC_OK) {
 				return Integer.parseInt(post.getResponseHeader(IServerConstants.QUEUE_POSITION).getValue());
+			} else {
+				throw new RobotServerException(resp, post.getURI(), post.getResponseBodyAsString());
 			}
-			else 
-				throw new IOException("Server reported error " + resp + ". URL: " + post.getURI() + ".  Message: " + post.getResponseBodyAsString());
 		} finally {
 			post.releaseConnection();
 		}
