@@ -28,6 +28,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -78,7 +80,10 @@ public class PlayersQueueView extends Object {
 				preferences.put("PLAYER_KEY", keyText.getText());
 			}
 		});
-		final Button enqueue = new Button(parent, SWT.PUSH);
+		Composite buttonComposite = new Composite(parent, SWT.NONE);
+		buttonComposite.setLayout(new GridLayout(2, false));
+		buttonComposite.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false, 2, 1));
+		final Button enqueue = new Button(buttonComposite, SWT.PUSH);
 		enqueue.setText("Request Control");
 		enqueue.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -98,7 +103,7 @@ public class PlayersQueueView extends Object {
 			}
 		});
 
-		final Button dequeue = new Button(parent, SWT.PUSH);
+		final Button dequeue = new Button(buttonComposite, SWT.PUSH);
 		dequeue.setText("Leave Queue");
 		dequeue.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
