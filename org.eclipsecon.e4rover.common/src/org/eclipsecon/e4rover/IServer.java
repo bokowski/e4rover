@@ -46,4 +46,12 @@ public interface IServer {
 	 */
 	public abstract int enterPlayerQueue(String playerKey) throws IOException;
 
+	/**
+	 * Return the nickname of the player identified by the given player key.
+	 *  
+	 * @return The player nickname
+	 * @throws IOException
+	 */
+	public abstract String fetchPlayerNick(String playerKey) throws IOException;
+
 }

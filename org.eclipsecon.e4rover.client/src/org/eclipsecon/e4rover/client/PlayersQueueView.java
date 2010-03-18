@@ -60,7 +60,6 @@ public class PlayersQueueView extends Object {
 
 	private Text text;
 	private Text keyText;
-	private Text nickText;
 
 	/*
 	 * Methods annotated with @PostConstruct will be called after all values
@@ -75,13 +74,6 @@ public class PlayersQueueView extends Object {
 		keyText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				preferences.put("PLAYER_KEY", keyText.getText());
-			}
-		});
-		new Label(parent, SWT.NONE).setText("Player Nick:");
-		nickText = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		nickText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				preferences.put("PLAYER_NICK", nickText.getText());
 			}
 		});
 		final Button enqueue = new Button(parent, SWT.PUSH);
@@ -114,28 +106,6 @@ public class PlayersQueueView extends Object {
 			public void run() {
 				if (!keyText.getText().equals(playerKey)) {
 					keyText.setText(playerKey);
-				}
-			}
-		});
-	}
-
-	/*
-	 * The value of the "PLAYER_NICK" preference will be injected here. Any time
-	 * the preference value changes, this field's value will be updated. (Behind
-	 * the scenes, a preference listener will be managed by the framework.) If
-	 * code should run in response to preference changes, use method injection
-	 * instead of field injection - an example of this can be found in
-	 * PlayersQueueView.java.
-	 * 
-	 * [Note that the weird 'preference' prefix is not going to be the final
-	 * API, we are planning to replace the generic @Named annotation below with
-	 * a more specific annotation @Preference("PLAYER_NICK") in the final API.]
-	 */
-	@Inject void setPlayerNick(@Named("preference-PLAYER_NICK") final String playerNick) {
-		parent.getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				if (!nickText.getText().equals(playerNick)) {
-					nickText.setText(playerNick);
 				}
 			}
 		});

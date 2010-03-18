@@ -24,7 +24,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override public void initializeDefaultPreferences() {
 		Preferences node = new DefaultScope().getNode("org.eclipsecon.e4rover.client");
 		node.put("PLAYER_KEY", "not set");
-		node.put("PLAYER_NICK", "not set");
 	}
 
 }

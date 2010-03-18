@@ -116,4 +116,8 @@ public class TestServer implements IServer {
 	    // do nothing
 		return 0;
 	}
+
+	public String fetchPlayerNick(String playerKey) {
+		return "test-nick";
+	}
 }

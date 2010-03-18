@@ -78,6 +78,13 @@ public class ControlView {
 	 */
 	@Inject Provider<StatusReporter> statusReporter;
 
+	/**
+	 * Nickname of the current player.
+	 */
+	private String playerNick = "not logged in";
+
+	private Label nickLabel;
+
 	/*
 	 * Methods annotated with @PostConstruct will be called after all values
 	 * have been injected successfully. The equivalent for in 3.x would be
@@ -103,7 +110,11 @@ public class ControlView {
 
 		createButton("hardleft", -25, 25, 500);
 		createButton("left", -8, 8, 500);
-		createSpacer(1);
+
+		nickLabel = new Label(innerComposite, SWT.NONE);
+		nickLabel.setText(playerNick);
+		nickLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+
 		createButton("right", 8, -8, 500);
 		createButton("hardright", 25, -25, 500);
 
@@ -164,18 +175,35 @@ public class ControlView {
 	}
 
 	/*
-	 * The value of the "PLAYER_NICK" preference will be injected here. Any time
-	 * the preference value changes, this field's value will be updated. (Behind
-	 * the scenes, a preference listener will be managed by the framework.) If
-	 * code should run in response to preference changes, use method injection
-	 * instead of field injection - an example of this can be found in
-	 * PlayersQueueView.java.
+	 * The value of the "PLAYER_KEY" preference will be injected here. Any time
+	 * the preference value changes, this method will be called again. (Behind
+	 * the scenes, a preference listener will be managed by the framework.) You
+	 * can use field injection instead of method injection if no code needs to
+	 * run in response to preference changes.
 	 * 
 	 * [Note that the weird 'preference' prefix is not going to be the final
 	 * API, we are planning to replace the generic @Named annotation below with
-	 * a more specific annotation @Preference("PLAYER_NICK") in the final API.]
+	 * a more specific annotation @Preference("PLAYER_KEY") in the final API.]
 	 */
-	@Inject @Named("preference-PLAYER_NICK") String playerNick;
+	@Inject void setPlayerKey(@Named("preference-PLAYER_KEY") final String playerKey) {
+		try {
+			if (nickLabel != null) {
+				nickLabel.setText("not logged in");
+				// parent.layout(new Control[] { nickLabel }, SWT.DEFER);
+			}
+			playerNick = platform.fetchPlayerNick(playerKey);
+			if (nickLabel != null) {
+				nickLabel.setText(playerNick);
+			}
+		} catch (Exception e) {
+			if (playerKey != null && !playerKey.trim().equals("") && !playerKey.trim().equals("not set")) {
+				StatusReporter reporter = statusReporter.get();
+				reporter.report(reporter.newStatus(StatusReporter.WARNING,
+						"Could not retrieve the player nick name for this player key.", e), StatusReporter.LOG,
+						playerKey);
+			}
+		}
+	}
 
 	/*
 	 * The @UIEventHandlet annotation means that an OSGi event admin listener

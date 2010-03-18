@@ -200,6 +200,10 @@ public class ContestPlatform {
 		return server.enterPlayerQueue(playerKey);
 	}
 
+	public String fetchPlayerNick(String playerKey) throws IOException {
+		return server.fetchPlayerNick(playerKey);
+	}
+	
 	/**
 	 * Sends a command to the robot that will set the velocity of its left and
 	 * right wheels. If your IServerConstants.PLAYER_KEY is valid and it is

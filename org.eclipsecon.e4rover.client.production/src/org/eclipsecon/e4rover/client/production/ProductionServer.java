@@ -141,5 +141,21 @@ public class ProductionServer implements IServer {
 		}
 	}
 
+	public String fetchPlayerNick(String playerKey) throws IOException {
+		final GetMethod get = new GetMethod(IServerConstants.NICK_RESTLET_URI + playerKey);
+		try {
+			int resp = httpClient.executeMethod(get);
+			if (resp == HttpStatus.SC_OK) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				IOUtils.copy(get.getResponseBodyAsStream(), baos);
+				return new String(baos.toByteArray(), "UTF-8");
+			} else {
+				throw new IllegalArgumentException("Could not get nick name, http status: " + resp);
+			}
+		} finally {
+			get.releaseConnection();
+		}
+	}
+
 
 }
