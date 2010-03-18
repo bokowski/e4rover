@@ -97,6 +97,19 @@ public class PlayersQueueView extends Object {
 				}
 			}
 		});
+
+		final Button dequeue = new Button(parent, SWT.PUSH);
+		dequeue.setText("Leave Queue");
+		dequeue.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					platform.leavePlayerQueue(keyText.getText());
+				} catch (IOException e1) {
+					statusReporter.get().show(StatusReporter.ERROR, "An error occurred when leaving queue", e1);
+				}
+			}
+		});
+
 		GridLayoutFactory.fillDefaults().numColumns(2).generateLayout(parent);
 	}
 

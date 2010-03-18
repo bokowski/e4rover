@@ -20,6 +20,7 @@ import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
@@ -124,6 +125,19 @@ public class ProductionServer implements IServer {
 		}
 	}
 	
+	public void leavePlayerQueue(String playerKey) throws IOException {
+		DeleteMethod delete = new DeleteMethod(IServerConstants.QUEUE_RESTLET
+				+ "/" + playerKey);		
+		try {
+			int resp = httpClient.executeMethod(delete);
+			if (resp != HttpStatus.SC_OK) {
+				throw new RobotServerException(resp, delete.getURI(), delete.getResponseBodyAsString());
+			}
+		} finally {
+			delete.releaseConnection();
+		}
+	}
+
 	protected String getStringContents(String uri, String encoding) throws IOException {
 		return new String(getContents(uri),encoding);
 	}
@@ -155,6 +169,5 @@ public class ProductionServer implements IServer {
 			get.releaseConnection();
 		}
 	}
-
 
 }

@@ -47,6 +47,12 @@ public interface IServer {
 	public abstract int enterPlayerQueue(String playerKey) throws IOException;
 
 	/**
+	 * Indicate that this player would like to leave the player queue 
+	 * @throws IOException
+	 */
+	public abstract void leavePlayerQueue(String playerKey) throws IOException;
+
+	/**
 	 * Return the nickname of the player identified by the given player key.
 	 *  
 	 * @return The player nickname

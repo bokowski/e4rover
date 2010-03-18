@@ -200,6 +200,10 @@ public class ContestPlatform {
 		return server.enterPlayerQueue(playerKey);
 	}
 
+	public void leavePlayerQueue(String playerKey) throws IOException {
+		server.leavePlayerQueue(playerKey);
+	}
+
 	public String fetchPlayerNick(String playerKey) throws IOException {
 		return server.fetchPlayerNick(playerKey);
 	}

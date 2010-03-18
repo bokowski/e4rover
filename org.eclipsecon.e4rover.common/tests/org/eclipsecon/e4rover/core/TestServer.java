@@ -120,4 +120,8 @@ public class TestServer implements IServer {
 	public String fetchPlayerNick(String playerKey) {
 		return "test-nick";
 	}
+
+	public void leavePlayerQueue(String playerKey) {
+		// of course, you can leave
+	}
 }
