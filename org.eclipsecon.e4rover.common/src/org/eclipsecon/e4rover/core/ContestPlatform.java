@@ -253,31 +253,31 @@ public class ContestPlatform {
 
 	private void fireGameUpdated(IGame game) {
 		if (eventAdmin != null) {
-			eventAdmin.postEvent(new Event(IGame.TOPIC, Collections.singletonMap(IEventBroker.DATA, game)));
+			eventAdmin.sendEvent(new Event(IGame.TOPIC, Collections.singletonMap(IEventBroker.DATA, game)));
 		}
 	}
 
 	private void fireRobotUpdated(IRobot robot) {
 		if (eventAdmin != null) {
-			eventAdmin.postEvent(new Event(IRobot.TOPIC, Collections.singletonMap(IEventBroker.DATA, robot)));
+			eventAdmin.sendEvent(new Event(IRobot.TOPIC, Collections.singletonMap(IEventBroker.DATA, robot)));
 		}
 	}
 
 	private void firePlayersUpdated(IPlayers players) {
 		if (eventAdmin != null) {
-			eventAdmin.postEvent(new Event(IPlayers.TOPIC, Collections.singletonMap(IEventBroker.DATA, players)));
+			eventAdmin.sendEvent(new Event(IPlayers.TOPIC, Collections.singletonMap(IEventBroker.DATA, players)));
 		}
 	}
 
 	private void firePlayerQueueUpdated(IPlayerQueue pq) {
 		if (eventAdmin != null) {
-			eventAdmin.postEvent(new Event(IPlayerQueue.TOPIC, Collections.singletonMap(IEventBroker.DATA, pq)));
+			eventAdmin.sendEvent(new Event(IPlayerQueue.TOPIC, Collections.singletonMap(IEventBroker.DATA, pq)));
 		}
 	}
 
 	private void fireArenaCamViewUpdated(IArenaCamImage img) {
 		if (eventAdmin != null) {
-			eventAdmin.postEvent(new Event(IArenaCamImage.TOPIC, Collections.singletonMap(IEventBroker.DATA, img)));
+			eventAdmin.sendEvent(new Event(IArenaCamImage.TOPIC, Collections.singletonMap(IEventBroker.DATA, img)));
 		}
 	}
 
